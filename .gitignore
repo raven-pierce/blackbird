@@ -16,3 +16,5 @@ yarn-error.log
 /.vagrant
 composer.lock
 package-lock.json
+.phpstorm.meta.php
+_ide_helper.php
