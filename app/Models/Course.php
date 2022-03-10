@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CourseStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -41,6 +42,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Course extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

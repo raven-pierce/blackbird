@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('exam_session_id')->constrained();
             $table->integer('status');
             $table->foreignId('tutor_id')->constrained('users');
+            $table->string('thumbnail_url');
 
             $table->timestamps();
         });

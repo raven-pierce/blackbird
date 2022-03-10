@@ -57,7 +57,7 @@ class CoursesGrid extends Component
 
     public function mount()
     {
-        $this->courses = Course::where('exam_session_id', ExamSession::latest()->get()->first()->getKey())->where('status', CourseStatus::Open)->get();
+        $this->courses = Course::all();
     }
 
     public function filter()
