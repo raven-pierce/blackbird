@@ -6,13 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "blade-ui-kit/blade-icons": "^1.2",
+        "blade-ui-kit/blade-ui-kit": "^0.3.3",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel/breeze": "^1.8",
         "laravel/framework": "^9.2",
+        "laravel/jetstream": "^2.6",
         "laravel/sanctum": "^2.14.1",
         "laravel/telescope": "^4.7",
         "laravel/tinker": "^2.7",
-        "livewire/livewire": "^2.10"
+        "livewire/livewire": "^2.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",

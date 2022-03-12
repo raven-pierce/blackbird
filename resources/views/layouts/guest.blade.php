@@ -15,16 +15,12 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-        @livewireStyles
-    </head>
-
-    <body class="antialiased px-64 py-32">
-        @yield('content')
-
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
-        <script src="https://kit.fontawesome.com/56dc63f253.js" crossorigin="anonymous"></script>
-
-        @livewireScripts
+    </head>
+    <body>
+        <div class="font-sans text-gray-900 antialiased">
+            {{ $slot }}
+        </div>
     </body>
 </html>

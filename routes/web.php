@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CoursesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,23 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('landing');
-})->name('landing');
-
-Route::controller(CoursesController::class)->group(function () {
-    Route::get('/courses', 'index')->name('courses');
+    return view('welcome');
 });
 
-Route::get('/tutors', function () {
-    return view('tutors');
-})->name('tutors');
-
-Route::get('/materials', function () {
-    return view('materials');
-})->name('materials');
-
-Route::get('/dashboard', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
+})->name('dashboard');
