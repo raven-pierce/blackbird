@@ -12,11 +12,12 @@
         "laravel/framework": "^9.2",
         "laravel/jetstream": "^2.6",
         "laravel/sanctum": "^2.14.1",
-        "laravel/telescope": "^4.7",
+        "laravel/telescope": "^4.8",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.5"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.12",
         "fakerphp/faker": "^1.9.1",
         "itsgoingd/clockwork": "^5.1",
