@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -17,6 +18,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -58,4 +60,46 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function isTutor()
+    {
+        if ($this->hasRole('Tutor')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isAssistant()
+    {
+        if ($this->hasRole('Assistant')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isStudent()
+    {
+        if ($this->hasRole('Student')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function teachesCourses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    public function assistsCourses()
+    {
+        return $this->belongsToMany(CourseVariant::class, 'course_assistants');
+    }
+
+    public function attendsCourses()
+    {
+        return $this->belongsToMany(CourseVariant::class, 'course_students');
+    }
 }
