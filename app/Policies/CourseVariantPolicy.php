@@ -18,7 +18,11 @@ class CourseVariantPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if ($user->can('variant_access')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +34,11 @@ class CourseVariantPolicy
      */
     public function view(User $user, CourseVariant $courseVariant)
     {
-        //
+        if ($user->can('variant_show')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -41,7 +49,11 @@ class CourseVariantPolicy
      */
     public function create(User $user)
     {
-        //
+        if ($user->can('variant_create')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -53,7 +65,11 @@ class CourseVariantPolicy
      */
     public function update(User $user, CourseVariant $courseVariant)
     {
-        //
+        if ($user->can('variant_edit')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -65,7 +81,11 @@ class CourseVariantPolicy
      */
     public function delete(User $user, CourseVariant $courseVariant)
     {
-        //
+        if ($user->can('variant_delete')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

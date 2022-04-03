@@ -18,7 +18,11 @@ class CourseLevelPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if ($user->can('course_level_access')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +34,11 @@ class CourseLevelPolicy
      */
     public function view(User $user, CourseLevel $courseLevel)
     {
-        //
+        if ($user->can('course_level_show')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -41,7 +49,11 @@ class CourseLevelPolicy
      */
     public function create(User $user)
     {
-        //
+        if ($user->can('course_level_create')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -53,7 +65,11 @@ class CourseLevelPolicy
      */
     public function update(User $user, CourseLevel $courseLevel)
     {
-        //
+        if ($user->can('course_level_edit')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -65,7 +81,11 @@ class CourseLevelPolicy
      */
     public function delete(User $user, CourseLevel $courseLevel)
     {
-        //
+        if ($user->can('course_level_delete')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

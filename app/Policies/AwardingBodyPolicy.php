@@ -18,7 +18,11 @@ class AwardingBodyPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if ($user->can('awarding_body_access')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +34,11 @@ class AwardingBodyPolicy
      */
     public function view(User $user, AwardingBody $awardingBody)
     {
-        //
+        if ($user->can('awarding_body_show')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -41,7 +49,11 @@ class AwardingBodyPolicy
      */
     public function create(User $user)
     {
-        //
+        if ($user->can('awarding_body_create')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -53,7 +65,11 @@ class AwardingBodyPolicy
      */
     public function update(User $user, AwardingBody $awardingBody)
     {
-        //
+        if ($user->can('awarding_body_edit')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -65,7 +81,11 @@ class AwardingBodyPolicy
      */
     public function delete(User $user, AwardingBody $awardingBody)
     {
-        //
+        if ($user->can('awarding_body_delete')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

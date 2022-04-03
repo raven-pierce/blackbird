@@ -10,6 +10,19 @@ class Course extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'awarding_body_id',
+        'exam_session_id',
+        'course_level_id',
+        'subject_id',
+        'user_id',
+    ];
+
     public function awardingBody()
     {
         return $this->belongsTo(AwardingBody::class);
@@ -30,12 +43,12 @@ class Course extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function variants()
+    public function courseVariants()
     {
         return $this->hasMany(CourseVariant::class);
     }
 
-    public function lectures()
+    public function variantLectures()
     {
         return $this->hasManyThrough(VariantLecture::class, CourseVariant::class);
     }
@@ -47,11 +60,11 @@ class Course extends Model
 
     public function assistants(): Attribute
     {
-        return Attribute::get(fn() => $this->load('variants.assistants')->timings->pluck('assistants')->flatten()->unique('id'));
+        return Attribute::get(fn() => $this->load('courseVariants.assistants')->variants->pluck('assistants')->flatten()->unique('id'));
     }
 
     public function students(): Attribute
     {
-        return Attribute::get(fn() => $this->load('variants.students')->timings->pluck('students')->flatten()->unique('id'));
+        return Attribute::get(fn() => $this->load('courseVariants.students')->variants->pluck('students')->flatten()->unique('id'));
     }
 }

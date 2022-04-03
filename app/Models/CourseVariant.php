@@ -9,6 +9,15 @@ class CourseVariant extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'course_id',
+    ];
+
     public function course()
     {
         return $this->belongsTo(Course::class);
@@ -24,7 +33,7 @@ class CourseVariant extends Model
         return $this->belongsToMany(User::class, 'course_students');
     }
 
-    public function lectures()
+    public function variantLectures()
     {
         return $this->hasMany(VariantLecture::class);
     }

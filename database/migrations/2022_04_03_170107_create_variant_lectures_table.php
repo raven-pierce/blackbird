@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('course_variant_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('day');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->timestamps();
         });
     }

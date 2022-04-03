@@ -18,7 +18,11 @@ class SubjectPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if ($user->can('subject_access')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +34,11 @@ class SubjectPolicy
      */
     public function view(User $user, Subject $subject)
     {
-        //
+        if ($user->can('subject_show')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -41,7 +49,11 @@ class SubjectPolicy
      */
     public function create(User $user)
     {
-        //
+        if ($user->can('subject_create')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -53,7 +65,11 @@ class SubjectPolicy
      */
     public function update(User $user, Subject $subject)
     {
-        //
+        if ($user->can('subject_edit')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -65,7 +81,11 @@ class SubjectPolicy
      */
     public function delete(User $user, Subject $subject)
     {
-        //
+        if ($user->can('subject_delete')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -18,7 +18,11 @@ class ExamSessionPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if ($user->can('exam_session_access')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +34,11 @@ class ExamSessionPolicy
      */
     public function view(User $user, ExamSession $examSession)
     {
-        //
+        if ($user->can('exam_session_show')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -41,7 +49,11 @@ class ExamSessionPolicy
      */
     public function create(User $user)
     {
-        //
+        if ($user->can('exam_session_create')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -53,7 +65,11 @@ class ExamSessionPolicy
      */
     public function update(User $user, ExamSession $examSession)
     {
-        //
+        if ($user->can('exam_session_edit')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -65,7 +81,11 @@ class ExamSessionPolicy
      */
     public function delete(User $user, ExamSession $examSession)
     {
-        //
+        if ($user->can('exam_session_delete')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

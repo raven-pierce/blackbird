@@ -18,7 +18,11 @@ class VariantLecturePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if ($user->can('lecture_access')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -30,7 +34,11 @@ class VariantLecturePolicy
      */
     public function view(User $user, VariantLecture $variantLecture)
     {
-        //
+        if ($user->can('lecture_show')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -41,7 +49,11 @@ class VariantLecturePolicy
      */
     public function create(User $user)
     {
-        //
+        if ($user->can('lecture_create')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -53,7 +65,11 @@ class VariantLecturePolicy
      */
     public function update(User $user, VariantLecture $variantLecture)
     {
-        //
+        if ($user->can('lecture_edit')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -65,7 +81,11 @@ class VariantLecturePolicy
      */
     public function delete(User $user, VariantLecture $variantLecture)
     {
-        //
+        if ($user->can('lecture_delete')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
