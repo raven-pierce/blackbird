@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Weekdays;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,8 +29,9 @@ class VariantLecture extends Model
      * @var array
      */
     protected $casts = [
+        'day'        => Weekdays::class,
         'start_time' => 'datetime',
-        'end_time' => 'datetime',
+        'end_time'   => 'datetime',
     ];
 
     /**

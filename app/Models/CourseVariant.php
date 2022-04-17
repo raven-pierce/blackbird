@@ -18,6 +18,13 @@ class CourseVariant extends Model
         'course_id',
     ];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var string[]
+     */
+    protected $with = ['variantLectures'];
+
     public function course()
     {
         return $this->belongsTo(Course::class);

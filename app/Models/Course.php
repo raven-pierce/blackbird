@@ -67,11 +67,23 @@ class Course extends Model
 
     public function assistants(): Attribute
     {
-        return Attribute::get(fn() => $this->load('courseVariants.assistants')->variants->pluck('assistants')->flatten()->unique('id'));
+        return Attribute::get(fn() => $this->courseVariants->pluck('assistants')->flatten()->unique('id'));
     }
 
     public function students(): Attribute
     {
-        return Attribute::get(fn() => $this->load('courseVariants.students')->variants->pluck('students')->flatten()->unique('id'));
+        return Attribute::get(fn() => $this->courseVariants->pluck('students')->flatten()->unique('id'));
+    }
+
+    public function seats(): Attribute
+    {
+        return Attribute::get(fn() => $this->courseVariants->pluck('seats')->flatten());
+    }
+
+    public function isFull()
+    {
+        if ($this->students->count() >= $this->seats->sum()) return true;
+
+        return false;
     }
 }
