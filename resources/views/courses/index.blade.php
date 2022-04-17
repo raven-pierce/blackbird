@@ -15,7 +15,7 @@
         <div class="md:px-12 mx-auto mt-12 lg:mt-20 xl:mt-24 2xl:mt-28 w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl grid grid-cols-12 items-baseline">
             <h1 class="col-span-8 font-sans font-bold text-xl sm:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-gray-900">Ordinary Level<span class="font-black text-2xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-gray-900"><br>Biology</span></h1>
 
-            <img class="col-span-4 sm:row-span-2 justify-self-end inline rounded-full w-12 sm:w-24 lg:w-28 xl:w-32 2xl:w-36 object-cover" src="https://ui-avatars.com/api/?name=R&color=7F9CF5&background=EBF4FF" alt="Dr. John Doe's profile picture.">
+            <img class="col-span-4 sm:row-span-2 place-self-end inline rounded-full w-12 sm:w-24 lg:w-28 xl:w-32 2xl:w-36 object-cover" src="https://ui-avatars.com/api/?name=R&color=7F9CF5&background=EBF4FF" alt="Dr. John Doe's profile picture.">
 
             <h2 class="col-span-8 mt-2 font-sans font-bold text-base sm:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl text-gray-700">Dr. John Doe</h2>
 

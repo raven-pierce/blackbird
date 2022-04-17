@@ -23,6 +23,13 @@ class Course extends Model
         'user_id',
     ];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var string[]
+     */
+    protected $with = ['courseVariants'];
+
     public function awardingBody()
     {
         return $this->belongsTo(AwardingBody::class);
@@ -55,7 +62,7 @@ class Course extends Model
 
     public function tutor()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function assistants(): Attribute
