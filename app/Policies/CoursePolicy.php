@@ -18,11 +18,11 @@ class CoursePolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->can('course_access')) {
-            return true;
+        if (! $user->can('course_access')) {
+            abort(403, __('You are not authorized to view courses.'));
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -34,11 +34,15 @@ class CoursePolicy
      */
     public function view(User $user, Course $course)
     {
-        if ($user->can('course_show')) {
-            return true;
+        if (! $user->can('course_show')) {
+            abort(403, __('You are not authorized to view this course.'));
         }
 
-        return false;
+        if (! $course->students->contains($user)) {
+            abort(403, __('You are not authorized to view this course.'));
+        }
+
+        return true;
     }
 
     /**
@@ -49,11 +53,11 @@ class CoursePolicy
      */
     public function create(User $user)
     {
-        if ($user->can('course_create')) {
-            return true;
+        if (! $user->can('course_create')) {
+            abort(403, __('You are not authorized to create courses.'));
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -65,11 +69,15 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        if ($user->can('course_edit')) {
-            return true;
+        if (! $user->can('course_edit')) {
+            abort(403, __('You are not authorized to edit this course.'));
         }
 
-        return false;
+        if (! $course->tutor->is($user)) {
+            abort(403, __('You are not authorized to edit this course.'));
+        }
+
+        return true;
     }
 
     /**
@@ -81,11 +89,15 @@ class CoursePolicy
      */
     public function delete(User $user, Course $course)
     {
-        if ($user->can('course_delete')) {
-            return true;
+        if (! $user->can('course_delete')) {
+            abort(403, __('You are not authorized to delete this course.'));
         }
 
-        return false;
+        if (! $course->tutor->is($user)) {
+            abort(403, __('You are not authorized to delete this course.'));
+        }
+
+        return true;
     }
 
     /**

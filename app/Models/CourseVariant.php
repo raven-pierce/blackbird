@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\DeliveryMethod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,11 +20,22 @@ class CourseVariant extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'delivery_method' => DeliveryMethod::class,
+    ];
+
+    /**
      * The relationships that should always be loaded.
      *
      * @var string[]
      */
-    protected $with = ['variantLectures'];
+    protected $with = [
+        'variantLectures',
+    ];
 
     public function course()
     {
@@ -32,12 +44,12 @@ class CourseVariant extends Model
 
     public function assistants()
     {
-        return $this->belongsToMany(User::class, 'course_assistants');
+        return $this->belongsToMany(User::class, 'course_assistants')->withTimestamps();
     }
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'course_students');
+        return $this->belongsToMany(User::class, 'course_students')->withTimestamps();
     }
 
     public function variantLectures()

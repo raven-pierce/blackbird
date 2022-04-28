@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('seats');
+            $table->integer('delivery_method');
             $table->timestamps();
         });
     }

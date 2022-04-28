@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('course_variant_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unique(['course_variant_id', 'user_id']);
             $table->timestamps();
         });
     }

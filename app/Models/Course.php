@@ -28,7 +28,9 @@ class Course extends Model
      *
      * @var string[]
      */
-    protected $with = ['courseVariants'];
+    protected $with = [
+        'courseVariants',
+    ];
 
     public function awardingBody()
     {
@@ -77,12 +79,12 @@ class Course extends Model
 
     public function seats(): Attribute
     {
-        return Attribute::get(fn() => $this->courseVariants->pluck('seats')->flatten());
+        return Attribute::get(fn() => $this->courseVariants->pluck('seats')->flatten()->sum());
     }
 
     public function isFull()
     {
-        if ($this->students->count() >= $this->seats->sum()) return true;
+        if ($this->students->count() >= $this->seats) return true;
 
         return false;
     }
