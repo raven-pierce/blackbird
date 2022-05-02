@@ -17,6 +17,8 @@ class CourseVariant extends Model
      */
     protected $fillable = [
         'course_id',
+        'seats',
+        'delivery_method',
     ];
 
     /**
@@ -42,18 +44,22 @@ class CourseVariant extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function assistants()
-    {
-        return $this->belongsToMany(User::class, 'course_assistants')->withTimestamps();
-    }
-
-    public function students()
-    {
-        return $this->belongsToMany(User::class, 'course_students')->withTimestamps();
-    }
-
     public function variantLectures()
     {
         return $this->hasMany(VariantLecture::class);
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function isFull()
+    {
+        if ($this->enrollments->count() >= $this->seats) {
+            return true;
+        }
+
+        return false;
     }
 }

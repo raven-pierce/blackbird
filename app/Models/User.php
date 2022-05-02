@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -95,11 +94,43 @@ class User extends Authenticatable
 
     public function assistsCourses()
     {
-        return $this->belongsToMany(CourseVariant::class, 'course_assistants');
+        return $this->hasMany(Assistantship::class);
     }
 
     public function attendsCourses()
     {
-        return $this->belongsToMany(CourseVariant::class, 'course_students');
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function isEnrolledInCourse(Course $course)
+    {
+        $courseVariants = $course->courseVariants->pluck('id');
+
+        return $this->attendsCourses()->whereIn('course_variant_id', $courseVariants)->exists();
+    }
+
+    public function isEnrolledInCourseVariant(CourseVariant $courseVariant)
+    {
+        return $this->attendsCourses()->where('course_variant_id', $courseVariant->id)->exists();
+    }
+
+    public function enrollInCourseVariant(CourseVariant $courseVariant)
+    {
+        return Enrollment::create([
+            'course_variant_id' => $courseVariant->id,
+            'user_id' => $this->id,
+        ]);
+    }
+
+    public function designateAssistantToCourseVariant(CourseVariant $courseVariant, User $user)
+    {
+        if (! $user->hasRole('Assistant')) {
+            $user->syncRoles(['Assistant']);
+        }
+
+        return Assistantship::create([
+            'course_variant_id' => $courseVariant->id,
+            'user_id' => $user->id,
+        ]);
     }
 }

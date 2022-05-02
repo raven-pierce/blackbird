@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EnrollmentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,10 +20,15 @@ Route::get('/', function () {
 });
 
 Route::controller(CourseController::class)->group(function () {
-    Route::get('/courses', 'index');
-    Route::get('/courses/{course}', 'show');
+    Route::get('/courses', 'index')->name('courses.index');
+    Route::get('/courses/{course}', 'show')->name('courses.show');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::controller(EnrollmentController::class)->group(function () {
+    Route::post('/enrollments', 'store')->name('enrollments.store');
+    Route::delete('/enrollments/{enrollment}', 'destroy')->name('enrollments.destroy');
+});
+
+Route::middleware([ 'auth:sanctum', 'verified' ])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

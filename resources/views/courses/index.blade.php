@@ -111,7 +111,7 @@
 
             <div class="mt-8 grid gap-y-4 lg:col-span-5 lg:mt-0 xl:col-span-8">
                 @foreach ($courses as $course)
-                    <a href="{{ url('/courses') }}/{{ $course->id }}">
+                    <a href="/courses/{{ $course->id }}">
                         <x-course-card :course="$course" />
                     </a>
                 @endforeach

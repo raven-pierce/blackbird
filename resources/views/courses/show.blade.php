@@ -30,7 +30,7 @@
 
             <h3
                 class="col-span-4 text-right font-sans text-xs font-medium text-gray-700 sm:col-start-9 sm:row-span-1 sm:row-start-3 sm:self-end sm:text-sm lg:text-base xl:text-lg 2xl:text-xl">
-                {{ $course->students->count() }}/{{ $course->seats }} <span
+                {{ $course->enrollments->count() }}/{{ $course->seats }} <span
                     class="text-xs font-light uppercase text-gray-500 lg:text-sm xl:text-base 2xl:text-lg">Seats
                     Taken</span>
             </h3>

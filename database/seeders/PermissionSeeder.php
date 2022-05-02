@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -72,6 +71,11 @@ class PermissionSeeder extends Seeder
             'lecture_create',
             'lecture_edit',
             'lecture_delete',
+            'enrollment_access',
+            'enrollment_show',
+            'enrollment_create',
+            'enrollment_edit',
+            'enrollment_delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -96,6 +100,11 @@ class PermissionSeeder extends Seeder
             'lecture_create',
             'lecture_edit',
             'lecture_delete',
+            'enrollment_access',
+            'enrollment_show',
+            'enrollment_create',
+            'enrollment_edit',
+            'enrollment_delete',
         ];
 
         foreach ($tutorPermissions as $permission) {
@@ -114,6 +123,11 @@ class PermissionSeeder extends Seeder
             'lecture_access',
             'lecture_show',
             'lecture_edit',
+            'enrollment_access',
+            'enrollment_show',
+            'enrollment_create',
+            'enrollment_edit',
+            'enrollment_delete',
         ];
 
         foreach ($assistantPermissions as $permission) {
@@ -127,6 +141,11 @@ class PermissionSeeder extends Seeder
             'variant_show',
             'lecture_access',
             'lecture_show',
+            'enrollment_access',
+            'enrollment_show',
+            'enrollment_create',
+            'enrollment_edit',
+            'enrollment_delete',
         ];
 
         $studentRole = Role::create(['name' => 'Student']);

@@ -19,5 +19,14 @@
         </div>
     </div>
 
-    <x-link-button class="mt-4 sm:mt-0">Enroll</x-link-button>
+    @auth()
+        <form method="POST" action="{{ route('enrollments.store') }}">
+            @csrf
+
+            <input type="hidden" name="courseVariant" value="{{ $variant->id }}">
+            <x-form-button class="mt-4 sm:mt-0">Enroll</x-form-button>
+        </form>
+    @else
+        <x-link-button href="{{ route('register') }}" class="mt-4 sm:mt-0">Get Started</x-link-button>
+    @endauth
 </div>
