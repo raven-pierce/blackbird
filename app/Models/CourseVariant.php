@@ -49,6 +49,11 @@ class CourseVariant extends Model
         return $this->hasMany(VariantLecture::class);
     }
 
+    public function assistantships()
+    {
+        return $this->hasMany(Assistantship::class);
+    }
+
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);

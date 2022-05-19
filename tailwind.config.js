@@ -11,9 +11,9 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Inter", "Open Sans", ...defaultTheme.fontFamily.sans],
-                serif: ["Roboto Serif", ...defaultTheme.fontFamily.serif],
-                mono: ["JetBrains Mono", ...defaultTheme.fontFamily.mono],
+                sans: ["Public Sans", ...defaultTheme.fontFamily.sans],
+                serif: ["Bitter", ...defaultTheme.fontFamily.serif],
+                mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono],
             },
         },
     },

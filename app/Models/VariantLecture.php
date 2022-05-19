@@ -29,9 +29,9 @@ class VariantLecture extends Model
      * @var array
      */
     protected $casts = [
-        'day'        => Weekdays::class,
+        'day' => Weekdays::class,
         'start_time' => 'datetime',
-        'end_time'   => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     /**

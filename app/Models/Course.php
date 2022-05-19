@@ -67,7 +67,7 @@ class Course extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function assistants(): Attribute
+    public function assistants()
     {
         return $this->hasManyThrough(Assistantship::class, CourseVariant::class);
     }
