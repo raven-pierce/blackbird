@@ -22,8 +22,12 @@
         </div>
     @endforeach
 
-    <p class="mt-8 font-sans text-base font-normal text-gray-700">This group meets <span class="font-semibold">twice
-            weekly</span>,
-        on <span class="font-semibold">Sunday</span> and <span class="font-semibold">Wednesday</span>, at <span
-            class="font-semibold">10:30 PM</span> and <span class="font-semibold">7:30 PM</span> respectively.</p>
+    @auth
+        <div class="mt-16 flex w-fit items-baseline justify-between space-x-6">
+            <a href="#" class="justify-self-end bg-gray-900 px-8 py-3 font-sans text-sm font-semibold text-gray-50">Enroll<i
+                    class="fa-solid fa-arrow-right ml-2 -rotate-45"></i></a>
+
+            <p class="font-sans text-sm font-light text-gray-500">You'll be asked to confirm your enrollment.</p>
+        </div>
+    @endauth
 </div>
