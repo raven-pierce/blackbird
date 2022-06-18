@@ -1,6 +1,6 @@
 @props(['variant', 'loop'])
 
-<div id="course-variant-{{ $loop->iteration }}" class="flex flex-col">
+<div id="course-variant-{{ $loop->iteration }}" class="flex flex-col" x-data="{ showModal: false }">
     <div class="flex items-center justify-between">
         <h6 class="angled-label bg-gray-900 px-4 py-1.5 font-sans text-sm font-bold uppercase text-gray-50">
             {{ $variant->delivery_method->name }}</h6>
@@ -24,10 +24,12 @@
 
     @auth
         <div class="mt-16 flex w-fit items-baseline justify-between space-x-6">
-            <a href="#" class="justify-self-end bg-gray-900 px-8 py-3 font-sans text-sm font-semibold text-gray-50">Enroll<i
-                    class="fa-solid fa-arrow-right ml-2 -rotate-45"></i></a>
-
             <p class="font-sans text-sm font-light text-gray-500">You'll be asked to confirm your enrollment.</p>
+
+            <x-link-button @click="showModal = true">Enroll<i class="fa-solid fa-arrow-right ml-2 -rotate-45"></i>
+            </x-link-button>
         </div>
     @endauth
+
+    <x-modal.confirm-enrollment :variant="$variant" :loop="$loop" />
 </div>

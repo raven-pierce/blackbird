@@ -23,20 +23,16 @@
                 </div>
             </div>
 
-            @guest
+            @auth
+                <x-link-button href="{{ route('dashboard') }}">Dashboard<i
+                        class="fa-solid fa-arrow-right ml-2 -rotate-45"></i></x-link-button>
+            @else
                 <div class="flex items-baseline justify-between space-x-8">
                     <a href="{{ route('login') }}" class="font-sans text-sm font-normal text-gray-700">Sign In</a>
 
-                    <a href="{{ route('register') }}"
-                        class="bg-gray-900 px-8 py-4 font-sans text-sm font-semibold text-gray-50">Sign Up<i
-                            class="fa-solid fa-arrow-right ml-2 -rotate-45"></i></a>
+                    <x-link-button href="{{ route('register') }}">Sign Up<i
+                            class="fa-solid fa-arrow-right ml-2 -rotate-45"></i></x-link-button>
                 </div>
-            @endguest
-
-            @auth
-                <a href="{{ route('dashboard') }}"
-                    class="justify-self-end bg-gray-900 px-8 py-4 font-sans text-sm font-semibold text-gray-50">Dashboard<i
-                        class="fa-solid fa-arrow-right ml-2 -rotate-45"></i></a>
             @endauth
         </div>
 
