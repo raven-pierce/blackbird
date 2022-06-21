@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\EnrollmentController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,21 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('app');
-});
-
-Route::controller(CourseController::class)->group(function () {
-    Route::get('/courses', 'index')->name('courses.index');
-    Route::get('/courses/{course}', 'show')->name('courses.show');
-});
-
-Route::controller(EnrollmentController::class)->group(function () {
-    Route::post('/enrollments', 'store')->name('enrollments.store');
-    Route::delete('/enrollments/{enrollment}', 'destroy')->name('enrollments.destroy');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
