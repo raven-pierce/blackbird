@@ -1,110 +1,110 @@
 <script setup>
-import { ref } from 'vue';
-import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
-import BreezeDropdown from '@/Components/Dropdown.vue';
-import BreezeDropdownLink from '@/Components/DropdownLink.vue';
-import BreezeNavLink from '@/Components/NavLink.vue';
-import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from "@inertiajs/inertia-vue3";
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import {
+    LogoutIcon,
+    MailIcon,
+    CogIcon,
+    VideoCameraIcon,
+    ChevronDownIcon,
+} from "@heroicons/vue/solid";
 
-const showingNavigationDropdown = ref(false);
+import NavLink from "@/Components/NavLink";
 </script>
 
 <template>
-    <div>
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
-                <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
-                        <div class="flex">
-                            <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <BreezeApplicationLogo class="block h-9 w-auto" />
+    <div class="min-h-screen flex flex-col bg-white px-24 py-12 font-sans text-gray-900 antialiased gap-y-16">
+        <nav class="flex items-center justify-between">
+            <div class="flex items-center space-x-24">
+                <Link :href="route('dashboard')" class="flex items-center space-x-4 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75">
+                    <img :src="asset('img/logo.svg')" alt="Blackbird Logo" />
+                    <span class="text-xl font-semibold">Blackbird</span>
+                </Link>
+
+                <div class="flex items-center space-x-8">
+                    <NavLink :href="route('dashboard')" :active="route().current('dashboard')">Dashboard</NavLink>
+
+                    <NavLink :href="route('enrollments.index')" :active="route().current('enrollments.index')">Enrollments</NavLink>
+                </div>
+            </div>
+
+            <Menu as="div" class="relative inline-block">
+                <MenuButton class="inline-flex w-full justify-center rounded px-4 py-2 text-sm font-normal text-gray-500 hover:text-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75 active:text-gray-600">
+                    {{ $page.props.auth.user.name }}
+                    <ChevronDownIcon class="ml-2 -mr-1 h-5 w-5 text-gray-500 hover:text-gray-400 active:text-gray-600" aria-hidden="true"/>
+                </MenuButton>
+
+                <transition
+                    enter-active-class="transition duration-100 ease-out"
+                    enter-from-class="transform scale-95 opacity-0"
+                    enter-to-class="transform scale-100 opacity-100"
+                    leave-active-class="transition duration-75 ease-in"
+                    leave-from-class="transform scale-100 opacity-100"
+                    leave-to-class="transform scale-95 opacity-0"
+                >
+                    <MenuItems class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded bg-white shadow-md ring-1 ring-indigo-500 ring-opacity-5 focus:outline-none">
+                        <div class="p-1">
+                            <MenuItem v-slot="{ active }">
+                                <Link :class="[ active ? 'bg-indigo-500 text-white' : 'text-gray-900', 'group flex w-full items-center rounded px-2 py-2 text-sm' ]">
+                                    <CogIcon :active="{ active }" class="mr-2 h-5 w-5 text-indigo-400" aria-hidden="true"/>
+                                    Settings
                                 </Link>
-                            </div>
-
-                            <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </BreezeNavLink>
-                            </div>
+                            </MenuItem>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <!-- Settings Dropdown -->
-                            <div class="ml-3 relative">
-                                <BreezeDropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                                {{ $page.props.auth.user.name }}
+                        <div class="p-1">
+                            <MenuItem v-slot="{ active }">
+                                <Link :class="[ active ? 'bg-indigo-500 text-white' : 'text-gray-900', 'group flex w-full items-center rounded px-2 py-2 text-sm' ]">
+                                    <MailIcon :active="{ active }" class="mr-2 h-5 w-5 text-indigo-400" aria-hidden="true"/>
+                                    O365 Email
+                                </Link>
+                            </MenuItem>
 
-                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
-
-                                    <template #content>
-                                        <BreezeDropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
-                                        </BreezeDropdownLink>
-                                    </template>
-                                </BreezeDropdown>
-                            </div>
+                            <MenuItem v-slot="{ active }">
+                                <Link :class="[ active ? 'bg-indigo-500 text-white' : 'text-gray-900', 'group flex w-full items-center rounded px-2 py-2 text-sm' ]">
+                                    <VideoCameraIcon :active="{ active }" class="mr-2 h-5 w-5 text-indigo-400" aria-hidden="true"/>
+                                    Microsoft Teams
+                                </Link>
+                            </MenuItem>
                         </div>
 
-                        <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
-                            <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                    <path :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
+                        <div class="p-1">
+                            <MenuItem v-slot="{ active }">
+                                <Link as="button" :href="route('logout')" method="post" :class="[ active ? 'bg-indigo-500 text-white' : 'text-gray-900', 'group flex w-full items-center rounded px-2 py-2 text-sm' ]">
+                                    <LogoutIcon :active="{ active }" class="mr-2 h-5 w-5 text-indigo-400" aria-hidden="true"/>
+                                    Log Out
+                                </Link>
+                            </MenuItem>
                         </div>
-                    </div>
+                    </MenuItems>
+                </transition>
+            </Menu>
+        </nav>
+
+        <main class="my-auto px-8">
+            <div class="grid grid-cols-2 gap-x-48 divide-x divide-gray-100">
+                <div class="flex flex-col">
+                    <span class="text-5xl font-black leading-tight">Good Afternoon, <br /><span class="text-indigo-500">{{ $page.props.auth.user.name }}</span></span>
+
+                    <p class="mt-8 text-gray-700">It’s 29°C on a <span class="text-indigo-500">Sunday</span>, and you have <span class="text-indigo-500">two classes</span> ahead of you.</p>
                 </div>
 
-                <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </BreezeResponsiveNavLink>
+                <div class="flex w-80 h-64 flex-col rounded bg-gray-900 p-6 justify-center">
+                    <span class="font-medium text-indigo-100">One</span>
+
+                    <span class="mt-6 text-xl font-bold text-white">Year 10 Biology</span>
+
+                    <div class="mt-2 flex justify-between items-center">
+                        <span class="text-lg text-gray-100">8:30 PM</span>
+
+                        <span class="text-xs font-semibold uppercase text-indigo-500">In Person</span>
                     </div>
 
-                    <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">{{ $page.props.auth.user.name }}</div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
-                        </div>
+                    <span class="mt-4 text-sm font-light text-gray-500">Dr. John Doe</span>
 
-                        <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
-                            </BreezeResponsiveNavLink>
-                        </div>
-                    </div>
+                    <span class="mt-6 text-xs font-semibold uppercase text-indigo-500">90 Minutes</span>
                 </div>
-            </nav>
-
-            <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" />
-                </div>
-            </header>
-
-            <!-- Page Content -->
-            <main>
-                <slot />
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
 </template>

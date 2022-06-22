@@ -1,6 +1,7 @@
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
+import { asset } from "@codinglabs/laravel-asset";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Blackbird";
@@ -11,7 +12,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
-            .mixin({ methods: { route } })
+            .mixin({ methods: { route, asset } })
             .mount(el);
     },
 });

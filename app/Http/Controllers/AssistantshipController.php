@@ -10,13 +10,6 @@ use Illuminate\Http\Response;
 
 class AssistantshipController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  StoreAssistantshipRequest  $request
-     *
-     * @return Response
-     */
     public function store(StoreAssistantshipRequest $request)
     {
         $courseVariant = CourseVariant::findOrFail($request->courseVariant);
@@ -27,13 +20,6 @@ class AssistantshipController extends Controller
         return back()->with('success', __('You have successfully set that user as an assistant.'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Assistantship  $assistantship
-     *
-     * @return Response
-     */
     public function destroy(Assistantship $assistantship)
     {
         if ($assistantship->courseVariant->course->tutor->id === auth()->user()->id) {

@@ -1,17 +1,25 @@
 <script setup>
-import { computed } from 'vue';
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from "@inertiajs/inertia-vue3";
 
-const props = defineProps(['href', 'active']);
+const props = defineProps({
+    href: String,
+    active: Boolean,
+});
 
-const classes = computed(() => props.active
-    ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition  duration-150 ease-in-out'
-    : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'
-);
+const textClasses = {
+    "group flex flex-col items-center text-sm text-gray-500 transition-all duration-150 ease-in-out hover:text-gray-400 focus:text-gray-400 focus:outline-none": true,
+    "text-gray-700 font-medium": props.active,
+};
+
+const underlineClasses = {
+    "mt-1 h-0.5 w-3/5 rounded-full transition-all duration-150 ease-in-out group-hover:bg-indigo-500 group-hover:opacity-50 group-focus:bg-indigo-500 group-focus:opacity-50": true,
+    "bg-indigo-500": props.active,
+};
 </script>
 
 <template>
-    <Link :href="href" :class="classes">
+    <Link :href="href" :class="textClasses">
         <slot />
+        <span :class="underlineClasses"></span>
     </Link>
 </template>

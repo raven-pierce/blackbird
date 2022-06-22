@@ -6,17 +6,18 @@ use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\CourseVariant;
 use App\Models\Enrollment;
 use Illuminate\Http\Response;
+use Inertia\Inertia;
 use Throwable;
 
 class EnrollmentController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  StoreEnrollmentRequest  $request
-     *
-     * @return Response
-     */
+    public function index()
+    {
+        return Inertia::render('Enrollment/Index', [
+            'enrollments' => auth()->user()->attendsCourses
+        ]);
+    }
+
     public function store(StoreEnrollmentRequest $request)
     {
         $request->user()->enrollInCourseVariant(CourseVariant::findOrFail($request->courseVariant));
@@ -24,14 +25,6 @@ class EnrollmentController extends Controller
         return back()->with('success', __('You have successfully enrolled in this course.'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Enrollment  $enrollment
-     *
-     * @return Response
-     * @throws Throwable
-     */
     public function destroy(Enrollment $enrollment)
     {
         if (auth()->user()->attendsCourses->contains($enrollment)) {
