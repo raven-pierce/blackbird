@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\AwardingBody;
+use App\Models\CourseLevel;
+use App\Models\ExamSession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,12 +19,12 @@ class SubjectFactory extends Factory
      */
     public function definition()
     {
-        $awarding_bodies = AwardingBody::pluck('id')->toArray();
-
         return [
             'slug' => $this->faker->unique()->slug(3, false),
             'name' => $this->faker->words(3, true),
-            'awarding_body_id' => $this->faker->randomElement($awarding_bodies),
+            'awarding_body_id' => $this->faker->randomElement(AwardingBody::pluck('id')->toArray()),
+            'exam_session_id' => $this->faker->randomElement(ExamSession::pluck('id')->toArray()),
+            'course_level_id' => $this->faker->randomElement(CourseLevel::pluck('id')->toArray()),
         ];
     }
 }

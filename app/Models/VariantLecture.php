@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Weekdays;
+use App\Http\Resources\VariantLectureResource;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +47,11 @@ class VariantLecture extends Model
     public function courseVariant()
     {
         return $this->belongsTo(CourseVariant::class);
+    }
+
+    public function toResource()
+    {
+        return new VariantLectureResource($this);
     }
 
     public function duration(): Attribute

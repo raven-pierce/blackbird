@@ -1,6 +1,6 @@
 <script setup>
-import GuestLayout from "@/Layouts/Guest.vue";
-import { Head, Link } from "@inertiajs/inertia-vue3";
+import GuestLayout from '@/Layouts/Guest.vue';
+import { Head, Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
     canLogin: Boolean,
@@ -22,9 +22,9 @@ defineProps({
             </div>
 
             <div class="relative flex flex-col">
-                <img :src="asset('img/library.jpg')" alt="Stock photo of a library." class="absolute top-32 left-0 w-96 rounded"/>
+                <img :src="asset('img/library.jpg')" alt="Stock photo of a library." class="absolute top-32 left-0 w-96 rounded" />
 
-                <div class="absolute top-12 left-48 flex  h-64 flex-col rounded bg-gray-900 p-6 justify-center">
+                <div class="absolute top-12 left-48 flex h-64 flex-col justify-center rounded bg-gray-900 p-6">
                     <span class="font-medium text-indigo-100">New Course</span>
 
                     <span class="mt-6 text-xl font-bold text-white">Year 10 Biology</span>

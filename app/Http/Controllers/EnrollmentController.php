@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEnrollmentRequest;
+use App\Http\Resources\EnrollmentCollection;
+use App\Http\Resources\EnrollmentResource;
 use App\Models\CourseVariant;
 use App\Models\Enrollment;
-use Illuminate\Http\Response;
 use Inertia\Inertia;
-use Throwable;
 
 class EnrollmentController extends Controller
 {
     public function index()
     {
+        //return EnrollmentCollection::make(auth()->user()->attendsCourses);
         return Inertia::render('Enrollment/Index', [
-            'enrollments' => auth()->user()->attendsCourses
+            'enrollments' => EnrollmentCollection::make(auth()->user()->attendsCourses),
+        ]);
+    }
+
+    public function show(Enrollment $enrollment)
+    {
+        return Inertia::render('Enrollment/Show', [
+            'enrollment' => EnrollmentResource::make($enrollment),
         ]);
     }
 

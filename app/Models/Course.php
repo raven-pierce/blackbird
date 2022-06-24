@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\CourseResource;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,15 +22,6 @@ class Course extends Model
         'course_level_id',
         'subject_id',
         'user_id',
-    ];
-
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var string[]
-     */
-    protected $with = [
-        'courseVariants',
     ];
 
     public function awardingBody()
@@ -75,6 +67,11 @@ class Course extends Model
     public function enrollments()
     {
         return $this->hasManyThrough(Enrollment::class, CourseVariant::class);
+    }
+
+    public function toResource()
+    {
+        return new CourseResource($this);
     }
 
     public function seats(): Attribute

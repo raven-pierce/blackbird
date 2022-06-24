@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Enums\Terms;
+use App\Http\Resources\ExamSessionResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,7 @@ class ExamSession extends Model
      * @var array
      */
     protected $casts = [
+        'term' => Terms::class,
         'session' => 'datetime',
     ];
 
@@ -48,5 +50,10 @@ class ExamSession extends Model
     public function courses()
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function toResource()
+    {
+        return new ExamSessionResource($this);
     }
 }

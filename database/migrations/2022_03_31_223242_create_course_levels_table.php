@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('name');
             $table->foreignId('awarding_body_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('exam_session_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

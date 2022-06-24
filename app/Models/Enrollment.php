@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\EnrollmentResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +26,7 @@ class Enrollment extends Model
      * @var string[]
      */
     protected $with = [
+        'courseVariant',
         'student',
     ];
 
@@ -36,5 +38,10 @@ class Enrollment extends Model
     public function student()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function toResource()
+    {
+        return new EnrollmentResource($this);
     }
 }

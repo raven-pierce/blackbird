@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DeliveryMethod;
+use App\Http\Resources\CourseVariantResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,15 +31,6 @@ class CourseVariant extends Model
         'delivery_method' => DeliveryMethod::class,
     ];
 
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var string[]
-     */
-    protected $with = [
-        'variantLectures',
-    ];
-
     public function course()
     {
         return $this->belongsTo(Course::class);
@@ -57,6 +49,11 @@ class CourseVariant extends Model
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function toResource()
+    {
+        return new CourseVariantResource($this);
     }
 
     public function isFull()

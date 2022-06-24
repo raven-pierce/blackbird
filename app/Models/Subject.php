@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\SubjectResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,5 +38,10 @@ class Subject extends Model
     public function courses()
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function toResource()
+    {
+        return new SubjectResource($this);
     }
 }

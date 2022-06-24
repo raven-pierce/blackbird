@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\AwardingBodyResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,5 +38,10 @@ class AwardingBody extends Model
     public function courses()
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function toResource()
+    {
+        return new AwardingBodyResource($this);
     }
 }

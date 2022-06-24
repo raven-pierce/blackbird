@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Resources\UserResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -83,6 +83,11 @@ class User extends Authenticatable
     public function attendsCourses()
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function toResource()
+    {
+        return new UserResource($this);
     }
 
     public function isEnrolledInCourse(Course $course)
