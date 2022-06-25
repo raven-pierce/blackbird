@@ -7,12 +7,12 @@ const props = defineProps({
 });
 
 const textClasses = {
-    'group flex flex-col items-center text-sm text-gray-500 transition-all duration-150 ease-in-out hover:text-gray-400 focus:text-gray-400 focus:outline-none': true,
+    'w-fit group flex flex-col items-center text-sm text-gray-500 transition-all duration-300 ease-in-out hover:text-gray-400 focus:text-gray-400 focus:outline-none': true,
     'text-gray-700 font-medium': props.active,
 };
 
 const underlineClasses = {
-    'mt-1 h-0.5 w-3/5 rounded-full transition-all duration-150 ease-in-out group-hover:bg-indigo-500 group-hover:opacity-50 group-focus:bg-indigo-500 group-focus:opacity-50': true,
+    'mt-1 h-0.5 w-3/5 rounded-full transition-all duration-300 ease-in-out group-hover:bg-indigo-500 group-hover:opacity-75 group-focus:bg-indigo-500 group-focus:opacity-75': true,
     'bg-indigo-500': props.active,
 };
 </script>

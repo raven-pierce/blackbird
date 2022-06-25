@@ -22,6 +22,7 @@ module.exports = {
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require('tailwindcss-animation-delay'),
+        require('tailwindcss-animate'),
         require('tailwind-scrollbar')
     ],
 };

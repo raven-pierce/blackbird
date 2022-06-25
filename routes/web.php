@@ -29,12 +29,7 @@ Route::controller(CourseController::class)->group(function () {
     Route::get('/courses/{course}', 'show')->name('courses.show');
 });
 
-Route::controller(EnrollmentController::class)->middleware('auth')->group(function () {
-    Route::get('/enrollments', 'index')->name('enrollments.index');
-    Route::get('/enrollments/{enrollment}', 'show')->name('enrollments.show');
-    Route::post('/enrollments', 'store')->name('enrollments.store');
-    Route::delete('/enrollments/{enrollment}', 'destroy')->name('enrollments.destroy');
-});
+Route::resource('enrollments', EnrollmentController::class)->middleware('auth');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

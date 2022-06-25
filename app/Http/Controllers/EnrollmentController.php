@@ -7,13 +7,18 @@ use App\Http\Resources\EnrollmentCollection;
 use App\Http\Resources\EnrollmentResource;
 use App\Models\CourseVariant;
 use App\Models\Enrollment;
+use App\Traits\AddsToast;
 use Inertia\Inertia;
 
 class EnrollmentController extends Controller
 {
+    use AddsToast;
+
+
     public function index()
     {
-        //return EnrollmentCollection::make(auth()->user()->attendsCourses);
+        $this->addToast('success', 'You\'ve been enrolled in this course.');
+
         return Inertia::render('Enrollment/Index', [
             'enrollments' => EnrollmentCollection::make(auth()->user()->attendsCourses),
         ]);
@@ -30,16 +35,23 @@ class EnrollmentController extends Controller
     {
         $request->user()->enrollInCourseVariant(CourseVariant::findOrFail($request->courseVariant));
 
-        return back()->with('success', __('You have successfully enrolled in this course.'));
+        $this->addToast('success', 'You\'ve been enrolled in this course.');
+
+        return route('enrollments.index');
     }
 
     public function destroy(Enrollment $enrollment)
     {
         if (auth()->user()->attendsCourses->contains($enrollment)) {
             $enrollment->deleteOrFail();
-            return back(204)->with('success', __('You have successfully been delisted from this course.'));
+
+            $this->addToast('success', 'You\'ve been withdrawn from this course.');
+
+            return route('enrollments.index');
         }
 
-        abort(403, __('You are not currently enrolled in this course.'));
+        $this->addToast('error', 'You\'re not currently enrolled in this course');
+
+        return route('dashboard');
     }
 }

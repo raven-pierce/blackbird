@@ -1,6 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
+import { ChevronLeftIcon } from '@heroicons/vue/solid';
+import LectureMin from '@/Components/Enrollment/LectureMin';
+import SecondaryLink from '@/Components/Navigation/SecondaryLink';
+import TertiaryLink from '@/Components/Navigation/TertiaryLink';
+import MutedLink from '@/Components/Navigation/MutedLink';
 
 defineProps({
     enrollment: Object,
@@ -8,41 +13,52 @@ defineProps({
 </script>
 
 <template>
+
     <Head title="Enrollments" />
 
     <AuthenticatedLayout>
-        <div class="grid grid-cols-[1fr,min-content,1fr] gap-x-24">
+        <div class="grid grid-cols-[1fr,min-content,1fr]">
             <div class="flex flex-col justify-center">
-                <span class="text-5xl font-black leading-tight">{{ enrollment.data.course_variant.course.subject.name }}<br /><span class="text-indigo-500">{{ enrollment.data.course_variant.course.tutor.name }}</span></span>
+                <span class="text-5xl font-black leading-tight">{{ enrollment.data.course_variant.course.subject.name
+                    }}<br /><span class="text-indigo-500">{{ enrollment.data.course_variant.course.tutor.name
+                        }}</span></span>
 
                 <p class="mt-8 text-gray-700">
-                    You’ll be able to find your course
-                    <span class="font-semibold text-indigo-500">enrollments</span>
-                    on this page, as well as make any
-                    <span class="font-semibold text-indigo-500">transfers</span>
-                    or
-                    <span class="font-semibold text-indigo-500">withdrawals</span>.
+                    This course has
+                    <span class="font-semibold text-indigo-500 lowercase">{{
+                        enrollment.data.course_variant.lecture_count }} lectures</span>
+                    per week, both of which are
+                    <span class="font-semibold text-indigo-500 lowercase">{{
+                        enrollment.data.course_variant.delivery_method }}</span>
+                    and last
+                    <span class="font-semibold text-indigo-500">{{
+                        enrollment.data.course_variant.variant_lectures[0].duration }} minutes</span>.
+                    You can transfer without prior approval.
                 </p>
+
+                <div class="flex items-center justify-between mt-12">
+                    <MutedLink :href="route('enrollments.index')" :active="route().current('enrollments.index')">
+                        <ChevronLeftIcon
+                            class="mr-2 h-5 w-5 text-gray-300 group-hover:text-gray-200 group-focus:text-gray-200" />
+                        Back
+                    </MutedLink>
+
+                    <div class="flex items-center space-x-8">
+                        <TertiaryLink :href="route('enrollments.destroy', enrollment.data)" as="button" method="delete">
+                            Withdraw</TertiaryLink>
+
+                        <SecondaryLink :href="route('enrollments.edit', enrollment.data)">Transfer</SecondaryLink>
+                    </div>
+                </div>
             </div>
 
-            <div class="border-l border-gray-100"></div>
+            <div class="ml-24 border-l border-gray-100"></div>
 
-            <!--TODO: dynamic data -->
-            <div class="flex h-64 w-80 flex-col justify-center rounded bg-gray-900 p-6">
-                <span class="font-medium text-indigo-100">One</span>
-
-                <span class="mt-6 text-xl font-bold text-white">Year 10 Biology</span>
-
-                <div class="mt-2 flex items-center justify-between">
-                    <span class="text-lg text-gray-100">Dr. John Doe</span>
-
-                    <span class="text-xs font-semibold uppercase text-indigo-500">In Person</span>
-                </div>
-
-                <span class="mt-4 text-sm font-light text-gray-500">Sunday 10:30 PM</span>
-                <span class="mt-2 text-sm font-light text-gray-500">Wednesday 8:30 PM</span>
-
-                <span class="mt-6 text-xs font-semibold uppercase text-indigo-500">90 Minutes</span>
+            <!--TODO: dynamic data + position -->
+            <div
+                class="snap-x pl-24 -mr-32 pr-32 flex py-16 items-center space-x-16 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-track-indigo-100 scrollbar-thumb-indigo-500">
+                <LectureMin :lecture="lecture" v-for="lecture in enrollment.data.course_variant.variant_lectures"
+                    :key="lecture.id" />
             </div>
         </div>
     </AuthenticatedLayout>
