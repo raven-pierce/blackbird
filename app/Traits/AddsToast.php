@@ -4,12 +4,12 @@ namespace App\Traits;
 
 trait AddsToast
 {
-    public function addToast(string $type = 'success', string $message, bool $manuallyClose = false)
+    public function addToast(string $message, string $level = 'success', int $duration = 5)
     {
         $toast = [
-            'type' => $type,
             'message' => $message,
-            'manuallyClose' => $manuallyClose
+            'level' => $level,
+            'duration' => $duration,
         ];
 
         session()->flash('toast', $toast);

@@ -2,10 +2,10 @@
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import { ChevronLeftIcon } from '@heroicons/vue/solid';
-import LectureMin from '@/Components/Enrollment/LectureMin';
-import SecondaryLink from '@/Components/Navigation/SecondaryLink';
-import TertiaryLink from '@/Components/Navigation/TertiaryLink';
-import MutedLink from '@/Components/Navigation/MutedLink';
+import LectureMin from '@/Components/Enrollment/LectureMin.vue';
+import SecondaryLink from '@/Components/Navigation/SecondaryLink.vue';
+import TertiaryLink from '@/Components/Navigation/TertiaryLink.vue';
+import MutedLink from '@/Components/Navigation/MutedLink.vue';
 
 defineProps({
     enrollment: Object,

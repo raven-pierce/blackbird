@@ -32,7 +32,7 @@ defineProps({
 
         <slot />
 
-        <ToastNotification v-if="$page.props.toast" :type="$page.props.toast.type"
-            :message="$page.props.toast.message" />
+        <ToastNotification v-if="$page.props.toast" :level="$page.props.toast.level"
+            :message="$page.props.toast.message" :duration="$page.props.toast.duration" />
     </div>
 </template>

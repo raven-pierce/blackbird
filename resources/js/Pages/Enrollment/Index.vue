@@ -1,9 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Link, Head } from '@inertiajs/inertia-vue3';
-import { ChevronRightIcon } from '@heroicons/vue/solid';
-import PrimaryLink from '@/Components/Navigation/PrimaryLink';
-import EnrollmentCard from '@/Components/Enrollment/Card';
+import PrimaryLink from '@/Components/Navigation/PrimaryLink.vue';
+import EnrollmentCard from '@/Components/Enrollment/Card.vue';
 
 defineProps({
     enrollments: Object,
@@ -11,6 +10,7 @@ defineProps({
 </script>
 
 <template>
+
     <Head title="Enrollments" />
 
     <AuthenticatedLayout>
@@ -27,15 +27,18 @@ defineProps({
                     <span class="font-semibold text-indigo-500">withdrawals</span>.
                 </p>
 
-                <PrimaryLink class="mt-12" :href="route('enrollments.create')" :active="route().current('enrollments.create')">New Enrollment</PrimaryLink>
+                <PrimaryLink class="mt-12" :href="route('enrollments.create')"
+                    :active="route().current('enrollments.create')">New Enrollment</PrimaryLink>
             </div>
 
             <div class="ml-24 border-l border-gray-100"></div>
 
             <!--TODO: visual stuff -->
-            <div class="pl-24 -mr-32 pr-32 flex py-16 items-center space-x-16 overflow-x-auto overflow-y-hidden snap-x scrollbar scrollbar-thin scrollbar-track-indigo-100 scrollbar-thumb-indigo-500">
-                <Link v-for="enrollment in enrollments.data" :key="enrollment.id" :href="route('enrollments.show', enrollment)">
-                    <EnrollmentCard :enrollment="enrollment" />
+            <div
+                class="pl-24 -mr-32 pr-32 flex py-16 items-center space-x-16 overflow-x-auto overflow-y-hidden snap-x scrollbar-thin scrollbar-track-indigo-100 scrollbar-thumb-indigo-500">
+                <Link v-for="enrollment in enrollments.data" :key="enrollment.id"
+                    :href="route('enrollments.show', enrollment)">
+                <EnrollmentCard :enrollment="enrollment" />
                 </Link>
             </div>
         </div>

@@ -17,8 +17,6 @@ class EnrollmentController extends Controller
 
     public function index()
     {
-        $this->addToast('success', 'You\'ve been enrolled in this course.');
-
         return Inertia::render('Enrollment/Index', [
             'enrollments' => EnrollmentCollection::make(auth()->user()->attendsCourses),
         ]);
@@ -35,9 +33,9 @@ class EnrollmentController extends Controller
     {
         $request->user()->enrollInCourseVariant(CourseVariant::findOrFail($request->courseVariant));
 
-        $this->addToast('success', 'You\'ve been enrolled in this course.');
+        $this->addToast('You\'ve been enrolled in this course.');
 
-        return route('enrollments.index');
+        return redirect()->route('enrollments.index');
     }
 
     public function destroy(Enrollment $enrollment)
@@ -45,13 +43,13 @@ class EnrollmentController extends Controller
         if (auth()->user()->attendsCourses->contains($enrollment)) {
             $enrollment->deleteOrFail();
 
-            $this->addToast('success', 'You\'ve been withdrawn from this course.');
+            $this->addToast('You\'ve been withdrawn from this course.');
 
-            return route('enrollments.index');
+            return redirect()->route('enrollments.index');
         }
 
-        $this->addToast('error', 'You\'re not currently enrolled in this course');
+        $this->addToast('You\'re not currently enrolled in this course', 'error');
 
-        return route('dashboard');
+        return redirect()->route('dashboard');
     }
 }

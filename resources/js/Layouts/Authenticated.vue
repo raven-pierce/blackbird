@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import { LogoutIcon, MailIcon, CogIcon, VideoCameraIcon, ChevronDownIcon } from '@heroicons/vue/solid';
 
-import NavLink from '@/Components/Navigation/NavLink';
+import NavLink from '@/Components/Navigation/NavLink.vue';
 import ToastNotification from '@/Components/ToastNotification.vue';
 </script>
 
@@ -86,8 +86,8 @@ import ToastNotification from '@/Components/ToastNotification.vue';
         <main class="my-auto mx-auto px-8">
             <slot />
 
-            <ToastNotification v-if="$page.props.toast" :type="$page.props.toast.type"
-                :message="$page.props.toast.message" />
+            <ToastNotification v-if="$page.props.toast" :level="$page.props.toast.level"
+                :message="$page.props.toast.message" :duration="$page.props.toast.duration" />
         </main>
     </div>
 </template>
