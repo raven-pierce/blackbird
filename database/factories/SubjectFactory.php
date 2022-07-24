@@ -20,11 +20,11 @@ class SubjectFactory extends Factory
     public function definition()
     {
         return [
-            'slug' => $this->faker->unique()->slug(3, false),
-            'name' => $this->faker->words(3, true),
-            'awarding_body_id' => $this->faker->randomElement(AwardingBody::pluck('id')->toArray()),
-            'exam_session_id' => $this->faker->randomElement(ExamSession::pluck('id')->toArray()),
-            'course_level_id' => $this->faker->randomElement(CourseLevel::pluck('id')->toArray()),
+            'slug' => fake()->unique()->slug(3, false),
+            'name' => fake()->words(3, true),
+            'awarding_body_id' => fake()->randomElement(AwardingBody::pluck('id')->toArray()),
+            'exam_session_id' => fake()->randomElement(ExamSession::pluck('id')->toArray()),
+            'course_level_id' => fake()->randomElement(CourseLevel::pluck('id')->toArray()),
         ];
     }
 }

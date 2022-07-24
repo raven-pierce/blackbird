@@ -4,6 +4,7 @@
     "semi": true,
     "sortTailwindcssClasses": true,
     "plugins": [
+        "prettier-plugin-tailwind",
         "@shufo/prettier-plugin-blade"
     ]
 }

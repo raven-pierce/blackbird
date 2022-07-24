@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Subject;
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,38 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            PermissionSeeder::class,
-            AwardingBodySeeder::class,
-            ExamSessionSeeder::class,
-            CourseLevelSeeder::class,
-        ]);
+        // \App\Models\User::factory(10)->create();
 
-        Subject::factory(50)->create();
-
-        $icarus = User::factory([
-            'name' => 'Icarus',
-            'email' => 'icarus@blackbird.io',
-        ])->create();
-
-        $icarus->assignRole('Icarus');
-
-        $tutors = User::factory(5)->create();
-
-        foreach ($tutors as $tutor) {
-            $tutor->assignRole('Tutor');
-        }
-
-        $assistants = User::factory(15)->create();
-
-        foreach ($assistants as $assistant) {
-            $assistant->assignRole('Assistant');
-        }
-
-        $students = User::factory(250)->create();
-
-        foreach ($students as $student) {
-            $student->assignRole('Student');
-        }
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }

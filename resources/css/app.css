@@ -1,9 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer utilities {
-    .angled-label {
-        clip-path: polygon(93.75% 0, 100% 33.3%, 100% 100%, 0 100%, 0 0);
-    }
-}
