@@ -27,7 +27,7 @@
         <div class="flex flex-col w-3/5">
             <div class="flex space-x-4 items-center">
                 <a href="{{ route('dashboard') }}">
-                    <x-application-logo class="w-12 h-12 fill-current" />
+                    <x-assets.logo class="w-12 h-12 fill-current" />
                 </a>
 
                 <a href="{{ route('dashboard') }}">
