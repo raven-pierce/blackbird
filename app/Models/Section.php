@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use App\Enums\DeliveryMethod;
-use App\Http\Resources\CourseVariantResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CourseVariant extends Model
+class Section extends Model
 {
     use HasFactory;
 
@@ -36,9 +35,14 @@ class CourseVariant extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function variantLectures()
+    public function lectures()
     {
-        return $this->hasMany(VariantLecture::class);
+        return $this->hasMany(Lecture::class);
+    }
+
+    public function pricing()
+    {
+        return $this->belongsTo(Pricing::class);
     }
 
     public function assistantships()
@@ -51,9 +55,9 @@ class CourseVariant extends Model
         return $this->hasMany(Enrollment::class);
     }
 
-    public function toResource()
+    public function attendances()
     {
-        return new CourseVariantResource($this);
+        return $this->hasMany(Attendance::class);
     }
 
     public function isFull()

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('awarding_body_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('exam_session_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('course_level_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('level_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('subject_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

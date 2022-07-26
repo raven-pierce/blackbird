@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Assistantship extends Model
+class Pricing extends Model
 {
     use HasFactory;
 
@@ -15,17 +15,11 @@ class Assistantship extends Model
      * @var string[]
      */
     protected $fillable = [
-        'section_id',
-        'user_id',
+        'paddle_id',
     ];
 
-    public function section()
+    public function sections()
     {
-        return $this->belongsTo(Section::class);
-    }
-
-    public function assistant()
-    {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(Section::class);
     }
 }

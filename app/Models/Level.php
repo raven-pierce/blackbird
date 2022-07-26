@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Http\Resources\CourseLevelResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CourseLevel extends Model
+class Level extends Model
 {
     use HasFactory;
 
@@ -38,10 +37,5 @@ class CourseLevel extends Model
     public function courses()
     {
         return $this->hasMany(Course::class);
-    }
-
-    public function toResource()
-    {
-        return new CourseLevelResource($this);
     }
 }

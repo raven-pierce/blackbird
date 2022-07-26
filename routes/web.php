@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BillingController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +26,11 @@ Route::controller(CourseController::class)->group(function () {
     Route::get('/courses/{course}', 'show')->name('courses.show');
 });
 
-Route::resource('enrollments', EnrollmentController::class)->middleware('auth');
+Route::resource('enrollments', EnrollmentController::class)->middleware(['auth', 'verified']);
+
+Route::get('/billing', [BillingController::class, 'index'])->middleware(['auth', 'verified'])->name('billing.index');
+
+Route::post('/checkout', [CheckoutController::class, '__invoke'])->middleware(['auth', 'verified'])->name('checkout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

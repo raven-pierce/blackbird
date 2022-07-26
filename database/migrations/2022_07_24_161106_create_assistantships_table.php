@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('assistantships', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_variant_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('section_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->unique(['course_variant_id', 'user_id']);
+            $table->unique(['section_id', 'user_id']);
             $table->timestamps();
         });
     }

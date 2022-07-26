@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('variant_lectures', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_variant_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('day');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->foreignId('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('pricing_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('seats');
+            $table->integer('delivery_method');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('variant_lectures');
+        Schema::dropIfExists('sections');
     }
 };

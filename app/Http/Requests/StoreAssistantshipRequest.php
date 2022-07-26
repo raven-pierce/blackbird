@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\CourseVariant;
+use App\Models\Section;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,10 +15,10 @@ class StoreAssistantshipRequest extends FormRequest
      */
     public function authorize()
     {
-        $courseVariant = CourseVariant::findOrFail(request('courseVariant'));
+        $section = Section::findOrFail(request('section'));
         $user = User::findOrFail(request('assistant'));
 
-        if (! $courseVariant->course->tutor === auth()->user()) {
+        if (!$section->course->tutor === auth()->user()) {
             abort(403, __('You are not the tutor of this course.'));
         }
     }

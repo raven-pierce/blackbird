@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Resources\SubjectResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,18 +29,13 @@ class Subject extends Model
         return $this->belongsTo(ExamSession::class);
     }
 
-    public function courseLevel()
+    public function level()
     {
-        return $this->belongsTo(CourseLevel::class);
+        return $this->belongsTo(Level::class);
     }
 
     public function courses()
     {
         return $this->hasMany(Course::class);
-    }
-
-    public function toResource()
-    {
-        return new SubjectResource($this);
     }
 }

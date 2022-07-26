@@ -18,10 +18,11 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @paddleJS
 </head>
 
-<body class="font-sans antialiased">
-    <div class="bg-white px-24 py-12 font-sans text-gray-900 antialiased">
+<body class="font-sans antialiased text-gray-900">
+    <div class="bg-white px-24 py-12">
         @include('layouts.navigation')
 
         <main class="mx-auto max-w-screen-2xl mt-16 px-8 grid">

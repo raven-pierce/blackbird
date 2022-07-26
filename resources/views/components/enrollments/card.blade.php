@@ -6,25 +6,25 @@
             <span
                 class="font-medium text-indigo-100">{{ NumberFormatter::create('en', NumberFormatter::SPELLOUT)->format($loop->iteration) }}</span>
 
-            <span class="font-semibold text-gray-500">{{ $enrollment->courseVariant->course->courseLevel->name }}</span>
+            <span class="font-semibold text-gray-500">{{ $enrollment->section->course->level->name }}</span>
         </div>
 
-        <span class="mt-6 text-xl font-bold text-white">{{ $enrollment->courseVariant->course->subject->name }}</span>
+        <span class="mt-6 text-xl font-bold text-white">{{ $enrollment->section->course->subject->name }}</span>
 
         <div class="mt-2 flex items-center justify-between">
-            <span class="text-lg text-gray-100">{{ $enrollment->courseVariant->course->tutor->name }}</span>
+            <span class="text-lg text-gray-100">{{ $enrollment->section->course->tutor->name }}</span>
             <span
-                class="text-xs font-semibold uppercase text-indigo-500">{{ $enrollment->courseVariant->delivery_method->name }}</span>
+                class="text-xs font-semibold uppercase text-indigo-500">{{ $enrollment->section->delivery_method->name }}</span>
         </div>
 
-        <div class="mt-4 flex flex-col text-sm font-light text-gray-500 space-y-2">
-            @foreach ($enrollment->courseVariant->variantLectures as $lecture)
+        <div class="mt-4 flex flex-col text-sm font-light text-gray-500">
+            @foreach ($enrollment->section->lectures as $lecture)
                 <span>{{ $lecture->day->name }} {{ $lecture->start_time->format('h:i A') }}</span>
             @endforeach
         </div>
 
         <span
-            class="mt-6 text-xs font-semibold uppercase text-indigo-500">{{ $enrollment->courseVariant->variantLectures->first()->duration }}
+            class="mt-6 text-xs font-semibold uppercase text-indigo-500">{{ $enrollment->section->lectures->first()->duration }}
             Minutes</span>
     </div>
 </a>

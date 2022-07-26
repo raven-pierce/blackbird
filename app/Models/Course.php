@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Resources\CourseResource;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +18,7 @@ class Course extends Model
     protected $fillable = [
         'awarding_body_id',
         'exam_session_id',
-        'course_level_id',
+        'level_id',
         'subject_id',
         'user_id',
     ];
@@ -34,9 +33,9 @@ class Course extends Model
         return $this->belongsTo(ExamSession::class);
     }
 
-    public function courseLevel()
+    public function level()
     {
-        return $this->belongsTo(CourseLevel::class);
+        return $this->belongsTo(Level::class);
     }
 
     public function subject()
@@ -44,14 +43,14 @@ class Course extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function courseVariants()
+    public function section()
     {
-        return $this->hasMany(CourseVariant::class);
+        return $this->hasMany(Section::class);
     }
 
-    public function variantLectures()
+    public function lectures()
     {
-        return $this->hasManyThrough(VariantLecture::class, CourseVariant::class);
+        return $this->hasManyThrough(Lecture::class, Section::class);
     }
 
     public function tutor()
@@ -61,22 +60,17 @@ class Course extends Model
 
     public function assistants()
     {
-        return $this->hasManyThrough(Assistantship::class, CourseVariant::class);
+        return $this->hasManyThrough(Assistantship::class, Section::class);
     }
 
     public function enrollments()
     {
-        return $this->hasManyThrough(Enrollment::class, CourseVariant::class);
-    }
-
-    public function toResource()
-    {
-        return new CourseResource($this);
+        return $this->hasManyThrough(Enrollment::class, Section::class);
     }
 
     public function seats(): Attribute
     {
-        return Attribute::get(fn() => $this->courseVariants->pluck('seats')->sum());
+        return Attribute::get(fn () => $this->section->pluck('seats')->sum());
     }
 
     public function isFull()

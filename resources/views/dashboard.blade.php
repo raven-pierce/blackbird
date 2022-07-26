@@ -5,15 +5,12 @@
 
     <x-slot name="description">
         <p class="mt-8 text-gray-700">
-            It’s 29°C on a
-            <span class="font-semibold text-indigo-500">Sunday</span>
-            , and you have
-            <span class="font-semibold text-indigo-500">two classes</span>
-            ahead of you.
+            It’s 29°C on a <span class="font-semibold text-indigo-500">Sunday</span>, and you have <span
+                class="font-semibold text-indigo-500">two classes</span> ahead of you.
         </p>
     </x-slot>
 
-    <div class="flex flex-wrap mt-16 items-center space-x-16">
+    <div class="mt-16 grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-16">
         <div class="flex h-64 w-80 flex-col justify-center rounded bg-gray-900 p-6">
             <span class="font-medium text-indigo-100">One</span>
 

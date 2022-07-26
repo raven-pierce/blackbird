@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\CourseVariant;
+use App\Models\Section;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEnrollmentRequest extends FormRequest
@@ -14,22 +14,22 @@ class StoreEnrollmentRequest extends FormRequest
      */
     public function authorize()
     {
-        $courseVariant = CourseVariant::findOrFail(request('courseVariant'));
+        $section = Section::findOrFail(request('section'));
 
         if (! $this->user()->isStudent()) {
             abort(403, __('You are not a student.'));
         }
 
-        if ($courseVariant->isFull()) {
-            abort(403, __('This course group is currently full.'));
+        if ($section->isFull()) {
+            abort(403, __('This section is currently full.'));
         }
 
-        if ($this->user()->isEnrolledInCourse($courseVariant->course)) {
+        if ($this->user()->isEnrolledInCourse($section->course)) {
             abort(403, __('You are already enrolled in this course.'));
         }
 
-        if ($this->user()->isEnrolledInCourseVariant($courseVariant)) {
-            abort(403, __('You are already enrolled in this course group.'));
+        if ($this->user()->isEnrolledInSection($section)) {
+            abort(403, __('You are already enrolled in this section.'));
         }
 
         return true;

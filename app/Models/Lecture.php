@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Enums\Weekdays;
-use App\Http\Resources\VariantLectureResource;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VariantLecture extends Model
+class Lecture extends Model
 {
     use HasFactory;
 
@@ -18,7 +17,7 @@ class VariantLecture extends Model
      * @var string[]
      */
     protected $fillable = [
-        'course_variant_id',
+        'section_id',
         'day',
         'start_time',
         'end_time',
@@ -44,14 +43,9 @@ class VariantLecture extends Model
         'duration',
     ];
 
-    public function courseVariant()
+    public function section()
     {
-        return $this->belongsTo(CourseVariant::class);
-    }
-
-    public function toResource()
-    {
-        return new VariantLectureResource($this);
+        return $this->belongsTo(Section::class);
     }
 
     public function duration(): Attribute

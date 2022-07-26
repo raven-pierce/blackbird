@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Resources\AwardingBodyResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,9 +24,9 @@ class AwardingBody extends Model
         return $this->hasMany(ExamSession::class);
     }
 
-    public function courseLevels()
+    public function level()
     {
-        return $this->hasMany(CourseLevel::class);
+        return $this->hasMany(Level::class);
     }
 
     public function subjects()
@@ -38,10 +37,5 @@ class AwardingBody extends Model
     public function courses()
     {
         return $this->hasMany(Course::class);
-    }
-
-    public function toResource()
-    {
-        return new AwardingBodyResource($this);
     }
 }

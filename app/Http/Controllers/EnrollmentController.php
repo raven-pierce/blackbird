@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEnrollmentRequest;
 use App\Http\Resources\EnrollmentResource;
-use App\Models\CourseVariant;
+use App\Models\Section;
 use App\Models\Enrollment;
 
 class EnrollmentController extends Controller
@@ -13,7 +13,7 @@ class EnrollmentController extends Controller
     public function index()
     {
         return view('enrollments.index', [
-            'enrollments' => auth()->user()->attendsCourses,
+            'enrollments' => auth()->user()->enrollments,
         ]);
     }
 
@@ -26,7 +26,7 @@ class EnrollmentController extends Controller
 
     public function store(StoreEnrollmentRequest $request)
     {
-        $request->user()->enrollInCourseVariant(CourseVariant::findOrFail($request->courseVariant));
+        $request->user()->enrollInSection(Section::findOrFail($request->section));
 
         // You've been enrolled in this course.
 
@@ -35,7 +35,7 @@ class EnrollmentController extends Controller
 
     public function destroy(Enrollment $enrollment)
     {
-        if (auth()->user()->attendsCourses->contains($enrollment)) {
+        if (auth()->user()->enrollments->contains($enrollment)) {
             $enrollment->deleteOrFail();
 
             // You've been withdrawn from this course.

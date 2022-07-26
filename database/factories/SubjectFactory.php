@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\AwardingBody;
-use App\Models\CourseLevel;
+use App\Models\Level;
 use App\Models\ExamSession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +24,7 @@ class SubjectFactory extends Factory
             'name' => fake()->words(3, true),
             'awarding_body_id' => fake()->randomElement(AwardingBody::pluck('id')->toArray()),
             'exam_session_id' => fake()->randomElement(ExamSession::pluck('id')->toArray()),
-            'course_level_id' => fake()->randomElement(CourseLevel::pluck('id')->toArray()),
+            'level_id' => fake()->randomElement(Level::pluck('id')->toArray()),
         ];
     }
 }

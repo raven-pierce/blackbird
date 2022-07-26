@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\Terms;
-use App\Http\Resources\ExamSessionResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,9 +36,9 @@ class ExamSession extends Model
         return $this->belongsTo(AwardingBody::class);
     }
 
-    public function courseLevels()
+    public function levels()
     {
-        return $this->hasMany(CourseLevel::class);
+        return $this->hasMany(Level::class);
     }
 
     public function subjects()
@@ -50,10 +49,5 @@ class ExamSession extends Model
     public function courses()
     {
         return $this->hasMany(Course::class);
-    }
-
-    public function toResource()
-    {
-        return new ExamSessionResource($this);
     }
 }
