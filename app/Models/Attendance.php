@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Attendance extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -41,5 +42,15 @@ class Attendance extends Model
     public function section()
     {
         return $this->belongsTo(Section::class);
+    }
+
+    public function markAsPaid()
+    {
+        return $this->paid = true;
+    }
+
+    public function markAsUnpaid()
+    {
+        return $this->paid = false;
     }
 }

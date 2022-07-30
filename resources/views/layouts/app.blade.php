@@ -22,13 +22,13 @@
 </head>
 
 <body class="font-sans antialiased text-gray-900">
-    <div class="bg-white px-24 py-12">
+    <div class="bg-white sm:px-24 sm:py-12">
         @include('layouts.navigation')
 
         <main class="mx-auto max-w-screen-2xl mt-16 px-8 grid">
             <header>
                 <div class="flex flex-col justify-center">
-                    <span class="text-5xl font-black leading-tight">{{ $header }}</span>
+                    <div class="flex flex-col text-5xl font-black leading-tight">{{ $header }}</div>
 
                     {{ $description }}
                 </div>

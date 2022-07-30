@@ -5,10 +5,11 @@ namespace App\Models;
 use Laravel\Paddle\Cashier;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Enrollment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -47,7 +48,9 @@ class Enrollment extends Model
 
     public function unitPricing()
     {
-        return Cashier::productPrices($this->section->pricing->paddle_id)->first()->price()->net;
+        return cache()->remember('pricing_' . $this->section->id, now()->addHour(), function () {
+            return Cashier::productPrices($this->section->pricing->paddle_id)->first()->price()->net;
+        });
     }
 
     public function paddlePayLink(Int $quantity = null)
@@ -55,6 +58,9 @@ class Enrollment extends Model
         return $this->student->chargeProduct($this->section->pricing->paddle_id, [
             'quantity' => $quantity ?? $this->unpaidAttendances->count(),
             'return_url' => route('billing.index'),
+            'passthrough' => [
+                'enrollment_id' => $this->id,
+            ],
         ]);
     }
 }

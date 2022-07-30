@@ -4,6 +4,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\ReceiptController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,12 +29,14 @@ Route::controller(CourseController::class)->group(function () {
 
 Route::resource('enrollments', EnrollmentController::class)->middleware(['auth', 'verified']);
 
-Route::get('/billing', [BillingController::class, 'index'])->middleware(['auth', 'verified'])->name('billing.index');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::post('/checkout', [CheckoutController::class, '__invoke'])->middleware(['auth', 'verified'])->name('checkout');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
+    Route::get('/billing/receipts', [ReceiptController::class, 'index'])->name('receipts');
+    Route::post('/billing/checkout', [CheckoutController::class, '__invoke'])->name('checkout');
+});
 
 require __DIR__.'/auth.php';

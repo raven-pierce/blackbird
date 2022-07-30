@@ -27,7 +27,7 @@
         <div class="flex flex-col w-3/5">
             <div class="flex space-x-4 items-center">
                 <a href="{{ route('dashboard') }}">
-                    <x-assets.logo class="w-12 h-12 fill-current" />
+                    <x-assets.logo class="w-12 h-12" />
                 </a>
 
                 <a href="{{ route('dashboard') }}">
@@ -46,13 +46,13 @@
 
                 <div class="mt-16 flex space-x-8 items-center">
                     <span
-                        class="text-sm font-semibold uppercase text-indigo-500">{{ NumberFormatter::create('en', NumberFormatter::SPELLOUT)->format($enrollment->unpaidAttendances->count()) }}
+                        class="text-sm font-semibold uppercase text-indigo-500">{{ $spellOutFormatter->format($enrollment->unpaidAttendances->count()) }}
                         {{ $enrollment->unpaidAttendances->count() > 1 ? 'Lectures' : 'Lecture' }}</span>
 
-                    <span class="text-sm uppercase text-gray-500">${{ $enrollment->unitPricing() }} per lecture</span>
+                    <span class="text-sm uppercase text-gray-500">{{ $currencyFormatter->formatCurrency($enrollment->unitPricing(), "USD") }} per lecture</span>
                 </div>
 
-                <a href="{{ route('billing.index') }}" class="mt-16 text-xs font-semibold uppercase text-gray-500">Back To Dashboard</a>
+                <x-links.tertiary href="{{ route('billing.index') }}" class="mt-16 text-xs font-semibold uppercase">Back To Dashboard</x-links.tertiary>
             </div>
         </div>
 

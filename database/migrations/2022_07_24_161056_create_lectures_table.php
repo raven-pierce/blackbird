@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('lectures', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('section_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('section_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('day');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->dateTime('start_day');
+            $table->dateTime('end_day');
+            $table->integer('frequency');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

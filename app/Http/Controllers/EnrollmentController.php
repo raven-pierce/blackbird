@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEnrollmentRequest;
-use App\Http\Resources\EnrollmentResource;
+use NumberFormatter;
 use App\Models\Section;
 use App\Models\Enrollment;
+use App\Http\Resources\EnrollmentResource;
+use App\Http\Requests\StoreEnrollmentRequest;
 
 class EnrollmentController extends Controller
 {
@@ -14,6 +15,7 @@ class EnrollmentController extends Controller
     {
         return view('enrollments.index', [
             'enrollments' => auth()->user()->enrollments,
+            'spellOutFormatter' => NumberFormatter::create('en-US', NumberFormatter::SPELLOUT),
         ]);
     }
 
@@ -21,6 +23,7 @@ class EnrollmentController extends Controller
     {
         return view('enrollments.show', [
             'enrollment' => $enrollment,
+            'spellOutFormatter' => NumberFormatter::create('en-US', NumberFormatter::SPELLOUT),
         ]);
     }
 

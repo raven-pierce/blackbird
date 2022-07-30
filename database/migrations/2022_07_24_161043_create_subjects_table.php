@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->string('name');
-            $table->foreignId('awarding_body_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('exam_session_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('level_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('awarding_body_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('exam_session_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('level_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

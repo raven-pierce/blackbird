@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Enums\LectureFrequency;
 use App\Enums\Weekdays;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lecture extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +23,9 @@ class Lecture extends Model
         'day',
         'start_time',
         'end_time',
+        'start_day',
+        'end_day',
+        'frequency',
     ];
 
     /**
@@ -30,8 +35,11 @@ class Lecture extends Model
      */
     protected $casts = [
         'day' => Weekdays::class,
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
+        'start_time' => 'datetime:H:i:s',
+        'end_time' => 'datetime:H:i:s',
+        'start_day' => 'datetime',
+        'end_day' => 'datetime',
+        'frequency' => LectureFrequency::class,
     ];
 
     /**

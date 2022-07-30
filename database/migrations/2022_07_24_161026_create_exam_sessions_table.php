@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->integer('term');
             $table->dateTime('session');
-            $table->foreignId('awarding_body_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('awarding_body_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
