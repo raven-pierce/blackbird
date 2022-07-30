@@ -50,6 +50,10 @@
                 <x-forms.button class="ml-3">
                     {{ __('Log in') }}
                 </x-forms.button>
+
+                <x-links.button href="{{ route('socialite.azure') }}" class="ml-3">
+                    Azure
+                </x-links.button>
             </div>
         </form>
     </x-auth.card>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Profile extends Model
+class SocialiteProfile extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,10 +17,8 @@ class Profile extends Model
      */
     protected $fillable = [
         'user_id',
-        'student_email',
-        'phone',
-        'guardian_email',
-        'guardian_phone',
+        'provider',
+        'provider_id',
     ];
 
     public function user()

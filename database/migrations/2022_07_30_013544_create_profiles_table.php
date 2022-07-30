@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('student_email')->nullable();
+            $table->string('azure_email')->nullable();
             $table->string('phone')->nullable();
             $table->string('guardian_email')->nullable();
             $table->string('guardian_phone')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -26,8 +26,8 @@ class EventServiceProvider extends ServiceProvider
             PaymentRefundedListener::class,
         ],
 
-        SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            SocialiteProviders\Azure\AzureExtendSocialite::class . '@handle',
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            \SocialiteProviders\Azure\AzureExtendSocialite::class . '@handle',
         ],
     ];
 
