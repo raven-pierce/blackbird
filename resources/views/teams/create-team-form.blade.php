@@ -11,12 +11,12 @@
         <div class="col-span-6">
             <x-jet-label value="{{ __('Team Owner') }}" />
 
-            <div class="flex items-center mt-2">
-                <img class="w-12 h-12 rounded-full object-cover" src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}">
+            <div class="mt-2 flex items-center">
+                <img class="h-12 w-12 rounded-full object-cover" src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}">
 
                 <div class="ml-4 leading-tight">
                     <div>{{ $this->user->name }}</div>
-                    <div class="text-gray-700 text-sm">{{ $this->user->email }}</div>
+                    <div class="text-sm text-gray-700">{{ $this->user->email }}</div>
                 </div>
             </div>
         </div>

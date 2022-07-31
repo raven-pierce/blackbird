@@ -23,11 +23,11 @@
 
 <body
     class="font-sans antialiased text-white h-screen bg-[image:linear-gradient(120deg,theme(colors.gray.900)_65%,theme(colors.indigo.500)_35%)]">
-    <div class="px-24 py-12 m-auto h-full flex max-w-screen-2xl justify-center">
-        <div class="flex flex-col w-3/5">
-            <div class="flex space-x-4 items-center">
+    <div class="m-auto flex h-full max-w-screen-2xl justify-center px-24 py-12">
+        <div class="flex w-3/5 flex-col">
+            <div class="flex items-center space-x-4">
                 <a href="{{ route('dashboard') }}">
-                    <x-assets.logo class="w-12 h-12" />
+                    <x-assets.logo class="h-12 w-12" />
                 </a>
 
                 <a href="{{ route('dashboard') }}">
@@ -35,16 +35,16 @@
                 </a>
             </div>
 
-            <div class="flex flex-col justify-center h-full">
+            <div class="flex h-full flex-col justify-center">
                 <span
                     class="text-sm font-semibold uppercase text-gray-500">{{ $enrollment->section->course->level->name }}</span>
 
                 <span
                     class="mt-4 text-5xl font-black leading-tight">{{ $enrollment->section->course->subject->name }}</span>
                 <span
-                    class="text-5xl font-black text-indigo-500 leading-tight">{{ $enrollment->section->course->tutor->name }}</span>
+                    class="text-5xl font-black leading-tight text-indigo-500">{{ $enrollment->section->course->tutor->name }}</span>
 
-                <div class="mt-16 flex space-x-8 items-center">
+                <div class="mt-16 flex items-center space-x-8">
                     <span
                         class="text-sm font-semibold uppercase text-indigo-500">{{ $spellOutFormatter->format($enrollment->unpaidAttendances->count()) }}
                         {{ $enrollment->unpaidAttendances->count() > 1 ? 'Lectures' : 'Lecture' }}</span>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="flex w-2/5 items-center justify-center">
-            <x-paddle-checkout :override="$enrollment->paddlePayLink()" class="w-96 bg-white p-4 rounded h-fit" />
+            <x-paddle-checkout :override="$enrollment->paddlePayLink()" class="h-fit w-96 rounded bg-white p-4" />
         </div>
     </div>
 </body>

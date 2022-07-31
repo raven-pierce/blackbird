@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-500 leading-tight">
+            <h2 class="text-xl font-semibold leading-tight text-gray-500">
                 {{ $enrollment->section->course->subject->name }}</h2>
 
             <x-links.tertiary href="{{ route('enrollments.index') }}">Back To Enrollments</x-links.tertiary>

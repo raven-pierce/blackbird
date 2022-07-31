@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-500 leading-tight">Enrollments</h2>
+            <h2 class="text-xl font-semibold leading-tight text-gray-500">Enrollments</h2>
 
             <x-links.primary href="{{ route('enrollments.create') }}">
                 New Enrollment

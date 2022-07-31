@@ -22,7 +22,7 @@
                 <div class="col-span-6">
                     <x-jet-label for="permissions" value="{{ __('Permissions') }}" />
 
-                    <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
                         @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)
                             <label class="flex items-center">
                                 <x-jet-checkbox wire:model.defer="createApiTokenForm.permissions" :value="$permission"/>
@@ -76,12 +76,12 @@
                                     @endif
 
                                     @if (Laravel\Jetstream\Jetstream::hasPermissions())
-                                        <button class="cursor-pointer ml-6 text-sm text-gray-400 underline" wire:click="manageApiTokenPermissions({{ $token->id }})">
+                                        <button class="ml-6 cursor-pointer text-sm text-gray-400 underline" wire:click="manageApiTokenPermissions({{ $token->id }})">
                                             {{ __('Permissions') }}
                                         </button>
                                     @endif
 
-                                    <button class="cursor-pointer ml-6 text-sm text-red-500" wire:click="confirmApiTokenDeletion({{ $token->id }})">
+                                    <button class="ml-6 cursor-pointer text-sm text-red-500" wire:click="confirmApiTokenDeletion({{ $token->id }})">
                                         {{ __('Delete') }}
                                     </button>
                                 </div>
@@ -105,7 +105,7 @@
             </div>
 
             <x-jet-input x-ref="plaintextToken" type="text" readonly :value="$plainTextToken"
-                class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full"
+                class="mt-4 w-full rounded bg-gray-100 px-4 py-2 font-mono text-sm text-gray-500"
                 autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                 @showing-token-modal.window="setTimeout(() => $refs.plaintextToken.select(), 250)"
             />
@@ -125,7 +125,7 @@
         </x-slot>
 
         <x-slot name="content">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 @foreach (Laravel\Jetstream\Jetstream::$permissions as $permission)
                     <label class="flex items-center">
                         <x-jet-checkbox wire:model.defer="updateApiTokenForm.permissions" :value="$permission"/>

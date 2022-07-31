@@ -4,7 +4,7 @@
     <div class="flex justify-between text-xs uppercase">
         <span class="font-medium text-indigo-100">{{ $spellOutFormatter->format($loop->iteration) }}</span>
 
-        <div class="flex flex-col font-semibold text-gray-500 text-right">
+        <div class="flex flex-col text-right font-semibold text-gray-500">
             <span>{{ $enrollment->section->course->subject->name }}</span>
             <span>{{ $enrollment->section->course->tutor->name }}</span>
         </div>
