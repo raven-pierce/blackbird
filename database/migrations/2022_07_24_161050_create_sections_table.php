@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('pricing_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('azure_team_id')->nullable();
             $table->dateTime('start_day');
             $table->dateTime('end_day');
             $table->integer('delivery_method');

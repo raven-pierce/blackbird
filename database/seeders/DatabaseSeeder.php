@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            PermissionSeeder::class,
             AwardingBodySeeder::class,
             ExamSessionSeeder::class,
             LevelSeeder::class,
@@ -25,29 +24,11 @@ class DatabaseSeeder extends Seeder
 
         Subject::factory(50)->create();
 
-        $icarus = User::factory([
+        User::factory([
             'name' => 'Icarus',
             'email' => 'icarus@blackbird.io',
         ])->withPersonalTeam()->create();
 
-        $icarus->assignRole('Icarus');
-
-        $tutors = User::factory(5)->withPersonalTeam()->create();
-
-        foreach ($tutors as $tutor) {
-            $tutor->assignRole('Tutor');
-        }
-
-        $assistants = User::factory(15)->withPersonalTeam()->create();
-
-        foreach ($assistants as $assistant) {
-            $assistant->assignRole('Assistant');
-        }
-
-        $students = User::factory(250)->withPersonalTeam()->create();
-
-        foreach ($students as $student) {
-            $student->assignRole('Student');
-        }
+        User::factory(250)->withPersonalTeam()->create();
     }
 }

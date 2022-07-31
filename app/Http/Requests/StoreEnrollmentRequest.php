@@ -16,9 +16,7 @@ class StoreEnrollmentRequest extends FormRequest
     {
         $section = Section::findOrFail(request('section'));
 
-        if (! $this->user()->isStudent()) {
-            abort(403, __('You are not a student.'));
-        }
+        // student role check
 
         if ($section->isFull()) {
             abort(403, __('This section is currently full.'));

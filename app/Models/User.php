@@ -10,7 +10,6 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Paddle\Billable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -19,7 +18,6 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use HasProfilePhoto;
     use HasTeams;
-    use HasRoles;
     use Notifiable;
     use Billable;
 
@@ -97,33 +95,6 @@ class User extends Authenticatable
         return $this->hasMany(Enrollment::class);
     }
 
-    public function isTutor()
-    {
-        if ($this->hasRole('Tutor')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function isAssistant()
-    {
-        if ($this->hasRole('Assistant')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function isStudent()
-    {
-        if ($this->hasRole('Student')) {
-            return true;
-        }
-
-        return false;
-    }
-
     public function isEnrolledInCourse(Course $course)
     {
         $sections = $course->section->pluck('id');
@@ -146,10 +117,6 @@ class User extends Authenticatable
 
     public function designateAssistantToSection(Section $section, User $user)
     {
-        if (! $user->hasRole('Assistant')) {
-            $user->syncRoles(['Assistant']);
-        }
-
         return Assistantship::create([
             'section_id' => $section->id,
             'user_id' => $user->id,

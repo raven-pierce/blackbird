@@ -2,37 +2,33 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
-use Microsoft\Graph\Graph;
-use Microsoft\Graph\Model;
+use Microsoft\Graph\GraphRequestAdapter;
+use Microsoft\Graph\GraphServiceClient;
+use Microsoft\Kiota\Authentication\Oauth\ClientCredentialContext;
+use Microsoft\Kiota\Authentication\PhpLeagueAuthenticationProvider;
 
 class MicrosoftGraph
 {
     public function authenticate()
     {
-        $url = 'https://login.microsoftonline.com/'.config('services.azure.tenant').'/oauth2/v2.0/token';
+        $tokenRequestContext = new ClientCredentialContext(
+            config('services.azure.tenant'),
+            config('services.azure.client_id'),
+            config('services.azure.client_secret')
+        );
 
-        $accessToken = json_decode(Http::asForm()->post($url, [
-            'client_id' => config('services.azure.client_id'),
-            'client_secret' => config('services.azure.client_secret'),
-            'scope' => 'https://graph.microsoft.com/.default',
-            'grant_type' => 'client_credentials',
-        ])->body())->access_token;
+        $scopes = ['https://graph.microsoft.com/.default'];
 
-        $graph = new Graph();
-        $graph->setAccessToken($accessToken);
+        $authProvider = new PhpLeagueAuthenticationProvider($tokenRequestContext, $scopes);
+        $requestAdapter = new GraphRequestAdapter($authProvider);
 
-        return $graph;
+        return new GraphServiceClient($requestAdapter);
     }
 
-    public function getUser()
+    public function getAllGroups()
     {
         $graph = $this->authenticate();
 
-        $user = $graph
-            ->createRequest('GET', '/users')
-            ->setReturnType(Model\User::class)
-            ->execute();
-        dd($user);
+        return $graph->groups()->get();
     }
 }

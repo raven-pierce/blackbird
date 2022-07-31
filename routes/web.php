@@ -5,6 +5,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ReceiptController;
+use App\Services\MicrosoftGraph;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,10 @@ Route::middleware([
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::get('/billing/receipts', [ReceiptController::class, 'index'])->name('receipts');
     Route::post('/billing/checkout', [CheckoutController::class, '__invoke'])->name('checkout');
+});
+
+Route::get('/graph', function (MicrosoftGraph $microsoftGraph) {
+    dd($microsoftGraph->getAllGroups());
 });
 
 require __DIR__.'/socialite.php';
