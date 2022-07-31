@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\AwardingBody;
 use App\Models\ExamSession;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

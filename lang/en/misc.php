@@ -25,6 +25,6 @@ return [
             'guardian' => 'Guardian\'s Information',
         ],
 
-    ]
+    ],
 
 ];

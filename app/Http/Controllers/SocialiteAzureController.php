@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\SocialiteProfile;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteAzureController extends Controller

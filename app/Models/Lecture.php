@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\LectureFrequency;
-use App\Enums\Weekdays;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,6 +48,6 @@ class Lecture extends Model
 
     public function duration(): Attribute
     {
-        return Attribute::get(fn() => $this->start_time->diffInMinutes($this->end_time));
+        return Attribute::get(fn () => $this->start_time->diffInMinutes($this->end_time));
     }
 }

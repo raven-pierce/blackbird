@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Models\Enrollment;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Laravel\Paddle\Events\WebhookReceived;
 
 class PaymentRefundedListener

@@ -18,7 +18,7 @@ class StoreAssistantshipRequest extends FormRequest
         $section = Section::findOrFail(request('section'));
         $user = User::findOrFail(request('assistant'));
 
-        if (!$section->course->tutor === auth()->user()) {
+        if (! $section->course->tutor === auth()->user()) {
             abort(403, __('You are not the tutor of this course.'));
         }
     }

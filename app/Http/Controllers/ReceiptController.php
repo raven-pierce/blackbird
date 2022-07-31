@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use NumberFormatter;
 
 class ReceiptController extends Controller

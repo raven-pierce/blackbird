@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use NumberFormatter;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
+use NumberFormatter;
 
 class CheckoutController extends Controller
 {

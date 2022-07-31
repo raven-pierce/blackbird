@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Enums\Weekdays;
-use Carbon\CarbonPeriod;
 use App\Enums\DeliveryMethod;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Section extends Model
 {
@@ -78,7 +77,7 @@ class Section extends Model
         return false;
     }
 
-    public function generateLectures(Int $day, Int $startHour, Int $startMinute, Int $endHour, Int $endMinute)
+    public function generateLectures(int $day, int $startHour, int $startMinute, int $endHour, int $endMinute)
     {
         $period = CarbonPeriod::since($this->start_day)->until($this->end_day, true);
 
@@ -110,7 +109,7 @@ class Section extends Model
         return $this->lectures()->whereBetween('start_time', [$startDate, $startDate->copy()->endOfWeek()])->get();
     }
 
-    public function getLecturesInWeeks(Int $weeks = 1)
+    public function getLecturesInWeeks(int $weeks = 1)
     {
         return $this->lectures()->whereBetween('start_time', [today()->addWeeks($weeks)->startOfWeek(), today()->addWeeks($weeks)->endOfWeek()])->get();
     }

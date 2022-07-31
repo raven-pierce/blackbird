@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use NumberFormatter;
-use App\Models\Section;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class BillingController extends Controller
 {

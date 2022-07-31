@@ -2,18 +2,28 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Jetstream\HasTeams;
 use Laravel\Paddle\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, SoftDeletes, HasApiTokens, HasRoles, Billable, Notifiable;
+    use HasFactory;
+    use SoftDeletes;
+    use HasApiTokens;
+    use TwoFactorAuthenticatable;
+    use HasProfilePhoto;
+    use HasTeams;
+    use HasRoles;
+    use Notifiable;
+    use Billable;
 
     /**
      * The relationships that should always be loaded.
@@ -22,37 +32,46 @@ class User extends Authenticatable
      */
     protected $with = [
         'profile',
-        'socialiteProfiles'
+        'socialiteProfiles',
     ];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var string[]
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 'email', 'password',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'profile_photo_url',
     ];
 
     public function profile()
@@ -121,7 +140,8 @@ class User extends Authenticatable
 
     public function enrollInSection(Section $section)
     {
-        return Enrollment::create(['section_id' => $section->id,
+        return Enrollment::create([
+            'section_id' => $section->id,
             'user_id' => $this->id,
         ]);
     }
@@ -132,7 +152,8 @@ class User extends Authenticatable
             $user->syncRoles(['Assistant']);
         }
 
-        return Assistantship::create(['section_id' => $section->id,
+        return Assistantship::create([
+            'section_id' => $section->id,
             'user_id' => $user->id,
         ]);
     }

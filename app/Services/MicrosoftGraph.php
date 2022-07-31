@@ -10,7 +10,7 @@ class MicrosoftGraph
 {
     public function authenticate()
     {
-        $url = 'https://login.microsoftonline.com/' . config('services.azure.tenant') . '/oauth2/v2.0/token';
+        $url = 'https://login.microsoftonline.com/'.config('services.azure.tenant').'/oauth2/v2.0/token';
 
         $accessToken = json_decode(Http::asForm()->post($url, [
             'client_id' => config('services.azure.client_id'),

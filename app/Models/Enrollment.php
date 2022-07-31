@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Laravel\Paddle\Cashier;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Paddle\Cashier;
 
 class Enrollment extends Model
 {
@@ -48,12 +48,12 @@ class Enrollment extends Model
 
     public function unitPricing()
     {
-        return cache()->remember('pricing_' . $this->section->id, now()->addHour(), function () {
+        return cache()->remember('pricing_'.$this->section->id, now()->addHour(), function () {
             return Cashier::productPrices($this->section->pricing->paddle_id)->first()->price()->net;
         });
     }
 
-    public function paddlePayLink(Int $quantity = null)
+    public function paddlePayLink(int $quantity = null)
     {
         return $this->student->chargeProduct($this->section->pricing->paddle_id, [
             'quantity' => $quantity ?? $this->unpaidAttendances->count(),

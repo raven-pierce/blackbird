@@ -6,7 +6,6 @@ use App\Http\Requests\StoreAssistantshipRequest;
 use App\Models\Assistantship;
 use App\Models\Section;
 use App\Models\User;
-use Illuminate\Http\Response;
 
 class AssistantshipController extends Controller
 {
@@ -24,6 +23,7 @@ class AssistantshipController extends Controller
     {
         if ($assistantship->section->course->tutor->id === auth()->user()->id) {
             $assistantship->delete();
+
             return back()->with('success', __('You have successfully removed that user\'s assistantship.'));
         }
 

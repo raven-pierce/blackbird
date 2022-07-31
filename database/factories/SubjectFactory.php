@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\AwardingBody;
-use App\Models\Level;
 use App\Models\ExamSession;
+use App\Models\Level;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

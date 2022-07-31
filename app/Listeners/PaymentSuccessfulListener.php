@@ -3,9 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\Enrollment;
-use Illuminate\Queue\InteractsWithQueue;
 use Laravel\Paddle\Events\WebhookReceived;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PaymentSuccessfulListener
 {
