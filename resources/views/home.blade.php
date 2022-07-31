@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="mx-auto px-24 py-12 max-w-screen-2xl">
+    <div class="mx-auto max-w-screen-2xl px-24 py-12">
         <nav class="flex items-center justify-between">
             <a href="{{ route('home') }}"
                 class="flex items-center space-x-4 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75">

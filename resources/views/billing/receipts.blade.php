@@ -1,17 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-500 leading-tight">Receipts</h2>
+            <h2 class="text-xl font-semibold leading-tight text-gray-500">Receipts</h2>
 
             <x-links.tertiary href="{{ route('billing.index') }}">Back To Billing</x-links.tertiary>
         </div>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden rounded-md">
-                <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="bg-gray-900 border border-gray-900 text-xs text-gray-400 font-semibold uppercase">
+                <table class="w-full text-left text-sm text-gray-500">
+                    <thead class="border border-gray-900 bg-gray-900 text-xs font-semibold uppercase text-gray-400">
                         <tr>
                             <th scope="col" class="px-12 py-6">
                                 Date

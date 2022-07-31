@@ -1,7 +1,7 @@
 @props(['enrollment', 'spellOutFormatter', 'loop'])
 
 <a href="{{ route('enrollments.show', $enrollment) }}" class="group focus:outline-none">
-    <div class="flex h-64 w-80 flex-col justify-center rounded bg-gray-900 p-6 transition duration-200 ease-in-out group-hover:ring group-hover:ring-indigo-500 group-hover:translate-x-1 group-hover:translate-y-1 group-focus:outline-none group-focus:ring group-focus:ring-indigo-500 group-focus:translate-x-1 group-focus:translate-y-1">
+    <div class="flex h-64 w-80 flex-col justify-center rounded bg-gray-900 p-6 transition duration-200 ease-in-out group-hover:translate-x-1 group-hover:translate-y-1 group-hover:ring group-hover:ring-indigo-500 group-focus:translate-x-1 group-focus:translate-y-1 group-focus:outline-none group-focus:ring group-focus:ring-indigo-500">
         <div class="flex items-center justify-between text-xs uppercase">
             <span
                 class="font-medium text-indigo-100">{{ $spellOutFormatter->format($loop->iteration) }}</span>
