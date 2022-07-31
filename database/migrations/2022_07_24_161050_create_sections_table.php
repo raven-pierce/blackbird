@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('pricing_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->integer('seats');
+            $table->dateTime('start_day');
+            $table->dateTime('end_day');
             $table->integer('delivery_method');
+            $table->integer('seats');
             $table->timestamps();
             $table->softDeletes();
         });

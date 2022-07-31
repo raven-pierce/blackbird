@@ -4,7 +4,9 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
+use App\Services\MicrosoftGraph;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,9 +36,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::get('/billing/receipts', [ReceiptController::class, 'index'])->name('receipts');
     Route::post('/billing/checkout', [CheckoutController::class, '__invoke'])->name('checkout');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/socialite.php';

@@ -20,12 +20,8 @@ class Lecture extends Model
      */
     protected $fillable = [
         'section_id',
-        'day',
         'start_time',
         'end_time',
-        'start_day',
-        'end_day',
-        'frequency',
     ];
 
     /**
@@ -34,12 +30,8 @@ class Lecture extends Model
      * @var array
      */
     protected $casts = [
-        'day' => Weekdays::class,
-        'start_time' => 'datetime:H:i:s',
-        'end_time' => 'datetime:H:i:s',
-        'start_day' => 'datetime',
-        'end_day' => 'datetime',
-        'frequency' => LectureFrequency::class,
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     /**

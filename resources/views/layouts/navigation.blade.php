@@ -12,15 +12,15 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-links.nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-links.nav-link href="{{ route('dashboard') }}" active="{{ request()->routeIs('dashboard') }}">
                         {{ __('Dashboard') }}
                     </x-links.nav-link>
 
-                    <x-links.nav-link :href="route('enrollments.index')" :active="request()->routeIs('enrollments.index')">
+                    <x-links.nav-link href="{{ route('enrollments.index') }}" active="{{ request()->routeIs('enrollments.index') }}">
                         {{ __('Enrollments') }}
                     </x-links.nav-link>
 
-                    <x-links.nav-link :href="route('billing.index')" :active="request()->routeIs('billing.index')">
+                    <x-links.nav-link href="{{ route('billing.index') }}" active="{{ request()->routeIs('billing.index') }}">
                         {{ __('Billing') }}
                     </x-links.nav-link>
                 </div>
@@ -40,11 +40,20 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <!-- Account Management -->
+                        <div class="block px-4 py-2 text-xs text-gray-500">
+                            Manage Account
+                        </div>
+
+                        <x-misc.dropdown-link href="{{ route('profile.show') }}">Profile</x-misc.dropdown-link>
+
+                        <div class="border-t border-gray-100"></div>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-misc.dropdown-link :href="route('logout')"
+                            <x-misc.dropdown-link href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
@@ -67,15 +76,15 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-links.responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-links.responsive-nav-link href="{{ route('dashboard') }}" active="{{ request()->routeIs('dashboard') }}">
                 {{ __('Dashboard') }}
             </x-links.responsive-nav-link>
 
-            <x-links.responsive-nav-link :href="route('enrollments.index')" :active="request()->routeIs('enrollments.index')">
+            <x-links.responsive-nav-link href="{{ route('enrollments.index') }}" active="{{ request()->routeIs('enrollments.index') }}">
                 {{ __('Enrollments') }}
             </x-links.responsive-nav-link>
 
-            <x-links.responsive-nav-link :href="route('billing.index')" :active="request()->routeIs('billing.index')">
+            <x-links.responsive-nav-link href="{{ route('billing.index') }}" active="{{ request()->routeIs('billing.index') }}">
                 {{ __('Billing') }}
             </x-links.responsive-nav-link>
         </div>
@@ -92,7 +101,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-links.responsive-nav-link :href="route('logout')"
+                    <x-links.responsive-nav-link href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}

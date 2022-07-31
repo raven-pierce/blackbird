@@ -18,13 +18,11 @@
         </div>
 
         <div class="mt-4 flex flex-col text-sm font-light text-gray-500">
-            @foreach ($enrollment->section->lectures as $lecture)
-                <span>{{ $lecture->day->name }} {{ $lecture->start_time->format('h:i A') }}</span>
+            @foreach ($enrollment->section->getLecturesThisWeek()->isNotEmpty() ? $enrollment->section->getLecturesThisWeek() : $enrollment->section->getLecturesInWeeks() as $lecture)
+                <span>{{ $lecture->start_time->englishDayOfWeek }} {{ $lecture->start_time->format('h:i A') }}</span>
             @endforeach
         </div>
 
-        <span
-            class="mt-6 text-xs font-semibold uppercase text-indigo-500">{{ $enrollment->section->lectures->first()->duration }}
-            Minutes</span>
+        <span class="mt-6 text-xs font-semibold uppercase text-indigo-500">{{ $enrollment->section->lectures->avg('duration') }} Minutes</span>
     </div>
 </a>

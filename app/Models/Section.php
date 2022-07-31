@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use App\Enums\Weekdays;
+use Carbon\CarbonPeriod;
 use App\Enums\DeliveryMethod;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Section extends Model
 {
@@ -18,8 +21,11 @@ class Section extends Model
      */
     protected $fillable = [
         'course_id',
-        'seats',
+        'pricing_id',
+        'start_day',
+        'end_day',
         'delivery_method',
+        'seats',
     ];
 
     /**
@@ -28,6 +34,8 @@ class Section extends Model
      * @var array
      */
     protected $casts = [
+        'start_day' => 'datetime',
+        'end_day' => 'datetime',
         'delivery_method' => DeliveryMethod::class,
     ];
 
@@ -68,5 +76,42 @@ class Section extends Model
         }
 
         return false;
+    }
+
+    public function generateLectures(Int $day, Int $startHour, Int $startMinute, Int $endHour, Int $endMinute)
+    {
+        $period = CarbonPeriod::since($this->start_day)->until($this->end_day, true);
+
+        $lectureDates = array_filter($period->toArray(), function ($date) use ($day) {
+            return $date->dayOfWeek === $day;
+        });
+
+        foreach ($lectureDates as $date) {
+            Lecture::create([
+                'section_id' => $this->id,
+                'start_time' => $date->copy()->setTime($startHour, $startMinute),
+                'end_time' => $date->copy()->setTime($endHour, $endMinute),
+            ]);
+        }
+    }
+
+    public function getLecturesThisWeek()
+    {
+        return $this->lectures()->whereBetween('start_time', [today(), now()->endOfWeek()])->get();
+    }
+
+    public function getLecturesThisMonth()
+    {
+        return $this->lectures()->whereBetween('start_time', [today(), now()->endOfMonth()])->get();
+    }
+
+    public function getLecturesLeftInWeek(Carbon $startDate)
+    {
+        return $this->lectures()->whereBetween('start_time', [$startDate, $startDate->copy()->endOfWeek()])->get();
+    }
+
+    public function getLecturesInWeeks(Int $weeks = 1)
+    {
+        return $this->lectures()->whereBetween('start_time', [today()->addWeeks($weeks)->startOfWeek(), today()->addWeeks($weeks)->endOfWeek()])->get();
     }
 }

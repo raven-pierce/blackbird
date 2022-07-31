@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use NumberFormatter;
 use App\Models\Section;
 use App\Models\Enrollment;
-use App\Http\Resources\EnrollmentResource;
 use App\Http\Requests\StoreEnrollmentRequest;
 
 class EnrollmentController extends Controller

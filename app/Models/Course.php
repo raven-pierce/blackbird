@@ -44,7 +44,7 @@ class Course extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function section()
+    public function sections()
     {
         return $this->hasMany(Section::class);
     }
@@ -71,7 +71,7 @@ class Course extends Model
 
     public function seats(): Attribute
     {
-        return Attribute::get(fn () => $this->section->pluck('seats')->sum());
+        return Attribute::get(fn () => $this->sections->pluck('seats')->sum());
     }
 
     public function isFull()

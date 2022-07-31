@@ -12,6 +12,16 @@ use App\Http\Controllers\SocialiteAzureController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register authentication routes for your
+| application. These routes were provided by Laravel Breeze.
+|
+*/
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
 
@@ -28,9 +38,6 @@ Route::middleware('guest')->group(function () {
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.update');
-
-    Route::get('/auth/azure', [SocialiteAzureController::class, 'redirectToProvider'])->name('socialite.azure');
-    Route::get('/auth/azure/callback', [SocialiteAzureController::class, 'handleProviderCallback']);
 });
 
 Route::middleware('auth')->group(function () {

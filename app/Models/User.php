@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
 use Laravel\Paddle\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -15,6 +14,16 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasFactory, SoftDeletes, HasApiTokens, HasRoles, Billable, Notifiable;
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'profile',
+        'socialiteProfiles'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -56,6 +65,21 @@ class User extends Authenticatable
         return $this->hasMany(SocialiteProfile::class);
     }
 
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    public function assistantships()
+    {
+        return $this->hasMany(Assistantship::class);
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
     public function isTutor()
     {
         if ($this->hasRole('Tutor')) {
@@ -81,21 +105,6 @@ class User extends Authenticatable
         }
 
         return false;
-    }
-
-    public function courses()
-    {
-        return $this->hasMany(Course::class);
-    }
-
-    public function assistantships()
-    {
-        return $this->hasMany(Assistantship::class);
-    }
-
-    public function enrollments()
-    {
-        return $this->hasMany(Enrollment::class);
     }
 
     public function isEnrolledInCourse(Course $course)
