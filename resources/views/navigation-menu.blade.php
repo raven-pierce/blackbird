@@ -15,6 +15,14 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('enrollments.index') }}" :active="request()->routeIs('enrollments.index')">
+                        {{ __('Enrollments') }}
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('billing.index') }}" :active="request()->routeIs('billing.index')">
+                        {{ __('Billing') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 
@@ -139,6 +147,14 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="{{ route('enrollments.index') }}" :active="request()->routeIs('enrollments.index')">
+                {{ __('Enrollments') }}
+            </x-jet-responsive-nav-link>
+
+            <x-jet-responsive-nav-link href="{{ route('billing.index') }}" :active="request()->routeIs('billing.index')">
+                {{ __('Billing') }}
             </x-jet-responsive-nav-link>
         </div>
 

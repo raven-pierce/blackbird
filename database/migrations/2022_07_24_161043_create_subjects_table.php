@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignId('exam_session_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('level_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

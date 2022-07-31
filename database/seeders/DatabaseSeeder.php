@@ -28,23 +28,23 @@ class DatabaseSeeder extends Seeder
         $icarus = User::factory([
             'name' => 'Icarus',
             'email' => 'icarus@blackbird.io',
-        ])->create();
+        ])->withPersonalTeam()->create();
 
         $icarus->assignRole('Icarus');
 
-        $tutors = User::factory(5)->create();
+        $tutors = User::factory(5)->withPersonalTeam()->create();
 
         foreach ($tutors as $tutor) {
             $tutor->assignRole('Tutor');
         }
 
-        $assistants = User::factory(15)->create();
+        $assistants = User::factory(15)->withPersonalTeam()->create();
 
         foreach ($assistants as $assistant) {
             $assistant->assignRole('Assistant');
         }
 
-        $students = User::factory(250)->create();
+        $students = User::factory(250)->withPersonalTeam()->create();
 
         foreach ($students as $student) {
             $student->assignRole('Student');

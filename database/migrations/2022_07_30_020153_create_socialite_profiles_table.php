@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('provider');
             $table->string('provider_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

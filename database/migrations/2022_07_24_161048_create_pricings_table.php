@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->integer('paddle_id');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

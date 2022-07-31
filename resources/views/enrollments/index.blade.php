@@ -1,26 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-links.primary href="{{ route('enrollments.create') }}">
-            New Enrollment
-            <x-assets.icons.chevron-right class="h-5 w-5" />
-        </x-links.primary>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-500 leading-tight">Enrollments</h2>
 
-        <span class="mt-4">Enrollments</span>
+            <x-links.primary href="{{ route('enrollments.create') }}">
+                New Enrollment
+                <x-assets.icons.chevron-right class="h-5 w-5" />
+            </x-links.primary>
+        </div>
     </x-slot>
 
-    <x-slot name="description">
-        <p class="mt-8 text-gray-700">
-            You’ll be able to find your course <span class="font-semibold text-indigo-500">enrollments</span> on this
-            page, as well as make any <span class="font-semibold text-indigo-500">transfers</span> or <span
-                class="font-semibold text-indigo-500">withdrawals</span>.
-        </p>
-    </x-slot>
-
-    <div class="mt-16 grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-16">
-        @foreach ($enrollments as $enrollment)
-            <div>
-                <x-enrollments.card :enrollment="$enrollment" :spellOutFormatter="$spellOutFormatter" :loop="$loop" />
-            </div>
-        @endforeach
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-16">
+            @foreach ($enrollments as $enrollment)
+                <div>
+                    <x-enrollments.card :enrollment="$enrollment" :spellOutFormatter="$spellOutFormatter" :loop="$loop" />
+                </div>
+            @endforeach
+        </div>
     </div>
 </x-app-layout>

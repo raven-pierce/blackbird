@@ -22,7 +22,6 @@ return new class extends Migration
             $table->integer('delivery_method');
             $table->integer('seats');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

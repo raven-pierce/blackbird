@@ -20,7 +20,6 @@ return new class extends Migration
             $table->dateTime('session');
             $table->foreignId('awarding_body_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
