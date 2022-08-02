@@ -8,15 +8,9 @@
             </a>
 
             @auth
-                <a href="{{ route('dashboard') }}"
-                    class="rounded border border-gray-900 px-8 py-2 text-base font-medium">Dashboard</a>
+                <x-utilities.links.buttons.default href="{{ route('dashboard') }}">Dashboard</x-utilities.links.buttons.default>
             @else
-                <div class="flex items-center space-x-12">
-                    <a href="{{ route('login') }}" class="text-base font-medium">Sign In</a>
-
-                    <a href="{{ route('register') }}"
-                        class="rounded border border-gray-900 px-8 py-2 text-base font-medium">Sign Up</a>
-                </div>
+                <x-utilities.links.buttons.default href="{{ route('login') }}">Log In</x-utilities.links.buttons.default>
             @endauth
         </nav>
 
@@ -26,8 +20,7 @@
 
                 <p class="mt-4 text-gray-700">Blackbird offers a revitalized, intuitive approach to <span class="font-semibold text-indigo-500">distance learning</span>, with a variety of tools to help you achieve <span class="font-semibold text-indigo-500">academic success</span>. in the British-patented <span class="font-semibold text-indigo-500">International GCSE</span> education system.</p>
 
-                <a href="{{ auth()->user() ? route('dashboard') : route('register') }}"
-                    class="mt-8 w-fit rounded bg-gray-900 px-8 py-2 text-sm text-white">Get Started</a>
+                <x-utilities.links.buttons.primary href="{{ auth()->user() ? route('dashboard') : route('register') }}" class="mt-8 w-fit">Get Started</x-utilities.links.buttons.primary>
             </div>
 
             <div class="relative flex flex-col">

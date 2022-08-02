@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\RecordingController;
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\Route;
 
@@ -30,16 +32,12 @@ Route::controller(CourseController::class)->group(function () {
     Route::get('/courses/{course}', 'show')->name('courses.show');
 });
 
-Route::resource('enrollments', EnrollmentController::class)->middleware(['auth', 'verified']);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::resource('enrollments', EnrollmentController::class);
+    Route::resource('attendances', AttendanceController::class);
+    Route::resource('recordings', RecordingController::class);
 
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::get('/billing/receipts', [ReceiptController::class, 'index'])->name('receipts');

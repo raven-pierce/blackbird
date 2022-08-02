@@ -45,6 +45,11 @@ class Lecture extends Model
         return $this->belongsTo(Section::class);
     }
 
+    public function recording()
+    {
+        return $this->hasOne(Recording::class);
+    }
+
     public function duration(): Attribute
     {
         return Attribute::get(fn () => $this->start_time->diffInMinutes($this->end_time));

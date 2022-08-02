@@ -2,10 +2,24 @@
 
 namespace App\Services;
 
+use Microsoft\Graph\Generated\Groups\Item\Drive\DriveRequestBuilderGetQueryParameters;
+use Microsoft\Graph\Generated\Groups\Item\Drive\DriveRequestBuilderGetRequestConfiguration;
+use Microsoft\Graph\Generated\Groups\Item\Drives\Item\Root\RootRequestBuilderGetQueryParameters;
+use Microsoft\Graph\Generated\Groups\Item\Drives\Item\Root\RootRequestBuilderGetRequestConfiguration;
 use Microsoft\Graph\Generated\Groups\Item\Members\Ref\Ref;
 use Microsoft\Graph\Generated\Models\AssignedLicense;
+use Microsoft\Graph\Generated\Models\DirectoryObjectCollectionResponse;
+use Microsoft\Graph\Generated\Models\Drive;
+use Microsoft\Graph\Generated\Models\DriveCollectionResponse;
+use Microsoft\Graph\Generated\Models\DriveItem;
+use Microsoft\Graph\Generated\Models\Group;
+use Microsoft\Graph\Generated\Models\GroupCollectionResponse;
+use Microsoft\Graph\Generated\Models\LicenseDetailsCollectionResponse;
 use Microsoft\Graph\Generated\Models\PasswordProfile;
+use Microsoft\Graph\Generated\Models\SubscribedSku;
+use Microsoft\Graph\Generated\Models\SubscribedSkuCollectionResponse;
 use Microsoft\Graph\Generated\Models\User;
+use Microsoft\Graph\Generated\Models\UserCollectionResponse;
 use Microsoft\Graph\Generated\Users\Item\AssignLicense\AssignLicensePostRequestBody;
 use Microsoft\Graph\GraphRequestAdapter;
 use Microsoft\Graph\GraphServiceClient;
@@ -30,120 +44,92 @@ class MicrosoftGraph
         return new GraphServiceClient($requestAdapter);
     }
 
-    public function listUsers()
+    public function listUsers(): UserCollectionResponse
     {
-        $graph = $this->authenticate();
-
-        return $graph->users()->get();
+        return $this->authenticate()->users()->get()->wait();
     }
 
-    public function getUser(string $userId)
+    public function getUser(string $userId): User
     {
-        $graph = $this->authenticate();
-
-        return $graph->usersById($userId)->get();
+        return $this->authenticate()->usersById($userId)->get()->wait();
     }
 
     public function createUser(bool $accountEnabled, string $displayName, string $mailNickname, string $password, string $userPrincipalName)
     {
-        $graph = $this->authenticate();
+        $user = new User();
 
-        $requestBody = new User();
-
-        $requestBody->setAccountEnabled($accountEnabled);
-        $requestBody->setDisplayName($displayName);
-        $requestBody->setMailNickname($mailNickname);
-        $requestBody->setUserPrincipalName($userPrincipalName);
+        $user->setAccountEnabled($accountEnabled);
+        $user->setDisplayName($displayName);
+        $user->setMailNickname($mailNickname);
+        $user->setUserPrincipalName($userPrincipalName);
 
         $passwordProfile = new PasswordProfile();
         $passwordProfile->setForceChangePasswordNextSignIn(true);
         $passwordProfile->setPassword($password);
 
-        $requestBody->setPasswordProfile($passwordProfile);
+        $user->setPasswordProfile($passwordProfile);
 
-        return $graph->users()->post($requestBody);
+        return $this->authenticate()->users()->post($user)->wait();
     }
 
     public function deleteUser(string $userId)
     {
-        $graph = $this->authenticate();
-
-        return $graph->usersById($userId)->delete();
+        return $this->authenticate()->usersById($userId)->delete()->wait();
     }
 
-    public function listGroups()
+    public function listGroups(): GroupCollectionResponse
     {
-        $graph = $this->authenticate();
-
-        return $graph->groups()->get();
+        return $this->authenticate()->groups()->get()->wait();
     }
 
-    public function getGroup(string $groupId)
+    public function getGroup(string $groupId): Group
     {
-        $graph = $this->authenticate();
-
-        return $graph->groupsById($groupId)->get();
+        return $this->authenticate()->groupsById($groupId)->get()->wait();
     }
 
     public function deleteGroup(string $groupId)
     {
-        $graph = $this->authenticate();
-
-        return $graph->groupsById($groupId)->delete();
+        return $this->authenticate()->groupsById($groupId)->delete();
     }
 
-    public function listGroupMembers(string $groupId)
+    public function listGroupMembers(string $groupId): DirectoryObjectCollectionResponse
     {
-        $graph = $this->authenticate();
-
-        return $graph->groupsById($groupId)->members()->get();
+        return $this->authenticate()->groupsById($groupId)->members()->get()->wait();
     }
 
     public function addGroupMember(string $groupId, string $userId)
     {
-        $graph = $this->authenticate();
-
-        $requestBody = new Ref();
-        $requestBody->setAdditionalData([
+        $config = new Ref();
+        $config->setAdditionalData([
             '@odata.id' => 'https://graph.microsoft.com/v1.0/users/'.$userId,
         ]);
 
-        return $graph->groupsById($groupId)->members()->ref()->post($requestBody);
+        return $this->authenticate()->groupsById($groupId)->members()->ref()->post($config);
     }
 
     public function removeGroupMember(string $groupId, string $userId)
     {
-        $graph = $this->authenticate();
-
-        return $graph->groupsById($groupId)->membersById($userId)->ref()->delete();
+        return $this->authenticate()->groupsById($groupId)->membersById($userId)->ref()->delete()->wait();
     }
 
-    public function listLicenses()
+    public function listLicenses(): SubscribedSkuCollectionResponse
     {
-        $graph = $this->authenticate();
-
-        return $graph->subscribedSkus()->get();
+        return $this->authenticate()->subscribedSkus()->get()->wait();
     }
 
-    public function getLicense(string $licenseId)
+    public function getLicense(string $licenseId): SubscribedSku
     {
-        $graph = $this->authenticate();
-
-        return $graph->subscribedSkusById($licenseId)->get();
+        return $this->authenticate()->subscribedSkusById($licenseId)->get()->wait();
     }
 
-    public function listLicensesAssignedToUser(string $userId)
+    public function listLicensesAssignedToUser(string $userId): LicenseDetailsCollectionResponse
     {
-        $graph = $this->authenticate();
-
-        return $graph->usersById($userId)->licenseDetails()->get();
+        return $this->authenticate()->usersById($userId)->licenseDetails()->get()->wait();
     }
 
     public function assignLicensesToUser(string $userId, array $licenses)
     {
-        $graph = $this->authenticate();
-
-        $requestBody = new AssignLicensePostRequestBody();
+        $config = new AssignLicensePostRequestBody();
 
         $licensesToAdd = [];
 
@@ -155,23 +141,48 @@ class MicrosoftGraph
             $licensesToAdd[] = $assignedLicense;
         }
 
-        $requestBody->setAddLicenses($licensesToAdd);
+        $config->setAddLicenses($licensesToAdd);
 
-        $requestBody->setRemoveLicenses([]);
+        $config->setRemoveLicenses([]);
 
-        return $graph->usersById($userId)->assignLicense()->post($requestBody);
+        return $this->authenticate()->usersById($userId)->assignLicense()->post($config)->wait();
     }
 
     public function removeLicensesFromUser(string $userId, array $licenses)
     {
-        $graph = $this->authenticate();
+        $config = new AssignLicensePostRequestBody();
 
-        $requestBody = new AssignLicensePostRequestBody();
+        $config->setAddLicenses([]);
+        $config->setRemoveLicenses($licenses);
 
-        $requestBody->setAddLicenses([]);
+        return $this->authenticate()->usersById($userId)->assignLicense()->post($config)->wait();
+    }
 
-        $requestBody->setRemoveLicenses($licenses);
+    public function listGroupDrives(string $groupId): DriveCollectionResponse
+    {
+        return $this->authenticate()->groupsById($groupId)->drives()->get()->wait();
+    }
 
-        return $graph->usersById($userId)->assignLicense()->post($requestBody);
+    public function getGroupDrive(string $groupId): Drive
+    {
+        return $this->authenticate()->groupsById($groupId)->drive()->get()->wait();
+    }
+
+    public function getGroupDriveRoot(string $groupId): DriveItem
+    {
+        $driveConfig = new DriveRequestBuilderGetRequestConfiguration();
+        $driveConfig->queryParameters = new DriveRequestBuilderGetQueryParameters();
+        $driveConfig->queryParameters->expand = ['root'];
+
+        $rootConfig = new RootRequestBuilderGetRequestConfiguration();
+        $rootConfig->queryParameters = new RootRequestBuilderGetQueryParameters();
+        $rootConfig->queryParameters->expand = ['children'];
+
+        return $this->authenticate()->groupsById($groupId)->drive()->get($driveConfig)->wait()->getRoot($rootConfig);
+    }
+
+    public function listGroupDriveItems(string $groupId)
+    {
+        return $this->getGroupDriveRoot($groupId)->getChildren();
     }
 }

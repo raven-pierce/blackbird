@@ -47,6 +47,11 @@ class Section extends Model
         return $this->hasMany(Lecture::class);
     }
 
+    public function recordings()
+    {
+        return $this->hasManyThrough(Recording::class, Lecture::class);
+    }
+
     public function pricing()
     {
         return $this->belongsTo(Pricing::class);
