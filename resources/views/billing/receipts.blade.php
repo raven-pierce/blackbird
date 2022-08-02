@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-500">Receipts</h2>
 
-            <x-links.tertiary href="{{ route('billing.index') }}">Back To Billing</x-links.tertiary>
+            <x-utilities.links.tertiary href="{{ route('billing.index') }}">Back To Billing</x-utilities.links.tertiary>
         </div>
     </x-slot>
 
@@ -52,8 +52,8 @@
                                 <td class="px-12 py-6 text-right">
                                     {{ $currencyFormatter->formatCurrency($receipt->amount, 'USD') }}</td>
                                 <td class="px-12 py-6 text-right">
-                                    <x-links.tables.primary href="{{ $receipt->receipt_url }}" target="_blank">View
-                                    </x-links.tables.primary>
+                                    <x-utilities.links.tables.primary href="{{ $receipt->receipt_url }}" target="_blank">View
+                                    </x-utilities.links.tables.primary>
                                 </td>
                             </tr>
                         @endforeach

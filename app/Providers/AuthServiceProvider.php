@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function ($user, $ability) {
-            return $user->hasRole('Icarus') ? true : null;
+            return $user->email === 'icarus@blackbird.io' ? true : null;
         });
     }
 }

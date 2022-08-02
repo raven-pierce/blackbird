@@ -3,10 +3,10 @@
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-500">Billing</h2>
 
-            <x-links.primary href="{{ route('receipts') }}">
+            <x-utilities.links.primary href="{{ route('receipts') }}">
                 View Receipts
                 <x-assets.icons.chevron-right class="h-5 w-5" />
-            </x-links.primary>
+            </x-utilities.links.primary>
         </div>
     </x-slot>
 

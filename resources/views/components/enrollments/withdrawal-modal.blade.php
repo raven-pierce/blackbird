@@ -14,7 +14,7 @@
         <span class="mt-4">Please confirm this action.</span>
 
         <div class="mt-6 flex items-center justify-end space-x-8">
-            <x-links.tertiary @click="withdrawOpen = false">Cancel</x-links.tertiary>
+            <x-utilities.links.tertiary @click="withdrawOpen = false">Cancel</x-utilities.links.tertiary>
 
 
             <form method="POST" action="{{ route('enrollments.destroy', $enrollment) }}">

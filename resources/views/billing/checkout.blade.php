@@ -25,15 +25,10 @@
     class="font-sans antialiased text-white h-screen bg-[image:linear-gradient(120deg,theme(colors.gray.900)_65%,theme(colors.indigo.500)_35%)]">
     <div class="m-auto flex h-full max-w-screen-2xl justify-center px-24 py-12">
         <div class="flex w-3/5 flex-col">
-            <div class="flex items-center space-x-4">
-                <a href="{{ route('dashboard') }}">
-                    <x-assets.logo class="h-12 w-12" />
-                </a>
-
-                <a href="{{ route('dashboard') }}">
-                    <span class="text-xl font-semibold">{{ config('app.name', 'Blackbird') }}</span>
-                </a>
-            </div>
+            <a href="{{ route('home') }}" class="flex items-center space-x-4 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75">
+                <x-jet-application-mark class="h-12 w-12" />
+                <h1 class="text-xl font-semibold text-indigo-500">Bio<span class="text-amber-500">Helix</span></h1>
+            </a>
 
             <div class="flex h-full flex-col justify-center">
                 <span
@@ -52,7 +47,7 @@
                     <span class="text-sm uppercase text-gray-500">{{ $currencyFormatter->formatCurrency($enrollment->unitPricing(), "USD") }} per lecture</span>
                 </div>
 
-                <x-links.tertiary href="{{ route('billing.index') }}" class="mt-16 text-xs font-semibold uppercase">Back To Dashboard</x-links.tertiary>
+                <x-utilities.links.tertiary href="{{ route('billing.index') }}" class="mt-16 text-xs font-semibold uppercase">Back To Dashboard</x-utilities.links.tertiary>
             </div>
         </div>
 

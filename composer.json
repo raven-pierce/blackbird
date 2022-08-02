@@ -16,8 +16,10 @@
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.5",
+        "maatwebsite/excel": "^3.1",
         "microsoft/microsoft-graph": "^2.0.0-RC5",
         "microsoft/microsoft-graph-core": "@RC",
+        "psr/simple-cache": "^2.0",
         "socialiteproviders/microsoft-azure": "^5.1",
         "spatie/laravel-permission": "^5.5"
     },

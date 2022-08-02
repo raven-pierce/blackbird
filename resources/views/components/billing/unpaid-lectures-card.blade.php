@@ -29,6 +29,6 @@
 
         <input type="hidden" name="enrollment" value="{{ $enrollment->id }}">
 
-        <x-forms.button class="mt-6 w-full">Pay Now</x-forms.button>
+        <x-utilities.forms.primary class="mt-6 w-full">Pay Now</x-utilities.forms.primary>
     </form>
 </div>
