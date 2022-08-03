@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('exam_sessions', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique();
-            $table->integer('term');
-            $table->dateTime('session');
             $table->foreignId('awarding_body_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('slug')->unique();
+            $table->dateTime('session');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

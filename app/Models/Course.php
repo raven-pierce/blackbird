@@ -2,14 +2,22 @@
 
 namespace App\Models;
 
-use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
+use Znck\Eloquent\Relations\BelongsToThrough as BelongsToThroughRelation;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class Course extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+    use BelongsToThrough;
     use Searchable;
 
     /**
@@ -25,47 +33,47 @@ class Course extends Model
         'user_id',
     ];
 
-    public function awardingBody()
+    public function awardingBody(): BelongsToThroughRelation
     {
-        return $this->belongsTo(AwardingBody::class);
+        return $this->belongsToThrough(AwardingBody::class, [ExamSession::class, Level::class, Subject::class]);
     }
 
-    public function examSession()
+    public function examSession(): BelongsToThroughRelation
     {
-        return $this->belongsTo(ExamSession::class);
+        return $this->belongsToThrough(ExamSession::class, [Level::class, Subject::class]);
     }
 
-    public function level()
+    public function level(): BelongsToThroughRelation
     {
-        return $this->belongsTo(Level::class);
+        return $this->belongsToThrough(Level::class, Subject::class);
     }
 
-    public function subject()
+    public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
     }
 
-    public function sections()
+    public function sections(): HasMany
     {
         return $this->hasMany(Section::class);
     }
 
-    public function lectures()
+    public function lectures(): HasManyThrough
     {
         return $this->hasManyThrough(Lecture::class, Section::class);
     }
 
-    public function tutor()
+    public function tutor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function assistants()
+    public function assistants(): HasManyThrough
     {
         return $this->hasManyThrough(Assistantship::class, Section::class);
     }
 
-    public function enrollments()
+    public function enrollments(): HasManyThrough
     {
         return $this->hasManyThrough(Enrollment::class, Section::class);
     }

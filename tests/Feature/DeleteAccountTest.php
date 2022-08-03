@@ -25,7 +25,7 @@ class DeleteAccountTest extends TestCase
                         ->set('password', 'password')
                         ->call('deleteUser');
 
-        $this->assertNull($user->fresh());
+        $this->assertSoftDeleted($user->fresh());
     }
 
     public function test_correct_password_must_be_provided_before_account_can_be_deleted()
@@ -41,6 +41,6 @@ class DeleteAccountTest extends TestCase
                         ->call('deleteUser')
                         ->assertHasErrors(['password']);
 
-        $this->assertNotNull($user->fresh());
+        $this->assertNotSoftDeleted($user->fresh());
     }
 }

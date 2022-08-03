@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
+use App\Enums\DeliveryMethod;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-use App\Enums\DeliveryMethod;
-use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Section extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     use Searchable;
 
     /**
@@ -39,42 +45,42 @@ class Section extends Model
         'delivery_method' => DeliveryMethod::class,
     ];
 
-    public function course()
+    public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
 
-    public function lectures()
+    public function lectures(): HasMany
     {
         return $this->hasMany(Lecture::class);
     }
 
-    public function recordings()
+    public function recordings(): HasManyThrough
     {
         return $this->hasManyThrough(Recording::class, Lecture::class);
     }
 
-    public function pricing()
+    public function pricing(): BelongsTo
     {
         return $this->belongsTo(Pricing::class);
     }
 
-    public function assistantships()
+    public function assistantships(): HasMany
     {
         return $this->hasMany(Assistantship::class);
     }
 
-    public function enrollments()
+    public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);
     }
 
-    public function attendances()
+    public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
     }
 
-    public function isFull()
+    public function isFull(): bool
     {
         if ($this->enrollments->count() >= $this->seats) {
             return true;
@@ -100,22 +106,22 @@ class Section extends Model
         }
     }
 
-    public function getLecturesThisWeek()
+    public function getLecturesThisWeek(): Collection|array
     {
         return $this->lectures()->whereBetween('start_time', [today(), now()->endOfWeek()])->get();
     }
 
-    public function getLecturesThisMonth()
+    public function getLecturesThisMonth(): Collection|array
     {
         return $this->lectures()->whereBetween('start_time', [today(), now()->endOfMonth()])->get();
     }
 
-    public function getLecturesLeftInWeek(Carbon $startDate)
+    public function getLecturesLeftInWeek(Carbon $startDate): Collection|array
     {
         return $this->lectures()->whereBetween('start_time', [$startDate, $startDate->copy()->endOfWeek()])->get();
     }
 
-    public function getLecturesInWeeks(int $weeks = 1)
+    public function getLecturesInWeeks(int $weeks = 1): Collection|array
     {
         return $this->lectures()->whereBetween('start_time', [today()->addWeeks($weeks)->startOfWeek(), today()->addWeeks($weeks)->endOfWeek()])->get();
     }

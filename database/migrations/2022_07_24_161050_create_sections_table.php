@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('seats');
             $table->string('azure_team_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

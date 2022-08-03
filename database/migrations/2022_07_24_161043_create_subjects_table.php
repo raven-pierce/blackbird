@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('level_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('slug')->unique();
             $table->string('name');
-            $table->foreignId('awarding_body_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('exam_session_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('level_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
-use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Lecture extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     use Searchable;
 
     /**
@@ -42,12 +46,12 @@ class Lecture extends Model
         'duration',
     ];
 
-    public function section()
+    public function section(): BelongsTo
     {
         return $this->belongsTo(Section::class);
     }
 
-    public function recording()
+    public function recording(): HasOne
     {
         return $this->hasOne(Recording::class);
     }

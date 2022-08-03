@@ -4,6 +4,12 @@
             <x-jet-authentication-card-logo />
         </x-slot>
 
+        <x-slot name="socialite">
+            <div class="flex items-center justify-center">
+                <x-utilities.links.buttons.default href="{{ route('socialite.azure') }}">Log In With Azure</x-utilities.links.buttons.default>
+            </div>
+        </x-slot>
+
         <x-jet-validation-errors class="mb-4" />
 
         @if (session('status'))

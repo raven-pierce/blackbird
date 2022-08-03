@@ -2,9 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\AwardingBody;
-use App\Models\ExamSession;
-use App\Models\Level;
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -13,6 +11,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class SubjectFactory extends Factory
 {
     /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Subject::class;
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -20,11 +25,8 @@ class SubjectFactory extends Factory
     public function definition()
     {
         return [
-            'slug' => fake()->unique()->slug(3, false),
-            'name' => fake()->words(3, true),
-            'awarding_body_id' => fake()->randomElement(AwardingBody::pluck('id')->toArray()),
-            'exam_session_id' => fake()->randomElement(ExamSession::pluck('id')->toArray()),
-            'level_id' => fake()->randomElement(Level::pluck('id')->toArray()),
+            'slug' => fake()->slug(),
+            'name' => fake()->slug(),
         ];
     }
 }

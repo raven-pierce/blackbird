@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('guardian_email')->nullable();
             $table->string('guardian_phone')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

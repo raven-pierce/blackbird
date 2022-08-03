@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Assistantship extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     use Searchable;
 
     /**
@@ -21,12 +24,12 @@ class Assistantship extends Model
         'user_id',
     ];
 
-    public function section()
+    public function section(): BelongsTo
     {
         return $this->belongsTo(Section::class);
     }
 
-    public function assistant()
+    public function assistant(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

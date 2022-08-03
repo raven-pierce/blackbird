@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('lecture_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('file_url');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

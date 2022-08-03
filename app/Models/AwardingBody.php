@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
-use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class AwardingBody extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+    use HasRelationships;
     use Searchable;
 
     /**
@@ -21,23 +28,23 @@ class AwardingBody extends Model
         'name',
     ];
 
-    public function examSessions()
+    public function examSessions(): HasMany
     {
         return $this->hasMany(ExamSession::class);
     }
 
-    public function level()
+    public function levels(): HasManyThrough
     {
-        return $this->hasMany(Level::class);
+        return $this->hasManyThrough(Level::class, ExamSession::class);
     }
 
-    public function subjects()
+    public function subjects(): HasManyDeep
     {
-        return $this->hasMany(Subject::class);
+        return $this->hasManyDeep(Subject::class, [ExamSession::class, Level::class]);
     }
 
-    public function courses()
+    public function courses(): HasManyDeep
     {
-        return $this->hasMany(Course::class);
+        return $this->hasManyDeep(Course::class, [ExamSession::class, Level::class, Subject::class]);
     }
 }

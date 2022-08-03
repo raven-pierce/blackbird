@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Paddle\Cashier;
 use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Enrollment extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     use Searchable;
 
     /**
@@ -22,17 +26,17 @@ class Enrollment extends Model
         'user_id',
     ];
 
-    public function section()
+    public function section(): BelongsTo
     {
         return $this->belongsTo(Section::class);
     }
 
-    public function student()
+    public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function attendances()
+    public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
     }
@@ -54,7 +58,7 @@ class Enrollment extends Model
         });
     }
 
-    public function paddlePayLink(int $quantity = null)
+    public function paddlePayLink(int $quantity = null): string
     {
         return $this->student->chargeProduct($this->section->pricing->paddle_id, [
             'quantity' => $quantity ?? $this->unpaidAttendances->count(),

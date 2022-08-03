@@ -2,14 +2,21 @@
 
 namespace App\Models;
 
-use App\Enums\Terms;
-use Laravel\Scout\Searchable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class ExamSession extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+    use HasRelationships;
     use Searchable;
 
     /**
@@ -19,7 +26,6 @@ class ExamSession extends Model
      */
     protected $fillable = [
         'slug',
-        'term',
         'session',
     ];
 
@@ -29,27 +35,26 @@ class ExamSession extends Model
      * @var array
      */
     protected $casts = [
-        'term' => Terms::class,
         'session' => 'datetime',
     ];
 
-    public function awardingBody()
+    public function awardingBody(): BelongsTo
     {
         return $this->belongsTo(AwardingBody::class);
     }
 
-    public function levels()
+    public function levels(): HasMany
     {
         return $this->hasMany(Level::class);
     }
 
-    public function subjects()
+    public function subjects(): HasManyThrough
     {
-        return $this->hasMany(Subject::class);
+        return $this->hasManyThrough(Subject::class, Level::class);
     }
 
-    public function courses()
+    public function courses(): HasManyDeep
     {
-        return $this->hasMany(Course::class);
+        return $this->hasManyDeep(Course::class, [Level::class, Subject::class]);
     }
 }

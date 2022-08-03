@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('duration');
             $table->boolean('paid');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
