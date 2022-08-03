@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Jetstream\HasTeams;
 use Laravel\Paddle\Billable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -17,7 +16,6 @@ class User extends Authenticatable
     use HasApiTokens;
     use TwoFactorAuthenticatable;
     use HasProfilePhoto;
-    use HasTeams;
     use Notifiable;
     use Billable;
 

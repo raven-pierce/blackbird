@@ -24,13 +24,13 @@ class DatabaseSeeder extends Seeder
         User::factory([
             'name' => 'Icarus',
             'email' => 'icarus@blackbird.io',
-        ])->withPersonalTeam()->create();
+        ])->create();
 
         User::factory([
             'name' => 'Athena',
             'email' => 'athena@blackbird.io',
-        ])->withPersonalTeam()->create();
+        ])->create();
 
-        User::factory(250)->withPersonalTeam()->create();
+        User::factory(250)->create();
     }
 }

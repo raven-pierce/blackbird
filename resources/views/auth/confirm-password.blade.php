@@ -15,10 +15,10 @@
 
             <div>
                 <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="mt-1 block w-full" type="password" name="password" required autocomplete="current-password" autofocus />
+                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" autofocus />
             </div>
 
-            <div class="mt-4 flex justify-end">
+            <div class="flex justify-end mt-4">
                 <x-jet-button class="ml-4">
                     {{ __('Confirm') }}
                 </x-jet-button>
