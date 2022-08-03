@@ -1,4 +1,4 @@
-<a href="/">
+<a href="{{ route('home') }}">
     <svg class="h-16 w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" fill="none" {{ $attributes }}>
         <defs>
             <style>
