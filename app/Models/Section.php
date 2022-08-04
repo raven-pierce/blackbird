@@ -65,11 +65,6 @@ class Section extends Model
         return $this->belongsTo(Pricing::class);
     }
 
-    public function assistantships(): HasMany
-    {
-        return $this->hasMany(Assistantship::class);
-    }
-
     public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);

@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
-class Assistantship extends Model
+class Tag extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -20,17 +20,12 @@ class Assistantship extends Model
      * @var string[]
      */
     protected $fillable = [
-        'section_id',
-        'user_id',
+        'type',
+        'name',
     ];
 
-    public function section(): BelongsTo
+    public function courses(): BelongsToMany
     {
-        return $this->belongsTo(Section::class);
-    }
-
-    public function assistant(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsToMany(Course::class);
     }
 }

@@ -2,20 +2,31 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Models\User;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
-use Filament\Tables;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -23,7 +34,46 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Fieldset::make('Personal Information')
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Full Name')
+                            ->required(),
+                        TextInput::make('email')
+                            ->label('Email')
+                            ->email()
+                            ->autocomplete('email')
+                            ->required(),
+                        TextInput::make('profile.phone')
+                            ->label('Phone Number')
+                            ->required(),
+                    ])->columns(2),
+                Fieldset::make('Guardian Information')
+                    ->schema([
+                        TextInput::make('profile.guardian_email')
+                            ->label('Guardian\'s Email')
+                            ->email()
+                            ->autocomplete('email')
+                            ->required(),
+                        TextInput::make('profile.guardian_phone')
+                            ->label('Guardian\'s Phone Number')
+                            ->required(),
+                    ]),
+                Fieldset::make('Account Settings')
+                    ->schema([
+                        TextInput::make('profile.azure_email')
+                            ->label('Azure Email')
+                            ->email()
+                            ->autocomplete('email')
+                            ->required(),
+                        TextInput::make('password')
+                            ->label('New Password')
+                            ->password()
+                            ->autocomplete('new-password')
+                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->required(fn (string $context): bool => $context === 'create'),
+                    ]),
             ]);
     }
 
@@ -31,21 +81,21 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('profile_photo_url')->label('')->rounded(),
-                Tables\Columns\TextColumn::make('name')->label('Full Name'),
-                Tables\Columns\TextColumn::make('email')->label('Personal Email'),
-                Tables\Columns\TextColumn::make('profile.azure_email')->label('Azure Email'),
+                ImageColumn::make('profile_photo_url')->label('')->rounded(),
+                TextColumn::make('name')->label('Full Name')->sortable(),
+                TextColumn::make('email')->label('Personal Email')->sortable(),
+                TextColumn::make('profile.azure_email')->label('Azure Email')->sortable(),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\RestoreBulkAction::make(),
-                Tables\Actions\ForceDeleteBulkAction::make(),
+                DeleteBulkAction::make(),
+                RestoreBulkAction::make(),
+                ForceDeleteBulkAction::make(),
             ]);
     }
 
@@ -64,9 +114,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 

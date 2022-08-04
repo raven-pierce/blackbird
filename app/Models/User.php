@@ -5,6 +5,8 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -86,27 +88,22 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return $this->profile_photo_url;
     }
 
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
     }
 
-    public function socialiteProfiles()
+    public function socialiteProfiles(): HasMany
     {
         return $this->hasMany(SocialiteProfile::class);
     }
 
-    public function courses()
+    public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
     }
 
-    public function assistantships()
-    {
-        return $this->hasMany(Assistantship::class);
-    }
-
-    public function enrollments()
+    public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);
     }
@@ -128,14 +125,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return Enrollment::create([
             'section_id' => $section->id,
             'user_id' => $this->id,
-        ]);
-    }
-
-    public function designateAssistantToSection(Section $section, User $user)
-    {
-        return Assistantship::create([
-            'section_id' => $section->id,
-            'user_id' => $user->id,
         ]);
     }
 

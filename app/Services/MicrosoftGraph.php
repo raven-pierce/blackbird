@@ -4,14 +4,13 @@ namespace App\Services;
 
 use Microsoft\Graph\Generated\Groups\Item\Drive\DriveRequestBuilderGetQueryParameters;
 use Microsoft\Graph\Generated\Groups\Item\Drive\DriveRequestBuilderGetRequestConfiguration;
-use Microsoft\Graph\Generated\Groups\Item\Drives\Item\Root\RootRequestBuilderGetQueryParameters;
-use Microsoft\Graph\Generated\Groups\Item\Drives\Item\Root\RootRequestBuilderGetRequestConfiguration;
 use Microsoft\Graph\Generated\Groups\Item\Members\Ref\Ref;
 use Microsoft\Graph\Generated\Models\AssignedLicense;
 use Microsoft\Graph\Generated\Models\DirectoryObjectCollectionResponse;
 use Microsoft\Graph\Generated\Models\Drive;
 use Microsoft\Graph\Generated\Models\DriveCollectionResponse;
 use Microsoft\Graph\Generated\Models\DriveItem;
+use Microsoft\Graph\Generated\Models\DriveItemCollectionResponse;
 use Microsoft\Graph\Generated\Models\Group;
 use Microsoft\Graph\Generated\Models\GroupCollectionResponse;
 use Microsoft\Graph\Generated\Models\LicenseDetailsCollectionResponse;
@@ -165,24 +164,27 @@ class MicrosoftGraph
 
     public function getGroupDrive(string $groupId): Drive
     {
-        return $this->authenticate()->groupsById($groupId)->drive()->get()->wait();
-    }
-
-    public function getGroupDriveRoot(string $groupId): DriveItem
-    {
         $driveConfig = new DriveRequestBuilderGetRequestConfiguration();
         $driveConfig->queryParameters = new DriveRequestBuilderGetQueryParameters();
         $driveConfig->queryParameters->expand = ['root'];
 
-        $rootConfig = new RootRequestBuilderGetRequestConfiguration();
-        $rootConfig->queryParameters = new RootRequestBuilderGetQueryParameters();
-        $rootConfig->queryParameters->expand = ['children'];
-
-        return $this->authenticate()->groupsById($groupId)->drive()->get($driveConfig)->wait()->getRoot($rootConfig);
+        return $this->authenticate()->groupsById($groupId)->drive()->get($driveConfig)->wait();
     }
 
-    public function listGroupDriveItems(string $groupId)
+    public function getGroupDriveRoot(string $groupId): DriveItem
     {
-        return $this->getGroupDriveRoot($groupId)->getChildren();
+        $driveRoot = $this->getGroupDrive($groupId);
+
+        return $driveRoot->getRoot();
+    }
+
+    public function listGroupDriveItems(string $groupId): DriveItemCollectionResponse
+    {
+        $graph = $this->authenticate();
+
+        $driveId = $this->getGroupDrive($groupId)->getId();
+        $driveRootId = $this->getGroupDriveRoot($groupId)->getId();
+
+        return $graph->drivesById($driveId)->itemsById($driveRootId)->children()->get()->wait();
     }
 }
