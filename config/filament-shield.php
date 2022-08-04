@@ -3,7 +3,7 @@
 return [
     'shield_resource' => [
         'slug' => 'shield/roles',
-        'navigation_sort' => -1,
+        'navigation_sort' => 1024,
         'navigation_badge' => true,
     ],
 

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\DeliveryMethod;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,7 +41,6 @@ class Section extends Model
     protected $casts = [
         'start_day' => 'datetime',
         'end_day' => 'datetime',
-        'delivery_method' => DeliveryMethod::class,
     ];
 
     public function course(): BelongsTo

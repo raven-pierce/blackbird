@@ -7,7 +7,6 @@ use App\Models\Course;
 use App\Models\Pricing;
 use App\Models\Profile;
 use App\Models\Section;
-use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -46,7 +45,6 @@ class DatabaseSeeder extends Seeder
                 ->has(Section::factory(4, [
                     'pricing_id' => Pricing::all()->random(),
                 ]))
-                ->has(Tag::factory(5))
                 ->create();
         }
     }

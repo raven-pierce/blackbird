@@ -26,6 +26,7 @@ class PricingFactory extends Factory
     {
         return [
             'paddle_id' => fake()->numberBetween(32000, 35000),
+            'name' => fake()->streetName(),
         ];
     }
 }

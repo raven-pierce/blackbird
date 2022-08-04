@@ -28,7 +28,7 @@ class SectionFactory extends Factory
             'code' => fake()->countryCode(),
             'start_day' => fake()->dateTimeThisYear(),
             'end_day' => fake()->dateTimeThisYear(),
-            'delivery_method' => fake()->numberBetween(0, 2),
+            'delivery_method' => fake()->colorName(),
             'seats' => fake()->numberBetween(20, 100),
             'azure_team_id' => fake()->uuid(),
         ];

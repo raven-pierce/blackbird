@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('enrollment_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('section_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('lecture_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->dateTime('join_time');
             $table->dateTime('leave_time');
             $table->integer('duration');

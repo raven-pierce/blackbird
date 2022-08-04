@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pricings', function (Blueprint $table) {
             $table->id();
             $table->integer('paddle_id');
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
         });

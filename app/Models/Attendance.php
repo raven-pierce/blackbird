@@ -20,7 +20,7 @@ class Attendance extends Model
      */
     protected $fillable = [
         'enrollment_id',
-        'section_id',
+        'lecture_id',
         'join_time',
         'leave_time',
         'duration',
@@ -42,9 +42,9 @@ class Attendance extends Model
         return $this->belongsTo(Enrollment::class);
     }
 
-    public function section()
+    public function lecture()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Lecture::class);
     }
 
     public function markAsPaid()

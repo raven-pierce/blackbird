@@ -21,6 +21,7 @@ class Pricing extends Model
      */
     protected $fillable = [
         'paddle_id',
+        'name',
     ];
 
     public function sections(): HasMany

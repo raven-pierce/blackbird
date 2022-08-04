@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->dateTime('start_day');
             $table->dateTime('end_day');
-            $table->integer('delivery_method');
+            $table->string('delivery_method');
             $table->integer('seats');
             $table->string('azure_team_id')->nullable();
             $table->timestamps();
