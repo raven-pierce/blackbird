@@ -24,6 +24,7 @@
     <div>
         {{ $slot }}
     </div>
+    <x-impersonate::banner/>
 </body>
 
 </html>

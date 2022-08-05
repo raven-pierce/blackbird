@@ -27,10 +27,12 @@ class Section extends Model
     protected $fillable = [
         'course_id',
         'pricing_id',
+        'code',
         'start_day',
         'end_day',
         'delivery_method',
         'seats',
+        'azure_team_id',
     ];
 
     /**

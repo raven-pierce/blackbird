@@ -44,4 +44,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('/billing/checkout', [CheckoutController::class, '__invoke'])->name('checkout');
 });
 
+Route::get('/caa', function () {
+    dd(\App\Models\Course::find(11)->awardingBody);
+});
+
 require __DIR__.'/socialite.php';

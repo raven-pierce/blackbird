@@ -21,6 +21,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
+use STS\FilamentImpersonate\Impersonate;
 
 class UserResource extends Resource
 {
@@ -90,6 +91,7 @@ class UserResource extends Resource
                 TrashedFilter::make(),
             ])
             ->actions([
+                Impersonate::make('impersonate'),
                 EditAction::make(),
             ])
             ->bulkActions([

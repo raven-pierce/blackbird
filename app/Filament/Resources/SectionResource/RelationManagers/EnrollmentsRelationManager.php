@@ -43,6 +43,7 @@ class EnrollmentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
+                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('student.name')->label('Student')->sortable(),
                 TextColumn::make('student.email')->label('Personal Email')->sortable(),
                 TextColumn::make('student.profile.azure_email')->label('Azure Email')->sortable(),

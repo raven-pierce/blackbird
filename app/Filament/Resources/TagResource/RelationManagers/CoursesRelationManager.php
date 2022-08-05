@@ -51,9 +51,12 @@ class CoursesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                // TODO: Tag Getters on Model
                 TextColumn::make('name')->label('Name')->sortable(),
                 TextColumn::make('tutor.name')->label('Tutor')->sortable(),
+                TextColumn::make('awarding_body')->label('Awarding Body')->sortable(),
+                TextColumn::make('exam_session')->label('Exam Session')->sortable(),
+                TextColumn::make('course_level')->label('Course Level')->sortable(),
+                TextColumn::make('subject')->label('Subject')->sortable(),
             ])
             ->filters([
                 TrashedFilter::make(),

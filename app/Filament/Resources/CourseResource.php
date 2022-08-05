@@ -8,7 +8,6 @@ use App\Filament\Resources\CourseResource\Pages\ListCourses;
 use App\Filament\Resources\CourseResource\RelationManagers\SectionsRelationManager;
 use App\Filament\Resources\CourseResource\RelationManagers\TagsRelationManager;
 use App\Models\Course;
-use App\Models\User;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -44,7 +43,6 @@ class CourseResource extends Resource
                     ->label('Tutor')
                     ->searchable()
                     ->relationship('tutor', 'name')
-                    ->options(User::all()->pluck('name', 'id'))
                     ->required(),
                 TextInput::make('name')
                     ->label('Name')
@@ -57,9 +55,12 @@ class CourseResource extends Resource
     {
         return $table
             ->columns([
-                // TODO: Tag Getters on Model
                 TextColumn::make('name')->label('Name')->sortable(),
                 TextColumn::make('tutor.name')->label('Tutor')->sortable(),
+                TextColumn::make('awarding_body')->label('Awarding Body')->sortable(),
+                TextColumn::make('exam_session')->label('Exam Session')->sortable(),
+                TextColumn::make('course_level')->label('Course Level')->sortable(),
+                TextColumn::make('subject')->label('Subject')->sortable(),
             ])
             ->filters([
                 TrashedFilter::make(),

@@ -53,7 +53,27 @@ class Course extends Model
         return $this->hasManyThrough(Enrollment::class, Section::class);
     }
 
-    public function seats(): Attribute
+    protected function awardingBody(): Attribute
+    {
+        return Attribute::get(fn () => $this->tags()->whereType('awarding_body')->first()->name ?? 'N/A');
+    }
+
+    protected function examSession(): Attribute
+    {
+        return Attribute::get(fn () => $this->tags()->whereType('exam_session')->first()->name ?? 'N/A');
+    }
+
+    protected function courseLevel(): Attribute
+    {
+        return Attribute::get(fn () => $this->tags()->whereType('course_level')->first()->name ?? 'N/A');
+    }
+
+    protected function subject(): Attribute
+    {
+        return Attribute::get(fn () => $this->tags()->whereType('subject')->first()->name ?? 'N/A');
+    }
+
+    protected function seats(): Attribute
     {
         return Attribute::get(fn () => $this->sections->pluck('seats')->sum());
     }

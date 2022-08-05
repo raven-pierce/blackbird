@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\EnrollmentResource\Pages\CreateEnrollment;
 use App\Filament\Resources\EnrollmentResource\Pages\EditEnrollment;
 use App\Filament\Resources\EnrollmentResource\Pages\ListEnrollments;
+use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Section;
 use App\Models\User;
@@ -35,12 +36,33 @@ class EnrollmentResource extends Resource
     {
         return $form
             ->schema([
-                // TODO: Course Select
+                Select::make('section.course_id')
+                    ->label('Course')
+                    ->searchable()
+                    ->options(Course::all()->pluck('name', 'id'))
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('section_id', null))
+                    ->dehydrated(false)
+                    ->required(),
                 Select::make('section_id')
                     ->label('Section Code')
                     ->searchable()
-                    ->relationship('section', 'code')
-                    ->options(Section::all()->pluck('code', 'id'))
+                    ->relationship('section', 'code', function ($query, \Closure $get) {
+                        $course = Course::find($get('section.course_id'));
+
+                        if (!$course) {
+                            return $query;
+                        }
+
+                        return $query->whereBelongsTo($course);
+                    })
+                    ->preload()
+                    ->afterStateHydrated(function (\Closure $set, $state, $context) {
+                        if ($context === 'edit') {
+                            $set('section.course_id', Section::find($state)->course_id);
+                        }
+                    })
+                    ->reactive()
                     ->required(),
                 Select::make('user_id')
                     ->label('Student')
@@ -55,6 +77,7 @@ class EnrollmentResource extends Resource
     {
         return $table
             ->columns([
+                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('section.course.name')->label('Course')->sortable(),
                 TextColumn::make('section.code')->label('Section Code')->sortable(),
                 TextColumn::make('student.name')->label('Student')->sortable(),

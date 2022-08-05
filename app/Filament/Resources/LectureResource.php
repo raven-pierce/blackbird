@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LectureResource\Pages\CreateLecture;
 use App\Filament\Resources\LectureResource\Pages\EditLecture;
 use App\Filament\Resources\LectureResource\Pages\ListLectures;
+use App\Filament\Resources\LectureResource\RelationManagers\AttendancesRelationManager;
 use App\Models\Course;
 use App\Models\Lecture;
 use App\Models\Section;
@@ -36,12 +37,33 @@ class LectureResource extends Resource
     {
         return $form
             ->schema([
-                // TODO: Course Select
+                Select::make('section.course_id')
+                    ->label('Course')
+                    ->searchable()
+                    ->options(Course::all()->pluck('name', 'id'))
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('section_id', null))
+                    ->dehydrated(false)
+                    ->required(),
                 Select::make('section_id')
                     ->label('Section Code')
                     ->searchable()
-                    ->relationship('section', 'code')
-                    ->options(Section::all()->pluck('code', 'id'))
+                    ->relationship('section', 'code', function ($query, \Closure $get) {
+                        $course = Course::find($get('section.course_id'));
+
+                        if (!$course) {
+                            return $query;
+                        }
+
+                        return $query->whereBelongsTo($course);
+                    })
+                    ->preload()
+                    ->afterStateHydrated(function (\Closure $set, $state, $context) {
+                        if ($context === 'edit') {
+                            $set('section.course_id', Section::find($state)->course_id);
+                        }
+                    })
+                    ->reactive()
                     ->required(),
                 DateTimePicker::make('start_time')
                     ->label('Lecture Start')
@@ -60,6 +82,7 @@ class LectureResource extends Resource
     {
         return $table
             ->columns([
+                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('section.course.name')->label('Course')->sortable(),
                 TextColumn::make('section.code')->label('Section Code')->sortable(),
                 TextColumn::make('start_time')->label('Lecture Start')->dateTime('l, d F Y h:i A')->sortable(),
@@ -81,7 +104,7 @@ class LectureResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AttendancesRelationManager::class,
         ];
     }
 

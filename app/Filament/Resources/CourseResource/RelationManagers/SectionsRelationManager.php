@@ -36,7 +36,7 @@ class SectionsRelationManager extends RelationManager
                 Fieldset::make('Section Metadata')
                     ->schema([
                         Select::make('pricing_id')
-                            ->label('Pricing')
+                            ->label('Pricing Tier')
                             ->searchable()
                             ->relationship('pricing', 'name')
                             ->options(Pricing::all()->pluck('name', 'id'))

@@ -7,8 +7,6 @@ use App\Filament\Resources\SectionResource\Pages\EditSection;
 use App\Filament\Resources\SectionResource\Pages\ListSections;
 use App\Filament\Resources\SectionResource\RelationManagers\EnrollmentsRelationManager;
 use App\Filament\Resources\SectionResource\RelationManagers\LecturesRelationManager;
-use App\Models\Course;
-use App\Models\Pricing;
 use App\Models\Section;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
@@ -49,13 +47,11 @@ class SectionResource extends Resource
                             ->label('Course')
                             ->searchable()
                             ->relationship('course', 'name')
-                            ->options(Course::all()->pluck('name', 'id'))
                             ->required(),
                         Select::make('pricing_id')
-                            ->label('Pricing')
+                            ->label('Pricing Tier')
                             ->searchable()
                             ->relationship('pricing', 'name')
-                            ->options(Pricing::all()->pluck('name', 'id'))
                             ->required(),
                         TextInput::make('code')
                             ->label('Section Code')
@@ -63,7 +59,6 @@ class SectionResource extends Resource
                             ->required(),
                         TextInput::make('azure_team_id')
                             ->label('Azure Team ID')
-                            ->unique()
                             ->required(),
                     ]),
                 Fieldset::make('Lecture Delivery')
@@ -80,7 +75,11 @@ class SectionResource extends Resource
                             ->required(),
                         Select::make('delivery_method')
                             ->label('Delivery Method')
-                            ->options(['Online', 'In Person', 'Hybrid'])
+                            ->options([
+                                'Online' => 'Online',
+                                'In Person' => 'In Person',
+                                'Hybrid' => 'Hybrid',
+                            ])
                             ->required(),
                         TextInput::make('seats')
                             ->label('Seats')
@@ -95,6 +94,7 @@ class SectionResource extends Resource
     {
         return $table
             ->columns([
+                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('course.name')->label('Course')->sortable(),
                 TextColumn::make('course.tutor.name')->label('Tutor')->sortable(),
                 TextColumn::make('code')->label('Section Code')->sortable(),

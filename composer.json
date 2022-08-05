@@ -26,9 +26,12 @@
         "microsoft/microsoft-graph": "^2.0.0-RC5",
         "microsoft/microsoft-graph-core": "@RC",
         "psr/simple-cache": "^2.0",
+        "shuvroroy/filament-spatie-laravel-health": "^1.4",
         "socialiteproviders/microsoft-azure": "^5.1",
+        "spatie/cpu-load-health-check": "^1.0",
         "staudenmeir/belongs-to-through": "^2.12",
-        "staudenmeir/eloquent-has-many-deep": "^1.15"
+        "staudenmeir/eloquent-has-many-deep": "^1.15",
+        "stechstudio/filament-impersonate": "^2.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
