@@ -49,10 +49,4 @@ class Enrollment extends Model
     {
         return $this->attendances()->wherePaid(true);
     }
-
-    // TODO: Pay Link
-    public function paddlePayLink()
-    {
-        //
-    }
 }

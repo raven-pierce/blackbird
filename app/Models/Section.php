@@ -121,8 +121,8 @@ class Section extends Model
         return $this->lectures()->whereBetween('start_time', [today()->addWeeks($weeks)->startOfWeek(), today()->addWeeks($weeks)->endOfWeek()])->get();
     }
 
-    public function unitPricing()
+    public function getEarliestLectures(): Collection|array
     {
-        // TODO: Unit Pricing
+        return $this->getLecturesLeftInWeek($this->lectures()->whereTime('start_time', '>=', today())->firstOrFail()->start_time);
     }
 }

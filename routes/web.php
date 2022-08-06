@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\BillingController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RecordingController;
 use App\Models\Course;
 use Illuminate\Support\Facades\Route;
@@ -39,9 +38,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::resource('attendances', AttendanceController::class);
     Route::resource('recordings', RecordingController::class);
 
-    Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
-    Route::get('/billing/receipts', [ReceiptController::class, 'index'])->name('receipts');
-    Route::post('/billing/checkout', [CheckoutController::class, '__invoke'])->name('checkout');
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    // TODO: Invoice Regenerate for Void
+    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+    Route::get('/payment/callback', [PaymentController::class, 'handleProviderCallback'])->name('payment.callback');
 });
 
 // TODO: Sync Recordings Into DB

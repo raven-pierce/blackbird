@@ -18,7 +18,6 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @paddleJS
 
     <!-- Styles -->
     @livewireStyles
@@ -48,6 +47,7 @@
     @stack('modals')
 
     @livewireScripts
+    @livewire('notifications')
     <x-impersonate::banner/>
 </body>
 

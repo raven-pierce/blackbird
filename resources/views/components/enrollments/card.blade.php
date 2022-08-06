@@ -1,7 +1,7 @@
 @props(['enrollment', 'spellOutFormatter', 'loop'])
 
 <a href="{{ route('enrollments.show', $enrollment) }}" class="group focus:outline-none">
-    <div class="flex h-64 w-80 flex-col justify-center rounded bg-gray-900 p-6 transition duration-200 ease-in-out group-hover:translate-x-1 group-hover:translate-y-1 group-hover:ring group-hover:ring-indigo-500 group-focus:translate-x-1 group-focus:translate-y-1 group-focus:outline-none group-focus:ring group-focus:ring-indigo-500">
+    <div class="flex h-64 w-80 flex-col justify-center rounded-md bg-gray-900 p-6 transition duration-200 ease-in-out group-hover:translate-x-1 group-hover:translate-y-1 group-hover:ring group-hover:ring-indigo-500 group-focus:translate-x-1 group-focus:translate-y-1 group-focus:outline-none group-focus:ring group-focus:ring-indigo-500">
         <div class="flex items-center justify-between text-xs uppercase">
             <span
                 class="font-medium text-indigo-100">{{ $spellOutFormatter->format($loop->iteration) }}</span>
@@ -18,7 +18,7 @@
         </div>
 
         <div class="mt-4 flex flex-col text-sm font-light text-gray-500">
-            @foreach ($enrollment->section->getLecturesThisWeek()->isNotEmpty() ? $enrollment->section->getLecturesThisWeek() : $enrollment->section->getLecturesInWeeks() as $lecture)
+            @foreach ($enrollment->section->getEarliestLectures() as $lecture)
                 <span>{{ $lecture->start_time->englishDayOfWeek }} {{ $lecture->start_time->format('h:i A') }}</span>
             @endforeach
         </div>

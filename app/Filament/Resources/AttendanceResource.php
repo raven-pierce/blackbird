@@ -136,7 +136,6 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
-                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('enrollment.section.course.name')->label('Course')->sortable(),
                 TextColumn::make('enrollment.section.code')->label('Section Code')->sortable(),
                 TextColumn::make('enrollment.student.name')->label('Student')->sortable(),

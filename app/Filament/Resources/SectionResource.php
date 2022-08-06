@@ -95,7 +95,6 @@ class SectionResource extends Resource
     {
         return $table
             ->columns([
-                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('course.name')->label('Course')->sortable(),
                 TextColumn::make('course.tutor.name')->label('Tutor')->sortable(),
                 TextColumn::make('code')->label('Section Code')->sortable(),

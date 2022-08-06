@@ -77,7 +77,6 @@ class EnrollmentResource extends Resource
     {
         return $table
             ->columns([
-                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('section.course.name')->label('Course')->sortable(),
                 TextColumn::make('section.code')->label('Section Code')->sortable(),
                 TextColumn::make('student.name')->label('Student')->sortable(),

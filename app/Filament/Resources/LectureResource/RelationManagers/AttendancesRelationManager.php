@@ -76,7 +76,6 @@ class AttendancesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('enrollment.student.name')->label('Student')->sortable(),
                 TextColumn::make('join_time')->label('Join Time')->dateTime('l, d F Y h:i A')->sortable(),
                 TextColumn::make('leave_time')->label('Leave Time')->dateTime('l, d F Y h:i A')->sortable(),

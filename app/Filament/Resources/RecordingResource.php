@@ -94,7 +94,6 @@ class RecordingResource extends Resource
     {
         return $table
             ->columns([
-                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('lecture.section.course.name')->label('Course')->sortable(),
                 TextColumn::make('lecture.section.code')->label('Section Code')->sortable(),
                 TextColumn::make('lecture.start_time')->label('Recording Date')->dateTime('l, d F Y')->sortable(),

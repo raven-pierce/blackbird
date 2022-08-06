@@ -82,7 +82,6 @@ class LectureResource extends Resource
     {
         return $table
             ->columns([
-                // TODO: Sorting Double Nested Relationships
                 TextColumn::make('section.course.name')->label('Course')->sortable(),
                 TextColumn::make('section.code')->label('Section Code')->sortable(),
                 TextColumn::make('start_time')->label('Lecture Start')->dateTime('l, d F Y h:i A')->sortable(),

@@ -2,7 +2,7 @@
     <div class="mx-auto max-w-screen-2xl h-screen px-24 py-12 overflow-hidden">
         <nav class="flex items-center justify-between">
             <a href="{{ route('home') }}"
-                class="flex items-center space-x-4 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75">
+                class="flex items-center space-x-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75">
                 <x-jet-application-mark class="h-12 w-12" />
                 <h1 class="text-xl font-semibold text-indigo-500">Bio<span class="text-amber-500">Helix</span></h1>
             </a>

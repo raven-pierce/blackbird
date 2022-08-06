@@ -20,8 +20,8 @@
                         {{ __('Enrollments') }}
                     </x-jet-nav-link>
 
-                    <x-jet-nav-link href="{{ route('billing.index') }}" :active="request()->routeIs('billing.index')">
-                        {{ __('Billing') }}
+                    <x-jet-nav-link href="{{ route('invoices.index') }}" :active="request()->routeIs('invoices.index')">
+                        {{ __('Invoices') }}
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -153,8 +153,8 @@
                 {{ __('Enrollments') }}
             </x-jet-responsive-nav-link>
 
-            <x-jet-responsive-nav-link href="{{ route('billing.index') }}" :active="request()->routeIs('billing.index')">
-                {{ __('Billing') }}
+            <x-jet-responsive-nav-link href="{{ route('invoices.index') }}" :active="request()->routeIs('invoices.index')">
+                {{ __('Invoices') }}
             </x-jet-responsive-nav-link>
         </div>
 

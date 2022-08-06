@@ -3,7 +3,7 @@
 <div x-show="withdrawOpen" class="absolute inset-0 grid place-content-center" style="display: none">
     <div class="absolute inset-0 h-full w-full overflow-y-auto bg-gray-700 bg-opacity-25"></div>
 
-    <div class="relative flex h-fit w-fit flex-col overflow-hidden rounded bg-gray-50 p-4 text-base text-gray-500"
+    <div class="relative flex h-fit w-fit flex-col overflow-hidden rounded-md bg-gray-50 p-4 text-base text-gray-500"
         @click.away="withdrawOpen = false">
         <span class="-m-4 bg-gray-900 p-4 text-sm font-semibold text-gray-300">Withdraw Enrollment?</span>
 
