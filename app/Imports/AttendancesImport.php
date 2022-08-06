@@ -8,6 +8,7 @@ use App\Models\Section;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -15,9 +16,9 @@ class AttendancesImport implements ToModel, WithHeadingRow
 {
     /**
      * @param  array  $row
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @return Model|Attendance|null
      */
-    public function model(array $row)
+    public function model(array $row): Model|Attendance|null
     {
         $section = $this->getSection($row['azure_team_id']);
         $enrollment = $this->getEnrollment($row['azure_email'], $section->id);
@@ -39,22 +40,22 @@ class AttendancesImport implements ToModel, WithHeadingRow
         }
     }
 
-    protected function isAttendanceDuringLecture(Section $section, Carbon $joinTime)
+    protected function isAttendanceDuringLecture(Section $section, Carbon $joinTime): bool
     {
         return $section->lectures()->whereDate('start_time', $joinTime)->get()->isNotEmpty();
     }
 
-    protected function convertDurationToMinutes(int $seconds)
+    protected function convertDurationToMinutes(int $seconds): float
     {
         return CarbonInterval::seconds($seconds)->totalMinutes;
     }
 
-    protected function getSection(string $azure_team_id)
+    protected function getSection(string $azure_team_id): Section
     {
         return Section::where('azure_team_id', $azure_team_id)->first();
     }
 
-    protected function getEnrollment(string $azure_email, int $section_id)
+    protected function getEnrollment(string $azure_email, int $section_id): Enrollment
     {
         $user = User::whereRelation('profile', 'azure_email', $azure_email)->first();
 

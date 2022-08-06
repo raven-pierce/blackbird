@@ -44,7 +44,7 @@
                         class="text-sm font-semibold uppercase text-indigo-500">{{ $spellOutFormatter->format($enrollment->unpaidAttendances->count()) }}
                         {{ $enrollment->unpaidAttendances->count() > 1 ? 'Lectures' : 'Lecture' }}</span>
 
-                    <span class="text-sm uppercase text-gray-500">{{ $currencyFormatter->formatCurrency($enrollment->unitPricing(), "USD") }} per lecture</span>
+                    <span class="text-sm uppercase text-gray-500">{{ $currencyFormatter->formatCurrency($enrollment->section->unitPricing(), "USD") }} per lecture</span>
                 </div>
 
                 <x-utilities.links.tertiary href="{{ route('billing.index') }}" class="mt-16 text-xs font-semibold uppercase">Back To Dashboard</x-utilities.links.tertiary>

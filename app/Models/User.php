@@ -12,7 +12,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Paddle\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Spatie\Permission\Traits\HasRoles;
@@ -26,7 +25,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     use HasProfilePhoto;
     use HasRoles;
     use Notifiable;
-    use Billable;
     use Searchable;
 
     /**

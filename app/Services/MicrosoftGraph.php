@@ -225,7 +225,7 @@ class MicrosoftGraph
         return $this->graph->drivesById($driveId)->itemsById($folderId)->children()->get()->wait();
     }
 
-    public function getGroupRecordingsFolder(string $groupId, string $channelFolder = 'General', string $recordingsFolder = 'Recordings')
+    public function getGroupRecordingsFolder(string $groupId, string $channelFolder = 'General', string $recordingsFolder = 'Recordings'): mixed
     {
         $rootItems = $this->listDriveItems($groupId)->getValue();
 

@@ -2,13 +2,9 @@
 
 namespace App\Providers;
 
-use App\Listeners\PaymentRefundedListener;
-use App\Listeners\PaymentSuccessfulListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
-use Laravel\Paddle\Events\WebhookReceived;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,10 +16,6 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
-        ],
-        WebhookReceived::class => [
-            PaymentSuccessfulListener::class,
-            PaymentRefundedListener::class,
         ],
 
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [

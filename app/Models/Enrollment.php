@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Paddle\Cashier;
 use Laravel\Scout\Searchable;
 
 class Enrollment extends Model
@@ -51,20 +50,9 @@ class Enrollment extends Model
         return $this->attendances()->wherePaid(true);
     }
 
-    // TODO: Refactor to Sections
-    public function unitPricing()
+    // TODO: Pay Link
+    public function paddlePayLink()
     {
-        return Cashier::productPrices($this->section->pricing->paddle_id)->first()->price()->net;
-    }
-
-    public function paddlePayLink(int $quantity = null): string
-    {
-        return $this->student->chargeProduct($this->section->pricing->paddle_id, [
-            'quantity' => $quantity ?? $this->unpaidAttendances->count(),
-            'return_url' => route('billing.index'),
-            'passthrough' => [
-                'enrollment_id' => $this->id,
-            ],
-        ]);
+        //
     }
 }

@@ -38,7 +38,7 @@ class SyncLectureAttendances implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->graph = new MicrosoftGraph();
         $this->group = $this->graph->getGroup($this->lecture->section->azure_team_id);

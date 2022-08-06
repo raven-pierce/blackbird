@@ -120,4 +120,9 @@ class Section extends Model
     {
         return $this->lectures()->whereBetween('start_time', [today()->addWeeks($weeks)->startOfWeek(), today()->addWeeks($weeks)->endOfWeek()])->get();
     }
+
+    public function unitPricing()
+    {
+        // TODO: Unit Pricing
+    }
 }

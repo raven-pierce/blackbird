@@ -12,7 +12,6 @@
         "filament/filament": "^2.15",
         "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.2",
-        "laravel/cashier-paddle": "^1.6",
         "laravel/framework": "^9.19",
         "laravel/jetstream": "^2.10",
         "laravel/sanctum": "^2.14.1",
