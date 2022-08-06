@@ -5,7 +5,7 @@
         <span class="font-medium text-indigo-100">{{ $spellOutFormatter->format($loop->iteration) }}</span>
 
         <div class="flex flex-col text-right font-semibold text-gray-500">
-            <span>{{ $enrollment->section->course->subject->name }}</span>
+            <span>{{ $enrollment->section->course->subject }}</span>
             <span>{{ $enrollment->section->course->tutor->name }}</span>
         </div>
     </div>
@@ -15,7 +15,7 @@
 
     <div class="mt-4 flex justify-between text-xs font-semibold uppercase">
         <div class="flex flex-col text-gray-500">
-            <span>{{ $enrollment->section->course->level->name }}</span>
+            <span>{{ $enrollment->section->course->course_level }}</span>
             <span>{{ $currencyFormatter->formatCurrency($enrollment->unitPricing(), 'USD') }} per lecture</span>
         </div>
 

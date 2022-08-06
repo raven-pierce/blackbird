@@ -52,6 +52,7 @@ class SectionResource extends Resource
                             ->label('Pricing Tier')
                             ->searchable()
                             ->relationship('pricing', 'name')
+                            ->preload()
                             ->required(),
                         TextInput::make('code')
                             ->label('Section Code')

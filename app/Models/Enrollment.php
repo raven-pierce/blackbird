@@ -51,11 +51,10 @@ class Enrollment extends Model
         return $this->attendances()->wherePaid(true);
     }
 
+    // TODO: Refactor to Sections
     public function unitPricing()
     {
-        return cache()->remember('pricing_'.$this->section->id, now()->addHour(), function () {
-            return Cashier::productPrices($this->section->pricing->paddle_id)->first()->price()->net;
-        });
+        return Cashier::productPrices($this->section->pricing->paddle_id)->first()->price()->net;
     }
 
     public function paddlePayLink(int $quantity = null): string

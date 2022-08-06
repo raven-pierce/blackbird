@@ -5,7 +5,7 @@
 
             <x-utilities.links.primary href="{{ route('enrollments.create') }}">
                 New Enrollment
-                <x-assets.icons.chevron-right class="h-5 w-5" />
+                <x-heroicon-s-chevron-right class="h-5 w-5" />
             </x-utilities.links.primary>
         </div>
     </x-slot>

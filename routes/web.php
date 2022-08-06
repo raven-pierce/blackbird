@@ -7,7 +7,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\RecordingController;
-use App\Models\Enrollment;
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home', [
-        'course' => Enrollment::find(1),
+        'course' => Course::latest()->firstOrFail(),
     ]);
 })->name('home');
 

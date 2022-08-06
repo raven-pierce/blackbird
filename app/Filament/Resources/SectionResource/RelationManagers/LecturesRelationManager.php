@@ -49,6 +49,7 @@ class LecturesRelationManager extends RelationManager
                 TextColumn::make('start_time')->label('Lecture Start')->dateTime('l, d F Y h:i A')->sortable(),
                 TextColumn::make('end_time')->label('Lecture End')->dateTime('l, d F Y h:i A')->sortable(),
             ])
+            ->defaultSort('start_time')
             ->filters([
                 TrashedFilter::make(),
             ])

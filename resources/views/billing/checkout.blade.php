@@ -32,10 +32,10 @@
 
             <div class="flex h-full flex-col justify-center">
                 <span
-                    class="text-sm font-semibold uppercase text-gray-500">{{ $enrollment->section->course->level->name }}</span>
+                    class="text-sm font-semibold uppercase text-gray-500">{{ $enrollment->section->course->course_level }}</span>
 
                 <span
-                    class="mt-4 text-5xl font-black leading-tight">{{ $enrollment->section->course->subject->name }}</span>
+                    class="mt-4 text-5xl font-black leading-tight">{{ $enrollment->section->course->subject }}</span>
                 <span
                     class="text-5xl font-black leading-tight text-indigo-500">{{ $enrollment->section->course->tutor->name }}</span>
 
