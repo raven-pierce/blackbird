@@ -54,13 +54,13 @@ class RecordingResource extends Resource
                     ->options(function (\Closure $get) {
                         $course = Course::find($get('lecture.section.course_id'));
 
-                        if (!$course) {
+                        if (! $course) {
                             return Section::all()->pluck('code', 'id');
                         }
 
                         return $course->sections->pluck('code', 'id');
                     })
-                    ->afterStateUpdated(fn(callable $set) => $set('lecture_id', null))
+                    ->afterStateUpdated(fn (callable $set) => $set('lecture_id', null))
                     ->reactive()
                     ->required(),
                 Select::make('lecture_id')
@@ -69,7 +69,7 @@ class RecordingResource extends Resource
                     ->relationship('lecture', 'start_time', function ($query, \Closure $get) {
                         $section = Section::find($get('lecture.section_id'));
 
-                        if (!$section) {
+                        if (! $section) {
                             return $query;
                         }
 
@@ -97,7 +97,7 @@ class RecordingResource extends Resource
                 // TODO: Sorting Double Nested Relationships
                 TextColumn::make('lecture.section.course.name')->label('Course')->sortable(),
                 TextColumn::make('lecture.section.code')->label('Section Code')->sortable(),
-                TextColumn::make('lecture.start_time')->label('Date')->dateTime('l, d F Y')->sortable(),
+                TextColumn::make('lecture.start_time')->label('Recording Date')->dateTime('l, d F Y')->sortable(),
                 TextColumn::make('created_at')->label('Uploaded')->since()->sortable(),
             ])
             ->filters([

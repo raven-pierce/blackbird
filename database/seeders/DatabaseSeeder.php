@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Course;
-use App\Models\Pricing;
 use App\Models\Profile;
-use App\Models\Section;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -33,19 +30,6 @@ class DatabaseSeeder extends Seeder
             'azure_email' => 'athena@wingfall.io',
         ]))->create();
 
-        User::factory(93)->has(Profile::factory())->create();
-
-        Pricing::factory(10)->create();
-
-        $tutors = User::factory(5)->has(Profile::factory())->create();
-
-        foreach ($tutors as $tutor) {
-            Course::factory(2)
-                ->for($tutor, 'tutor')
-                ->has(Section::factory(4, [
-                    'pricing_id' => Pricing::all()->random(),
-                ]))
-                ->create();
-        }
+        User::factory(98)->has(Profile::factory())->create();
     }
 }

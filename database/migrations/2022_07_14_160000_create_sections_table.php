@@ -22,7 +22,8 @@ return new class extends Migration
             $table->dateTime('end_day');
             $table->string('delivery_method');
             $table->integer('seats');
-            $table->string('azure_team_id')->nullable();
+            $table->string('azure_team_id')->unique()->nullable();
+            $table->string('recordings_folder')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

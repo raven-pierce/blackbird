@@ -7,6 +7,7 @@ use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Models\User;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -45,28 +46,33 @@ class UserResource extends Resource
                             ->email()
                             ->autocomplete('email')
                             ->required(),
-                        TextInput::make('profile.phone')
-                            ->label('Phone Number')
-                            ->required(),
-                    ])->columns(2),
+                        Group::make([
+                            TextInput::make('phone')
+                                ->label('Phone Number')
+                                ->required(),
+                        ])->relationship('profile'),
+                    ]),
                 Fieldset::make('Guardian Information')
+                    ->relationship('profile')
                     ->schema([
-                        TextInput::make('profile.guardian_email')
+                        TextInput::make('guardian_email')
                             ->label('Guardian\'s Email')
                             ->email()
                             ->autocomplete('email')
                             ->required(),
-                        TextInput::make('profile.guardian_phone')
+                        TextInput::make('guardian_phone')
                             ->label('Guardian\'s Phone Number')
                             ->required(),
-                    ]),
+                    ])->columnSpan(1),
                 Fieldset::make('Account Settings')
                     ->schema([
-                        TextInput::make('profile.azure_email')
-                            ->label('Azure Email')
-                            ->email()
-                            ->autocomplete('email')
-                            ->required(),
+                        Group::make([
+                            TextInput::make('azure_email')
+                                ->label('Azure Email')
+                                ->email()
+                                ->autocomplete('email')
+                                ->required(),
+                        ])->relationship('profile'),
                         TextInput::make('password')
                             ->label('New Password')
                             ->password()
@@ -74,7 +80,7 @@ class UserResource extends Resource
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
                             ->required(fn (string $context): bool => $context === 'create'),
-                    ]),
+                    ])->columnSpan(1),
             ]);
     }
 

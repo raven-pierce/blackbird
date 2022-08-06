@@ -34,6 +34,7 @@
         "stechstudio/filament-impersonate": "^2.5"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^2.12",
         "fakerphp/faker": "^1.9.1",
         "itsgoingd/clockwork": "^5.1",
@@ -63,6 +64,7 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan horizon:publish --ansi",
             "@php artisan filament:upgrade"
         ],
         "post-root-package-install": [

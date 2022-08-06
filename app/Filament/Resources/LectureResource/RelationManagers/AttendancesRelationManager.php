@@ -22,6 +22,7 @@ use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AttendancesRelationManager extends RelationManager
@@ -34,20 +35,20 @@ class AttendancesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                // TODO: Enrollment Student Name
                 Select::make('enrollment_id')
                     ->label('Student')
                     ->searchable()
-                    ->relationship('enrollment', 'id', function (Builder $query, \Closure $get) {
-                        $section = Section::find($get('enrollment.section_id'));
+                    ->relationship('enrollment', 'id', function (Builder $query, $livewire) {
+                        $section = Section::find($livewire->ownerRecord->section_id);
 
-                        if (!$section) {
+                        if (! $section) {
                             return $query;
                         }
 
                         return $query->whereBelongsTo($section);
                     })
                     ->preload()
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => $record->student->name)
                     ->required(),
                 DateTimePicker::make('join_time')
                     ->label('Join Time')

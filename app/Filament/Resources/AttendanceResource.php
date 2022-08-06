@@ -25,6 +25,7 @@ use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AttendanceResource extends Resource
@@ -60,13 +61,13 @@ class AttendanceResource extends Resource
                             ->options(function (\Closure $get) {
                                 $course = Course::find($get('enrollment.section.course_id'));
 
-                                if (!$course) {
+                                if (! $course) {
                                     return Section::all()->pluck('code', 'id');
                                 }
 
                                 return $course->sections->pluck('code', 'id');
                             })
-                            ->afterStateUpdated(fn(callable $set) => $set('lecture_id', null))
+                            ->afterStateUpdated(fn (callable $set) => $set('lecture_id', null))
                             ->reactive()
                             ->required(),
                         Select::make('lecture_id')
@@ -75,7 +76,7 @@ class AttendanceResource extends Resource
                             ->relationship('lecture', 'start_time', function ($query, \Closure $get) {
                                 $section = Section::find($get('enrollment.section_id'));
 
-                                if (!$section) {
+                                if (! $section) {
                                     return $query;
                                 }
 
@@ -89,20 +90,20 @@ class AttendanceResource extends Resource
                                 }
                             })
                             ->required(),
-                        // TODO: Enrollment Student Name
                         Select::make('enrollment_id')
                             ->label('Student')
                             ->searchable()
                             ->relationship('enrollment', 'id', function (Builder $query, \Closure $get) {
                                 $section = Section::find($get('enrollment.section_id'));
 
-                                if (!$section) {
+                                if (! $section) {
                                     return $query;
                                 }
 
                                 return $query->whereBelongsTo($section);
                             })
                             ->preload()
+                            ->getOptionLabelFromRecordUsing(fn (Model $record) => $record->student->name)
                             ->required(),
                     ]),
                 Fieldset::make('Attendance Information')

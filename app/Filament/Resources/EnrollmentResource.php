@@ -41,7 +41,7 @@ class EnrollmentResource extends Resource
                     ->searchable()
                     ->options(Course::all()->pluck('name', 'id'))
                     ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('section_id', null))
+                    ->afterStateUpdated(fn (callable $set) => $set('section_id', null))
                     ->dehydrated(false)
                     ->required(),
                 Select::make('section_id')
@@ -50,7 +50,7 @@ class EnrollmentResource extends Resource
                     ->relationship('section', 'code', function ($query, \Closure $get) {
                         $course = Course::find($get('section.course_id'));
 
-                        if (!$course) {
+                        if (! $course) {
                             return $query;
                         }
 
