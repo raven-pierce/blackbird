@@ -4,6 +4,8 @@
 /public/storage
 /public/vendor/telescope
 /storage/*.key
+/storage/clockwork
+/storage/debugbar
 /vendor
 .env
 .env.backup
