@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use MyFatoorah\Library\PaymentMyfatoorahApiV2;
+use Spatie\Browsershot\Browsershot;
 
 class SendInvoice implements ShouldQueue
 {
@@ -50,6 +51,11 @@ class SendInvoice implements ShouldQueue
             'amount' => $this->prepareTotal(),
             'status' => 'Unpaid',
         ]);
+
+        Browsershot::url(route('invoices.show', $invoice))
+            ->format('A4')
+            ->showBackground()
+            ->savePdf(storage_path("app/resources/invoices/{$invoice->external_id}.pdf"));
 
         $this->user->notify(new InvoiceGenerated($invoice));
     }

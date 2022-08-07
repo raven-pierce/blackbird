@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('delivery_method');
             $table->integer('seats');
             $table->string('azure_team_id')->unique()->nullable();
+            $table->string('channel_folder')->nullable();
             $table->string('recordings_folder')->nullable();
             $table->timestamps();
             $table->softDeletes();

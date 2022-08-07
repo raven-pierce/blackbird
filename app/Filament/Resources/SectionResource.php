@@ -58,9 +58,17 @@ class SectionResource extends Resource
                             ->label('Section Code')
                             ->maxLength(3)
                             ->required(),
+                    ]),
+                Fieldset::make('Azure Metadata')
+                    ->schema([
                         TextInput::make('azure_team_id')
                             ->label('Azure Team ID')
                             ->required(),
+                        TextInput::make('channel_folder')
+                            ->label('Team Channel Name')
+                            ->required(),
+                        TextInput::make('recordings_folder')
+                            ->label('Recordings Folder'),
                     ]),
                 Fieldset::make('Lecture Delivery')
                     ->schema([

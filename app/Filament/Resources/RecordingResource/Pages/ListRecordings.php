@@ -26,10 +26,25 @@ class ListRecordings extends ListRecords
         return $query;
     }
 
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-video-camera';
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No Recordings Yet';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'Once they sync from Microsoft Teams, lecture recordings will show up here!';
+    }
+
     protected function getActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('New Recording'),
         ];
     }
 }

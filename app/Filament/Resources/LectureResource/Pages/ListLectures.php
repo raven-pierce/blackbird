@@ -26,10 +26,25 @@ class ListLectures extends ListRecords
         return $query;
     }
 
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-clock';
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No Lectures Yet';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'Here you can create, delete, and generate lectures for your sections.';
+    }
+
     protected function getActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('New Lecture'),
         ];
     }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dateTime('join_time');
             $table->dateTime('leave_time');
             $table->integer('duration');
-            $table->boolean('paid');
+            $table->boolean('paid')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

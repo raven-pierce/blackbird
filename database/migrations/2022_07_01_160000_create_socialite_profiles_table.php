@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('provider');
             $table->string('provider_id');
+            $table->unique(['provider', 'provider_id']);
             $table->timestamps();
             $table->softDeletes();
         });

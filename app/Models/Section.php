@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,8 @@ class Section extends Model
         'delivery_method',
         'seats',
         'azure_team_id',
+        'channel_folder',
+        'recordings_folder',
     ];
 
     /**
@@ -84,7 +87,7 @@ class Section extends Model
         return false;
     }
 
-    public function generateLectures(int $day, int $startHour, int $startMinute, int $endHour, int $endMinute)
+    public function generateLectures(int $day, string $startTime, string $endTime)
     {
         $period = CarbonPeriod::since($this->start_day)->until($this->end_day, true);
 
@@ -95,10 +98,15 @@ class Section extends Model
         foreach ($lectureDates as $date) {
             Lecture::create([
                 'section_id' => $this->id,
-                'start_time' => $date->copy()->setTime($startHour, $startMinute),
-                'end_time' => $date->copy()->setTime($endHour, $endMinute),
+                'start_time' => $date->copy()->setTimeFromTimeString($startTime),
+                'end_time' => $date->copy()->setTimeFromTimeString($endTime),
             ]);
         }
+
+        Notification::make()
+            ->title('Lectures Generated')
+            ->success()
+            ->send();
     }
 
     public function getLecturesThisWeek(): Collection|array

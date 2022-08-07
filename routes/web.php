@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\RecordingController;
 use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
@@ -35,16 +33,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
     Route::resource('enrollments', EnrollmentController::class);
-    Route::resource('attendances', AttendanceController::class);
-    Route::resource('recordings', RecordingController::class);
 
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
-    // TODO: Invoice Regenerate for Void
-    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
     Route::get('/payment/callback', [PaymentController::class, 'handleProviderCallback'])->name('payment.callback');
 });
 
-// TODO: Sync Recordings Into DB
+Route::get('/invoice', function () {
+    \App\Models\Enrollment::find(1)->generateInvoice(10, true);
+});
 
 require __DIR__.'/socialite.php';

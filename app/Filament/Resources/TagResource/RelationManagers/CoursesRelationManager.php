@@ -62,15 +62,15 @@ class CoursesRelationManager extends RelationManager
                 TrashedFilter::make(),
             ])
             ->headerActions([
-                CreateAction::make(),
+                CreateAction::make()->label('New Course'),
                 AttachAction::make(),
             ])
             ->actions([
                 EditAction::make(),
                 DetachAction::make(),
                 DeleteAction::make(),
-                ForceDeleteAction::make(),
-                RestoreAction::make(),
+                ForceDeleteAction::make()->label('Force Delete'),
+                RestoreAction::make()->label('Restore'),
             ])
             ->bulkActions([
                 DetachBulkAction::make(),

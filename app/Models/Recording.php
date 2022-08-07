@@ -21,6 +21,7 @@ class Recording extends Model
      */
     protected $fillable = [
         'lecture_id',
+        'azure_item_id',
         'file_url',
     ];
 

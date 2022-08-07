@@ -26,10 +26,25 @@ class ListCourses extends ListRecords
         return $query;
     }
 
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-academic-cap';
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No Courses Yet';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'Create some courses so students can enroll!';
+    }
+
     protected function getActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('New Course'),
         ];
     }
 }

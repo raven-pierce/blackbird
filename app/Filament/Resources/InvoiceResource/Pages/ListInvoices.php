@@ -10,10 +10,25 @@ class ListInvoices extends ListRecords
 {
     protected static string $resource = InvoiceResource::class;
 
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-cash';
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No Invoices Yet';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'You\'ll find them here automatically when they meet the minimum threshold!';
+    }
+
     protected function getActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('New Invoice'),
         ];
     }
 }

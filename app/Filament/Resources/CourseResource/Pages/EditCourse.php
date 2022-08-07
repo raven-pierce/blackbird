@@ -16,8 +16,8 @@ class EditCourse extends EditRecord
     {
         return [
             DeleteAction::make(),
-            ForceDeleteAction::make(),
-            RestoreAction::make(),
+            ForceDeleteAction::make()->label('Force Delete'),
+            RestoreAction::make()->label('Restore'),
         ];
     }
 }

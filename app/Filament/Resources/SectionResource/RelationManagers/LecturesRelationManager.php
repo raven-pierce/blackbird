@@ -54,13 +54,13 @@ class LecturesRelationManager extends RelationManager
                 TrashedFilter::make(),
             ])
             ->headerActions([
-                CreateAction::make(),
+                CreateAction::make()->label('New Lecture'),
             ])
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
-                ForceDeleteAction::make(),
-                RestoreAction::make(),
+                ForceDeleteAction::make()->label('Force Delete'),
+                RestoreAction::make()->label('Restore'),
             ])
             ->bulkActions([
                 DeleteBulkAction::make(),

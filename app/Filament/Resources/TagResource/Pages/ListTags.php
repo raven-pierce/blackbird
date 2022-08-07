@@ -26,10 +26,25 @@ class ListTags extends ListRecords
         return $query;
     }
 
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-tag';
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No Tags Yet';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'Create some so you can assign them to courses!';
+    }
+
     protected function getActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('New Tag'),
         ];
     }
 }

@@ -20,7 +20,7 @@ class EnrollmentController extends Controller
     public function show(Enrollment $enrollment)
     {
         return view('enrollments.show', [
-            'enrollment' => $enrollment,
+            'enrollment' => $enrollment->load('attendances'),
             'spellOutFormatter' => NumberFormatter::create('en-US', NumberFormatter::SPELLOUT),
         ]);
     }

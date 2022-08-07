@@ -2,7 +2,7 @@
 /public/build
 /public/hot
 /public/storage
-/public/vendor/telescope
+/public/vendor
 /storage/*.key
 /storage/clockwork
 /storage/debugbar

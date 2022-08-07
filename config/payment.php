@@ -26,4 +26,10 @@ return [
      * Accepted Values: KWD, SAR, BHD, AED, QAR, OMR, JOD, or EGP.
      */
     'display_currency' => env('PAYMENT_DISPLAY_CURRENCY', 'KWD'),
+
+    /**
+     * Minimum Payment Threshold (Integer)
+     * This is the minimum invoice amount that can be issued.
+     */
+    'payment_threshold' => env('PAYMENT_THRESHOLD', 40),
 ];

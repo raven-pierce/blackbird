@@ -18,5 +18,10 @@
                 </div>
             @endforeach
         </div>
+
+        <div class="mt-32 max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <h3 class="mb-8 text-lg font-medium text-gray-700">Lectures</h3>
+            @livewire('list-lectures')
+        </div>
     </div>
 </x-app-layout>

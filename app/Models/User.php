@@ -28,6 +28,17 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     use Searchable;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    /**
      * The relationships that should always be loaded.
      *
      * @var array
@@ -35,15 +46,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     protected $with = [
         'profile',
         'socialiteProfiles',
-    ];
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
     ];
 
     /**

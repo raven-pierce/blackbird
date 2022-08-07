@@ -83,6 +83,9 @@ class RecordingResource extends Resource
                         }
                     })
                     ->required(),
+                TextInput::make('azure_item_id')
+                    ->label('Azure Item ID')
+                    ->required(),
                 TextInput::make('file_url')
                     ->label('File URL')
                     ->url()

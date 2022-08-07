@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Invoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -15,7 +16,7 @@ class InvoiceGenerated extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Invoice $invoice)
     {
         //
     }

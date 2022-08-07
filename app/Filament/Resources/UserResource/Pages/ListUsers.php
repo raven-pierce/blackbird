@@ -26,10 +26,25 @@ class ListUsers extends ListRecords
         return $query;
     }
 
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-users';
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No Users Yet';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'On this page, you\'l find all currently registered users.';
+    }
+
     protected function getActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('New User'),
         ];
     }
 }

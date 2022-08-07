@@ -26,10 +26,25 @@ class ListEnrollments extends ListRecords
         return $query;
     }
 
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-identification';
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No Enrollments Yet';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'Here, you\'l be able to manage all student enrollments.';
+    }
+
     protected function getActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()->label('New Enrollment'),
         ];
     }
 }

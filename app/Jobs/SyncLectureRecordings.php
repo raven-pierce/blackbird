@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Lecture;
+use App\Models\Recording;
+use App\Notifications\RecordingProcessed;
 use App\Services\MicrosoftGraph;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -13,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 use Microsoft\Graph\Generated\Models\Drive;
 use Microsoft\Graph\Generated\Models\Group;
 
-class SyncLectureAttendances implements ShouldQueue
+class SyncLectureRecordings implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -46,14 +48,23 @@ class SyncLectureAttendances implements ShouldQueue
 
         $recipients = $this->preparePermissionRecipients();
         $recordings = $this->getRecordings();
-
         $roles = ['read'];
 
         foreach ($recordings as $recording) {
             $this->graph->addDriveItemPermissions($this->drive->getId(), $recording->getId(), $recipients, $roles);
         }
 
-        // TODO: Send Out Notification To User
+        foreach ($recordings as $recording) {
+            Recording::create([
+                'lecture_id' => $this->lecture->id,
+                'azure_item_id' => $recording->getId(),
+                'file_url' => $recording->getWebUrl(),
+            ]);
+        }
+
+        foreach ($this->lecture->attendances as $attendance) {
+            $attendance->enrollment->student->notify(new RecordingProcessed($this->lecture));
+        }
     }
 
     /**
@@ -80,9 +91,8 @@ class SyncLectureAttendances implements ShouldQueue
      */
     protected function getRecordings(): ?array
     {
-        // TODO: Channel Folder Field on Section
         // TODO: Today or Yesterday (Every Hour vs Daily at Midnight)
-        $recordingFolder = $this->graph->getGroupRecordingsFolder($this->group->getId(), 'Project Athena', $this->lecture->section->recordings_folder ?? 'Recordings');
+        $recordingFolder = $this->graph->getGroupRecordingsFolder($this->group->getId(), $this->lecture->section->channel_folder ?? 'Project Athena', $this->lecture->section->recordings_folder ?? 'Recordings');
         $recordings = $this->graph->getDriveFolderItems($this->group->getId(), $recordingFolder->getId())->getValue();
 
         $filteredRecordings = [];
@@ -90,7 +100,7 @@ class SyncLectureAttendances implements ShouldQueue
         foreach ($recordings as $recording) {
             $recordingDateTime = Carbon::parse($recording->getCreatedDateTime());
 
-            if ($recordingDateTime->isBetween($this->lecture->start_time, $this->lecture->end_time)) {
+            if ($recordingDateTime->isBetween('2022/07/01', '2022/08/31')) {
                 $filteredRecordings[] = $recording;
             }
         }

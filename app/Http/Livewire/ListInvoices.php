@@ -57,7 +57,7 @@ class ListInvoices extends Component implements HasTable
                 ->label('Pay')
                 ->icon('heroicon-s-cash')
                 ->url(fn (Invoice $record) => $record->invoice_url)
-                ->hidden(fn (Invoice $record) => $record->status === 'Paid' | $record->status === 'Void'),
+                ->visible(fn (Invoice $record) => $record->status === 'Unpaid'),
             Action::make('view')
                 ->label('View')
                 ->icon('heroicon-s-external-link')

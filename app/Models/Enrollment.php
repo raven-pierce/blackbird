@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Jobs\SendInvoice;
+use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
+use NumberFormatter;
 
 class Enrollment extends Model
 {
@@ -40,6 +44,13 @@ class Enrollment extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    public function attendedLecture(Lecture $lecture): bool
+    {
+        return $this->attendances()->whereHas('lecture', function (Builder $query) use ($lecture) {
+            $query->whereKey($lecture->getKey());
+        })->exists();
+    }
+
     public function unpaidAttendances()
     {
         return $this->attendances()->wherePaid(false);
@@ -48,5 +59,41 @@ class Enrollment extends Model
     public function paidAttendances()
     {
         return $this->attendances()->wherePaid(true);
+    }
+
+    public function generateInvoice(int $quantity = null, bool $override = false)
+    {
+        $invoiceValue = $this->section->pricing->amount * ($quantity ?? $this->unpaid_attendances_count);
+        $formattedInvoiceValue = NumberFormatter::create('en-US', NumberFormatter::CURRENCY)->formatCurrency($invoiceValue, config('payment.display_currency'));
+
+        if (! $invoiceValue >= config('payment.payment_threshold') && ! $override) {
+            return Notification::make()
+                ->title('Payment Threshold')
+                ->body('The invoice value hasn\'t reached the minimum payment threshold.')
+                ->danger()
+                ->send();
+        }
+
+        if ($override && $invoiceValue === 0) {
+            return Notification::make()
+                ->title('Invoice Value')
+                ->body('The invoice value is zero.')
+                ->danger()
+                ->send();
+        }
+
+        $invoiceItems[] = [
+            'ItemName' => $this->section->course->tutor->name.' - '.$this->section->pricing->name,
+            'Quantity' => $quantity ?? $this->unpaid_attendances_count,
+            'UnitPrice' => $this->section->pricing->amount,
+        ];
+
+        SendInvoice::dispatch($this->student, $invoiceItems);
+
+        Notification::make()
+            ->title('Invoice Generated')
+            ->body('An invoice of value '.$formattedInvoiceValue.' has been generated successfully.')
+            ->success()
+            ->send();
     }
 }

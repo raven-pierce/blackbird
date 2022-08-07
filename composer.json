@@ -13,13 +13,13 @@
         "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.2",
         "laravel/framework": "^9.19",
+        "laravel/horizon": "^5.9",
         "laravel/jetstream": "^2.10",
         "laravel/sanctum": "^2.14.1",
         "laravel/scout": "^9.4",
         "laravel/socialite": "^5.5",
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.7",
-        "laravel/vapor-core": "^2.22",
         "livewire/livewire": "^2.5",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.24.0",
@@ -27,9 +27,8 @@
         "microsoft/microsoft-graph-core": "@RC",
         "myfatoorah/library": "^2.0",
         "psr/simple-cache": "^2.0",
-        "shuvroroy/filament-spatie-laravel-health": "^1.4",
         "socialiteproviders/microsoft-azure": "^5.1",
-        "spatie/cpu-load-health-check": "^1.0",
+        "spatie/browsershot": "^3.57",
         "staudenmeir/belongs-to-through": "^2.12",
         "staudenmeir/eloquent-has-many-deep": "^1.15",
         "stechstudio/filament-impersonate": "^2.5"
@@ -37,6 +36,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^2.12",
+        "beyondcode/laravel-query-detector": "^1.6",
         "fakerphp/faker": "^1.9.1",
         "itsgoingd/clockwork": "^5.1",
         "laravel/pint": "^1.0",
@@ -65,6 +65,7 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan horizon:publish --ansi",
             "@php artisan filament:upgrade"
         ],
         "post-root-package-install": [

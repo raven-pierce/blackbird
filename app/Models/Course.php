@@ -28,6 +28,15 @@ class Course extends Model
         'user_id',
     ];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'tags',
+    ];
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
@@ -55,22 +64,22 @@ class Course extends Model
 
     protected function awardingBody(): Attribute
     {
-        return Attribute::get(fn () => $this->tags()->whereType('awarding_body')->first()->name ?? 'N/A');
+        return Attribute::get(fn () => $this->tags->where('type', 'awarding_body')->first()->name ?? 'N/A');
     }
 
     protected function examSession(): Attribute
     {
-        return Attribute::get(fn () => $this->tags()->whereType('exam_session')->first()->name ?? 'N/A');
+        return Attribute::get(fn () => $this->tags->where('type', 'exam_session')->first()->name ?? 'N/A');
     }
 
     protected function courseLevel(): Attribute
     {
-        return Attribute::get(fn () => $this->tags()->whereType('course_level')->first()->name ?? 'N/A');
+        return Attribute::get(fn () => $this->tags->where('type', 'course_level')->first()->name ?? 'N/A');
     }
 
     protected function subject(): Attribute
     {
-        return Attribute::get(fn () => $this->tags()->whereType('subject')->first()->name ?? 'N/A');
+        return Attribute::get(fn () => $this->tags->where('type', 'subject')->first()->name ?? 'N/A');
     }
 
     protected function seats(): Attribute

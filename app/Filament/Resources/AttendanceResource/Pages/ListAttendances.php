@@ -26,6 +26,21 @@ class ListAttendances extends ListRecords
         return $query;
     }
 
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-bookmark';
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No Attendances Yet';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'This is where you\'ll be able to see who attended what lecture.';
+    }
+
     protected function getActions(): array
     {
         return [
