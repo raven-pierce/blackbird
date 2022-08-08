@@ -109,28 +109,35 @@ class Section extends Model
             ->send();
     }
 
+    public function getLecturesBetween(Carbon $start, Carbon $end): Collection|array
+    {
+        return $this->lectures()->whereBetween('start_time', [$start, $end])->get();
+    }
+
     public function getLecturesThisWeek(): Collection|array
     {
-        return $this->lectures()->whereBetween('start_time', [today(), now()->endOfWeek()])->get();
+        return $this->getLecturesBetween(now(), today()->endOfWeek());
     }
 
     public function getLecturesThisMonth(): Collection|array
     {
-        return $this->lectures()->whereBetween('start_time', [today(), now()->endOfMonth()])->get();
+        return $this->getLecturesBetween(now(), today()->endOfMonth());
     }
 
     public function getLecturesLeftInWeek(Carbon $startDate): Collection|array
     {
-        return $this->lectures()->whereBetween('start_time', [$startDate, $startDate->copy()->endOfWeek()])->get();
+        return $this->getLecturesBetween($startDate, $startDate->copy()->endOfWeek());
     }
 
     public function getLecturesInWeeks(int $weeks = 1): Collection|array
     {
-        return $this->lectures()->whereBetween('start_time', [today()->addWeeks($weeks)->startOfWeek(), today()->addWeeks($weeks)->endOfWeek()])->get();
+        return $this->getLecturesBetween(today()->addWeeks($weeks)->startOfWeek(), today()->addWeeks($weeks)->endOfWeek());
     }
 
     public function getEarliestLectures(): Collection|array
     {
-        return $this->getLecturesLeftInWeek($this->lectures()->whereTime('start_time', '>=', today())->firstOrFail()->start_time);
+        $earliestLectures = $this->lectures()->whereTime('start_time', '>=', today());
+
+        return $this->getLecturesLeftInWeek($earliestLectures->exists() ? $earliestLectures->first()->start_time : now());
     }
 }

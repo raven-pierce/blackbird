@@ -45,6 +45,10 @@ class InvoiceResource extends Resource
                     ->relationship('user', 'name')
                     ->preload()
                     ->required(),
+                TextInput::make('invoice_url')
+                    ->label('Invoice URL')
+                    ->url()
+                    ->required(),
                 TextInput::make('amount')
                     ->label('Total')
                     ->numeric()

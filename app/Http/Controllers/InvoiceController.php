@@ -24,11 +24,6 @@ class InvoiceController extends Controller
         return view('invoices.index');
     }
 
-    public function store()
-    {
-        //
-    }
-
     public function show(Invoice $invoice)
     {
         return view('invoices.show', [

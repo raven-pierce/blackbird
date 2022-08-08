@@ -1,6 +1,6 @@
 @props(['lecture', 'spellOutFormatter', 'loop'])
 
-<div class="flex h-40 w-80 flex-col justify-center rounded-md bg-gray-900 p-6 transition duration-200 ease-in-out hover:translate-x-1 hover:translate-y-1 hover:ring hover:ring-indigo-500 focus:translate-x-1 focus:translate-y-1 focus:outline-none focus:ring focus:ring-indigo-500">
+<div class="flex h-40 w-80 flex-col justify-center rounded-md bg-gray-900 p-6">
     <span class="text-xs font-medium uppercase text-indigo-100">Lecture {{ $spellOutFormatter->format($loop->iteration) }}</span>
 
     <span class="mt-6 text-xl font-bold text-white">{{ $lecture->start_time->englishDayOfWeek }}</span>

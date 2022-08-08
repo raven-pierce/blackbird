@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="mx-auto max-w-screen-2xl h-screen px-24 py-12 overflow-hidden">
+    <div class="mx-auto max-w-screen-2xl h-screen overflow-hidden px-24 py-12">
         <nav class="flex items-center justify-between">
             <a href="{{ route('home') }}"
                 class="flex items-center space-x-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-opacity-75">
@@ -24,7 +24,7 @@
             </div>
 
             <div class="relative flex flex-col">
-                <img src="{{ asset('images/library.jpg') }}" alt="Stock photo of a library." class="absolute top-32 left-0 w-96 rounded" />
+                <img src="{{ asset('images/stock/library.jpg') }}" alt="Stock photo of a library." class="absolute top-32 left-0 w-96 rounded" />
 
                 <x-courses.new-course-card :course="$course" class="absolute top-12 left-48" />
             </div>

@@ -4,10 +4,6 @@
     </div>
 
     <div class="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
-        {{ $socialite }}
-
-        <span class="py-4 flex items-center justify-center font-semibold text-xs text-gray-500 uppercase">Or</span>
-
         {{ $slot }}
     </div>
 </div>

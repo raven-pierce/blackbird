@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home', [
-        'course' => Course::latest()->firstOrFail(),
+        'course' => Course::latest()->with('sections')->firstOrFail(),
     ]);
 })->name('home');
 
@@ -30,17 +31,13 @@ Route::controller(CourseController::class)->group(function () {
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('enrollments', EnrollmentController::class);
 
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
     Route::get('/payment/callback', [PaymentController::class, 'handleProviderCallback'])->name('payment.callback');
-});
-
-Route::get('/invoice', function () {
-    \App\Models\Enrollment::find(1)->generateInvoice(10, true);
 });
 
 require __DIR__.'/socialite.php';

@@ -65,8 +65,7 @@ class SectionResource extends Resource
                             ->label('Azure Team ID')
                             ->required(),
                         TextInput::make('channel_folder')
-                            ->label('Team Channel Name')
-                            ->required(),
+                            ->label('Team Channel Name'),
                         TextInput::make('recordings_folder')
                             ->label('Recordings Folder'),
                     ]),
