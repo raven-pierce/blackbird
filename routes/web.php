@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
@@ -30,9 +29,7 @@ Route::controller(CourseController::class)->group(function () {
     Route::get('/courses/{course}', 'show')->name('courses.show');
 });
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/dashboard', DashboardController::class)->name('dashboard');
-
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('enrollments', EnrollmentController::class);
 
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');

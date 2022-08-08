@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
+use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Spatie\Permission\Traits\HasRoles;
@@ -22,7 +21,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     use SoftDeletes;
     use HasApiTokens;
     use TwoFactorAuthenticatable;
-    use HasProfilePhoto;
     use HasRoles;
     use Notifiable;
     use Searchable;
@@ -30,7 +28,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -51,31 +49,20 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
         'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
     ];
 
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'profile_photo_url',
     ];
 
     public function canAccessFilament(): bool
