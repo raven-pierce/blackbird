@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -15,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     use HasFactory;
     use SoftDeletes;
@@ -68,11 +68,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     public function canAccessFilament(): bool
     {
         return $this->email === 'icarus@blackbird.io' && $this->hasVerifiedEmail();
-    }
-
-    public function getFilamentAvatarUrl(): ?string
-    {
-        return $this->profile_photo_url;
     }
 
     public function profile(): HasOne
