@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -94,5 +95,12 @@ class Course extends Model
         }
 
         return false;
+    }
+
+    public function scopeStudentEnrolled(Builder $query, User $user): Builder
+    {
+        return $query->whereHas('enrollments', function (Builder $query) use ($user) {
+            $query->whereBelongsTo($user, 'student');
+        });
     }
 }

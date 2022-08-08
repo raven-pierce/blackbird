@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -47,13 +48,21 @@ class Attendance extends Model
         return $this->belongsTo(Lecture::class);
     }
 
-    public function markAsPaid()
+    public function scopeTaughtBy(Builder $query, User $user): Builder
     {
-        return $this->paid = true;
+        return $query->whereHas('lecture', function (Builder $query) use ($user) {
+            $query->whereHas('section', function (Builder $query) use ($user) {
+                $query->whereHas('course', function (Builder $query) use ($user) {
+                    $query->whereBelongsTo($user, 'tutor');
+                });
+            });
+        });
     }
 
-    public function markAsUnpaid()
+    public function scopeStudentEnrolled(Builder $query, User $user): Builder
     {
-        return $this->paid = false;
+        return $query->whereHas('enrollment', function (Builder $query) use ($user) {
+            $query->whereBelongsTo($user, 'student');
+        });
     }
 }

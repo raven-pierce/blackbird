@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -64,5 +65,30 @@ class Lecture extends Model
     public function duration(): Attribute
     {
         return Attribute::get(fn () => $this->start_time->diffInMinutes($this->end_time));
+    }
+
+    public function scopeTaughtBy(Builder $query, User $user): Builder
+    {
+        return $query->whereHas('section', function (Builder $query) use ($user) {
+            $query->whereHas('course', function (Builder $query) use ($user) {
+                $query->whereBelongsTo($user, 'tutor');
+            });
+        });
+    }
+
+    public function scopeStudentEnrolled(Builder $query, User $user): Builder
+    {
+        return $query->whereHas('section', function (Builder $query) use ($user) {
+            $query->whereHas('enrollments', function (Builder $query) use ($user) {
+                $query->whereBelongsTo($user, 'student');
+            });
+        });
+    }
+
+    public function scopeStudentAttended(Builder $query, Enrollment $enrollment): Builder
+    {
+        return $query->whereHas('attendances', function (Builder $query) use ($enrollment) {
+            $query->whereKey($enrollment->getKey());
+        });
     }
 }

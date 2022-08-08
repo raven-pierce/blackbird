@@ -49,11 +49,11 @@ class ListLectures extends Component implements HasTable
                 ->icon('heroicon-s-video-camera')
                 ->url(fn (Lecture $record) => $record->recordings()->first()->file_url)
                 ->openUrlInNewTab()
-                ->visible(fn (Lecture $record): bool => $record->recordings->isNotEmpty() && $this->enrollment->attendedLecture($record)),
+                ->visible(fn (Lecture $record): bool => $record->recordings->isNotEmpty() && $this->enrollment->attendedLecture($record)->exists()),
             Action::make('requestRecording')
                 ->label('Request Recording')
                 ->icon('heroicon-s-video-camera')
-                ->visible(fn (Lecture $record): bool => $record->recordings->isNotEmpty() && ! $this->enrollment->attendedLecture($record))
+                ->visible(fn (Lecture $record): bool => $record->recordings->isNotEmpty() && ! $this->enrollment->attendedLecture($record)->exists())
                 ->requiresConfirmation()
                 ->modalSubheading('Once you request this recording, you will have a full lecture\'s cost added to your pending invoice. Would you like to continue?')
                 ->modalButton('Request')

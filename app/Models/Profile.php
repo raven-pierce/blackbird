@@ -21,7 +21,7 @@ class Profile extends Model
      */
     protected $fillable = [
         'user_id',
-        'student_email',
+        'azure_email',
         'phone',
         'guardian_email',
         'guardian_phone',

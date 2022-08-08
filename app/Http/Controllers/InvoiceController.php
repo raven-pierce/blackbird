@@ -19,11 +19,7 @@ class InvoiceController extends Controller
         );
     }
 
-    public function index()
-    {
-        return view('invoices.index');
-    }
-
+    // TODO: Integrate with Filament
     public function show(Invoice $invoice)
     {
         return view('invoices.show', [
@@ -31,10 +27,5 @@ class InvoiceController extends Controller
             'gatewayInvoice' => $this->gateway->getPaymentStatus($invoice->external_id, 'invoiceid'),
             'currencyFormatter' => NumberFormatter::create('en-US', NumberFormatter::CURRENCY),
         ]);
-    }
-
-    public function download(Invoice $invoice)
-    {
-        //
     }
 }

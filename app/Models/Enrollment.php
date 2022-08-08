@@ -44,11 +44,20 @@ class Enrollment extends Model
         return $this->hasMany(Attendance::class);
     }
 
-    public function attendedLecture(Lecture $lecture): bool
+    public function scopeTaughtBy(Builder $query, User $user): Builder
     {
-        return $this->attendances()->whereHas('lecture', function (Builder $query) use ($lecture) {
+        return $query->whereHas('section', function (Builder $query) use ($user) {
+            $query->whereHas('course', function (Builder $query) use ($user) {
+                $query->whereBelongsTo($user, 'tutor');
+            });
+        });
+    }
+
+    public function scopeAttendedLecture(Builder $query, Lecture $lecture): Builder
+    {
+        return $query->whereHas('attendances', function (Builder $query) use ($lecture) {
             $query->whereKey($lecture->getKey());
-        })->exists();
+        });
     }
 
     public function unpaidAttendances()

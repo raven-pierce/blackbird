@@ -43,7 +43,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
      */
     protected $with = [
         'profile',
-        'socialiteProfiles',
     ];
 
     /**
@@ -67,17 +66,12 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 
     public function canAccessFilament(): bool
     {
-        return $this->email === 'icarus@blackbird.io' && $this->hasVerifiedEmail();
+        return true;
     }
 
     public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
-    }
-
-    public function socialiteProfiles(): HasMany
-    {
-        return $this->hasMany(SocialiteProfile::class);
     }
 
     public function invoices(): HasMany
@@ -93,26 +87,6 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);
-    }
-
-    public function isEnrolledInCourse(Course $course)
-    {
-        $sections = $course->section->pluck('id');
-
-        return $this->enrollments()->whereIn('section_id', $sections)->exists();
-    }
-
-    public function isEnrolledInSection(Section $section)
-    {
-        return $this->enrollments()->where('section_id', $section->id)->exists();
-    }
-
-    public function enrollInSection(Section $section)
-    {
-        return Enrollment::create([
-            'section_id' => $section->id,
-            'user_id' => $this->id,
-        ]);
     }
 
     public function getUnpaidLectures()

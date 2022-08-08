@@ -152,7 +152,23 @@ class SectionResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
+        if (auth()->user()->hasRole('icarus')) {
+            return parent::getEloquentQuery()
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ]);
+        }
+
+        if (auth()->user()->hasRole('tutor')) {
+            return parent::getEloquentQuery()
+                ->taughtBy(auth()->user())
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ]);
+        }
+
         return parent::getEloquentQuery()
+            ->studentEnrolled(auth()->user())
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

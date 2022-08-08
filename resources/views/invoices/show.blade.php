@@ -22,7 +22,7 @@
 
 <body class="font-sans antialiased text-white bg-gray-900 p-16">
     <div class="bg-white rounded-md mx-auto grid grid-cols-4 place-content-center max-w-screen-md justify-center p-16">
-        <a href="{{ route('home') }}" class="col-span-3">
+        <a href="{{ route('filament.auth.login') }}" class="col-span-3">
             <img src="{{ asset('images/logos/banner.png') }}" alt="{{ config('app.name') }}'s Logo" class="h-16 w-auto">
         </a>
 
@@ -60,7 +60,8 @@
                 <div class="mt-4 flex items-center">
                     @if($gatewayInvoice->focusTransaction->PaymentGateway === 'VISA/MASTER')
                         @if(\Illuminate\Support\Str::startsWith($gatewayInvoice->focusTransaction->CardNumber, '4'))
-                            <x-assets.cards.visa class="h-8 w-auto text-blue-500" />
+                            {{--TODO: FAS Icons--}}
+                            <x-fab-cc-visa class="h-8 w-auto text-blue-500" />
 
                             <span class="ml-4 inline-flex space-x-1 text-sm font-bold text-gray-500 tracking-widest">
                                 <x-assets.cards.redacted class="h-1.5 w-auto" />

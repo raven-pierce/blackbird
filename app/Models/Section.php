@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -76,6 +77,20 @@ class Section extends Model
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function scopeTaughtBy(Builder $query, User $user): Builder
+    {
+        return $query->whereHas('course', function (Builder $query) use ($user) {
+            $query->whereBelongsTo($user, 'tutor');
+        });
+    }
+
+    public function scopeStudentEnrolled(Builder $query, User $user): Builder
+    {
+        return $query->whereHas('enrollments', function (Builder $query) use ($user) {
+            $query->whereBelongsTo($user, 'student');
+        });
     }
 
     public function isFull(): bool

@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
@@ -91,6 +92,15 @@ class InvoiceResource extends Resource
                 TrashedFilter::make(),
             ])
             ->actions([
+                Action::make('pay')
+                    ->label('Pay')
+                    ->icon('heroicon-s-cash')
+                    ->url(fn (Invoice $record) => $record->invoice_url)
+                    ->visible(fn (Invoice $record) => $record->status === 'Unpaid' && $record->user->hasAnyRole(['parent', 'student'])),
+                Action::make('view')
+                    ->label('View')
+                    ->icon('heroicon-s-external-link')
+                    ->url(fn (Invoice $record) => route('invoices.show', $record)),
                 EditAction::make(),
             ])
             ->bulkActions([
@@ -118,7 +128,15 @@ class InvoiceResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
+        if (auth()->user()->hasRole('icarus')) {
+            return parent::getEloquentQuery()
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ]);
+        }
+
         return parent::getEloquentQuery()
+            ->whereBelongsTo(auth()->user())
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

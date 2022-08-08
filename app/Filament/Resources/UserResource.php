@@ -7,7 +7,7 @@ use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Models\User;
 use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -36,7 +36,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Fieldset::make('Personal Information')
+                Fieldset::make('Account Settings')
                     ->schema([
                         TextInput::make('name')
                             ->label('Full Name')
@@ -46,15 +46,33 @@ class UserResource extends Resource
                             ->email()
                             ->autocomplete('email')
                             ->required(),
-                        Group::make([
-                            TextInput::make('phone')
-                                ->label('Phone Number')
-                                ->required(),
-                        ])->relationship('profile'),
+                        TextInput::make('password')
+                            ->label('New Password')
+                            ->password()
+                            ->autocomplete('new-password')
+                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->required(fn (string $context): bool => $context === 'create'),
+                        Select::make('roles')
+                            ->label('Roles')
+                            ->multiple()
+                            ->relationship('roles', 'name')
+                            ->preload()
+                            ->required()
+                            ->visible(auth()->user()->hasRole('icarus')),
                     ]),
-                Fieldset::make('Guardian Information')
+                Fieldset::make('Profile Information')
                     ->relationship('profile')
                     ->schema([
+                        TextInput::make('azure_email')
+                            ->label('Azure Email')
+                            ->email()
+                            ->autocomplete('email')
+                            ->required()
+                            ->disabled(! auth()->user()->hasRole('icarus')),
+                        TextInput::make('phone')
+                            ->label('Phone Number')
+                            ->required(),
                         TextInput::make('guardian_email')
                             ->label('Guardian\'s Email')
                             ->email()
@@ -63,24 +81,7 @@ class UserResource extends Resource
                         TextInput::make('guardian_phone')
                             ->label('Guardian\'s Phone Number')
                             ->required(),
-                    ])->columnSpan(1),
-                Fieldset::make('Account Settings')
-                    ->schema([
-                        Group::make([
-                            TextInput::make('azure_email')
-                                ->label('Azure Email')
-                                ->email()
-                                ->autocomplete('email')
-                                ->required(),
-                        ])->relationship('profile'),
-                        TextInput::make('password')
-                            ->label('New Password')
-                            ->password()
-                            ->autocomplete('new-password')
-                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                            ->dehydrated(fn ($state) => filled($state))
-                            ->required(fn (string $context): bool => $context === 'create'),
-                    ])->columnSpan(1),
+                    ]),
             ]);
     }
 
