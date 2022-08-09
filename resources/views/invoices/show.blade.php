@@ -60,48 +60,47 @@
                 <div class="mt-4 flex items-center">
                     @if($gatewayInvoice->focusTransaction->PaymentGateway === 'VISA/MASTER')
                         @if(\Illuminate\Support\Str::startsWith($gatewayInvoice->focusTransaction->CardNumber, '4'))
-                            {{--TODO: FAS Icons--}}
                             <x-fab-cc-visa class="h-8 w-auto text-blue-500" />
 
                             <span class="ml-4 inline-flex space-x-1 text-sm font-bold text-gray-500 tracking-widest">
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
                             </span>
 
                             <span class="ml-4 text-sm font-bold text-gray-500 tracking-widest">{{ \Illuminate\Support\Str::afterLast($gatewayInvoice->focusTransaction->CardNumber, 'x') }}</span>
                         @elseif(\Illuminate\Support\Str::startsWith($gatewayInvoice->focusTransaction->CardNumber, '5'))
-                            <x-assets.cards.mastercard class="h-8 w-auto text-red-500" />
+                            <x-fab-cc-mastercard class="h-8 w-auto text-red-500" />
 
                             <span class="ml-4 inline-flex space-x-1 text-sm font-bold text-gray-500 tracking-widest">
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
                             </span>
 
                             <span class="ml-4 text-sm font-bold text-gray-500 tracking-widest">{{ \Illuminate\Support\Str::afterLast($gatewayInvoice->focusTransaction->CardNumber, 'x') }}</span>
                         @endif
                     @elseif($gatewayInvoice->focusTransaction->PaymentGateway === 'AMEX')
-                        <x-assets.cards.amex class="h-8 w-auto text-sky-500" />
+                        <x-fab-cc-amex class="h-8 w-auto text-sky-500" />
 
                         <span class="ml-4 inline-flex space-x-1 text-sm font-bold text-gray-500 tracking-widest">
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
                             </span>
 
                         <span class="ml-4 text-sm font-bold text-gray-500 tracking-widest">{{ \Illuminate\Support\Str::afterLast($gatewayInvoice->focusTransaction->CardNumber, 'x') }}</span>
                     @else
-                        <x-assets.cards.generic class="h-8 w-auto text-indigo-500" />
+                        <x-fas-credit-card class="h-8 w-auto text-indigo-500" />
 
                         <span class="ml-4 inline-flex space-x-1 text-sm font-bold text-gray-500 tracking-widest">
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
-                                <x-assets.cards.redacted class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
+                                <x-fas-circle class="h-1.5 w-auto" />
                             </span>
 
                         <span class="ml-4 text-sm font-bold text-gray-500 tracking-widest">{{ \Illuminate\Support\Str::afterLast($gatewayInvoice->focusTransaction->CardNumber, 'x') }}</span>

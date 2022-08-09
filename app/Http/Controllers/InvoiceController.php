@@ -19,7 +19,6 @@ class InvoiceController extends Controller
         );
     }
 
-    // TODO: Integrate with Filament
     public function show(Invoice $invoice)
     {
         return view('invoices.show', [

@@ -37,7 +37,7 @@ class Schedule extends Page
         $this->lectures = new Collection();
 
         foreach ($user->enrollments as $enrollment) {
-            $this->lectures->add($enrollment->section->getLecturesBetween(now(), now()->addWeek()->endOfDay()));
+            $this->lectures->add($enrollment->section->getLecturesBetween(now(), now()->endOfDay()));
         }
 
         return $this->lectures->flatten();

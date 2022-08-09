@@ -27,7 +27,6 @@ class InvoiceGenerated extends Mailable
      */
     public function build()
     {
-        // TODO: View
         return $this->view('view.name');
     }
 }
