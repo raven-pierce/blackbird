@@ -20,6 +20,7 @@ return new class extends Migration
             $table->dateTime('join_time');
             $table->dateTime('leave_time');
             $table->integer('duration');
+            $table->foreignId('invoice_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->boolean('paid')->default(false);
             $table->timestamps();
             $table->softDeletes();

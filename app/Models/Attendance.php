@@ -25,6 +25,7 @@ class Attendance extends Model
         'join_time',
         'leave_time',
         'duration',
+        'invoice_id',
         'paid',
     ];
 
