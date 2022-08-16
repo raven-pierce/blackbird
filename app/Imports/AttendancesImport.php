@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Attendance;
 use App\Models\Enrollment;
+use App\Models\Lecture;
 use App\Models\Section;
 use App\Models\User;
 use Carbon\Carbon;
@@ -21,6 +22,7 @@ class AttendancesImport implements ToModel, WithHeadingRow
     public function model(array $row): Model|Attendance|null
     {
         $section = $this->getSection($row['azure_team_id']);
+        $lecture = $this->getLecture($section, $row['join_time']);
         $enrollment = $this->getEnrollment($row['azure_email'], $section->id);
 
         $joinTime = Carbon::parse($row['join_time']);
@@ -31,9 +33,10 @@ class AttendancesImport implements ToModel, WithHeadingRow
         if ($duration > 15 && $this->isAttendanceDuringLecture($section, $joinTime)) {
             return new Attendance([
                 'enrollment_id' => $enrollment->id,
-                'section_id' => $section->id,
+                'lecture_id' => $lecture->id,
                 'join_time' => $joinTime,
                 'leave_time' => $leaveTime,
+                'invoice_id' => null,
                 'duration' => $duration,
                 'paid' => $row['paid'],
             ]);
@@ -53,6 +56,11 @@ class AttendancesImport implements ToModel, WithHeadingRow
     protected function getSection(string $azure_team_id): Section
     {
         return Section::where('azure_team_id', $azure_team_id)->first();
+    }
+
+    protected function getLecture(Section $section, Carbon $joinTime): Lecture
+    {
+        return $section->lectures()->whereDate('start_time', $joinTime)->get()->firstOrFail();
     }
 
     protected function getEnrollment(string $azure_email, int $section_id): Enrollment

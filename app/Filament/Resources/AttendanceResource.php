@@ -5,18 +5,22 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AttendanceResource\Pages\CreateAttendance;
 use App\Filament\Resources\AttendanceResource\Pages\EditAttendance;
 use App\Filament\Resources\AttendanceResource\Pages\ListAttendances;
+use App\Imports\AttendancesImport;
 use App\Models\Attendance;
 use App\Models\Course;
 use App\Models\Lecture;
 use App\Models\Section;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
@@ -27,6 +31,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceResource extends Resource
 {
@@ -152,6 +157,20 @@ class AttendanceResource extends Resource
                 DeleteBulkAction::make(),
                 RestoreBulkAction::make(),
                 ForceDeleteBulkAction::make(),
+            ])
+            ->headerActions([
+                Action::make('Import')
+                    ->action(function (array $data) {
+                        Excel::import(new AttendancesImport(), $data['attachment']);
+
+                        Notification::make()
+                            ->title('Attendances Imported')
+                            ->success()
+                            ->send();
+                    })
+                    ->form([
+                        FileUpload::make('attachment')->required(),
+                    ]),
             ]);
     }
 
