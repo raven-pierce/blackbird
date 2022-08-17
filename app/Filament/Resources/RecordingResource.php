@@ -11,9 +11,11 @@ use App\Models\Recording;
 use App\Models\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
@@ -107,6 +109,34 @@ class RecordingResource extends Resource
             ])
             ->actions([
                 EditAction::make(),
+                Action::make('View')
+                    ->label('View')
+                    ->icon('heroicon-s-video-camera')
+                    ->url(fn (Recording $record) => $record->file_url)
+                    ->openUrlInNewTab()
+                    ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists()),
+                Action::make('Request')
+                    ->label('Request')
+                    ->icon('heroicon-s-video-camera')
+                    ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->doesntExist())
+                    ->requiresConfirmation()
+                    ->modalSubheading('Once you request this recording, you will have a full lecture\'s cost added to your pending invoice. Would you like to continue?')
+                    ->modalButton('Request')
+                    ->action(function (Recording $record) {
+                        $record->lecture->attendances()->create([
+                            'enrollment_id' => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->first()->id,
+                            'lecture_id' => $record->lecture->id,
+                            'join_time' => $record->lecture->start_time,
+                            'leave_time' => $record->lecture->end_time,
+                            'duration' => $record->lecture->duration,
+                        ]);
+
+                        Notification::make()
+                            ->title('Recording Granted')
+                            ->body('You may access it through this page or on Microsoft Teams.')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 DeleteBulkAction::make(),

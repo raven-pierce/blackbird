@@ -89,7 +89,7 @@ class SectionsRelationManager extends RelationManager
                 TrashedFilter::make(),
             ])
             ->headerActions([
-                CreateAction::make()->label('New Course'),
+                CreateAction::make()->label('New Section'),
             ])
             ->actions([
                 EditAction::make(),

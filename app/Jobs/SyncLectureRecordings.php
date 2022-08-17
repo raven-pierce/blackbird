@@ -77,7 +77,7 @@ class SyncLectureRecordings implements ShouldQueue
         $recipients = [];
 
         foreach ($this->lecture->attendances as $attendance) {
-            $recipients[] = $attendance->enrollment->student->profile->azure_email;
+            $recipients[] = $attendance->enrollment->student->email;
         }
 
         return $recipients;
@@ -92,7 +92,8 @@ class SyncLectureRecordings implements ShouldQueue
     protected function getRecordings(): ?array
     {
         // TODO: Today or Yesterday (Every Hour vs Daily at Midnight)
-        $recordingFolder = $this->graph->getGroupRecordingsFolder($this->group->getId(), $this->lecture->section->channel_folder ?? 'Project Athena', $this->lecture->section->recordings_folder ?? 'Recordings');
+        // TODO: Bugfix
+        $recordingFolder = $this->graph->getGroupRecordingsFolder($this->group->getId(), $this->lecture->section->channel_folder ?? 'General', $this->lecture->section->recordings_folder ?? 'Recordings');
         $recordings = $this->graph->getDriveFolderItems($this->group->getId(), $recordingFolder->getId())->getValue();
 
         $filteredRecordings = [];
@@ -100,7 +101,7 @@ class SyncLectureRecordings implements ShouldQueue
         foreach ($recordings as $recording) {
             $recordingDateTime = Carbon::parse($recording->getCreatedDateTime());
 
-            if ($recordingDateTime->isBetween('2022/07/01', '2022/08/31')) {
+            if ($recordingDateTime->isBetween($this->lecture->start_time, $this->lecture->end_time)) {
                 $filteredRecordings[] = $recording;
             }
         }

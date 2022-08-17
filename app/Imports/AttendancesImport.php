@@ -21,12 +21,12 @@ class AttendancesImport implements ToModel, WithHeadingRow
      */
     public function model(array $row): Model|Attendance|null
     {
-        $section = $this->getSection($row['azure_team_id']);
-        $lecture = $this->getLecture($section, $row['join_time']);
-        $enrollment = $this->getEnrollment($row['azure_email'], $section->id);
-
         $joinTime = Carbon::parse($row['join_time']);
         $leaveTime = Carbon::parse($row['leave_time']);
+
+        $section = $this->getSection($row['azure_team_id']);
+        $lecture = $this->getLecture($section, $joinTime);
+        $enrollment = $this->getEnrollment($row['email'], $section->id);
 
         $duration = $this->convertDurationToMinutes($row['duration']);
 
@@ -60,12 +60,12 @@ class AttendancesImport implements ToModel, WithHeadingRow
 
     protected function getLecture(Section $section, Carbon $joinTime): Lecture
     {
-        return $section->lectures()->whereDate('start_time', $joinTime)->get()->firstOrFail();
+        return $section->lectures()->whereDate('start_time', $joinTime)->get()->first();
     }
 
-    protected function getEnrollment(string $azure_email, int $section_id): Enrollment
+    protected function getEnrollment(string $email, int $section_id): Enrollment
     {
-        $user = User::whereRelation('profile', 'azure_email', $azure_email)->first();
+        $user = User::where('email', $email)->first();
 
         return Enrollment::where('user_id', $user->id)->where('section_id', $section_id)->first();
     }

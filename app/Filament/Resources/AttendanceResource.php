@@ -161,7 +161,7 @@ class AttendanceResource extends Resource
             ->headerActions([
                 Action::make('Import')
                     ->action(function (array $data) {
-                        Excel::import(new AttendancesImport(), $data['attachment']);
+                        Excel::import(new AttendancesImport(), $data['attachment']->store('temp'));
 
                         Notification::make()
                             ->title('Attendances Imported')
@@ -170,7 +170,8 @@ class AttendanceResource extends Resource
                     })
                     ->form([
                         FileUpload::make('attachment')->required(),
-                    ]),
+                    ])
+                    ->visible(fn () => auth()->user()->hasRole('icarus')),
             ]);
     }
 

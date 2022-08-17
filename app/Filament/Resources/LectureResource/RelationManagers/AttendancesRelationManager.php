@@ -2,14 +2,18 @@
 
 namespace App\Filament\Resources\LectureResource\RelationManagers;
 
+use App\Imports\AttendancesImport;
 use App\Models\Section;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -24,6 +28,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendancesRelationManager extends RelationManager
 {
@@ -87,6 +92,19 @@ class AttendancesRelationManager extends RelationManager
             ])
             ->headerActions([
                 CreateAction::make()->label('New Attendance'),
+                Action::make('Import')
+                    ->action(function (array $data) {
+                        Excel::import(new AttendancesImport(), $data['attachment']);
+
+                        Notification::make()
+                            ->title('Attendances Imported')
+                            ->success()
+                            ->send();
+                    })
+                    ->form([
+                        FileUpload::make('attachment')->required(),
+                    ])
+                    ->visible(fn () => auth()->user()->hasRole('icarus')),
             ])
             ->actions([
                 EditAction::make(),

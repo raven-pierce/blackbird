@@ -8,20 +8,16 @@ return [
     'domain_allowlist' => [],
 
     // Allow registration through socials
-    'registration' => false,
+    'registration' => true,
 
     // Specify the providers that should be visible on the login.
     // These should match the socialite providers you have setup in your services.php config.
     // Uses blade UI icons, for example: https://github.com/owenvoke/blade-fontawesome
     'providers' => [
-        //        'gitlab' => [
-        //            'label' => 'GitLab',
-        //            'icon' => 'fab-gitlab',
-        //        ],
-        //        'github' => [
-        //            'label' => 'GitHub',
-        //            'icon' => 'fab-github',
-        //        ],
+        'azure' => [
+            'label' => 'Azure',
+            'icon' => 'fab-microsoft',
+        ],
     ],
 
     'user_model' => \App\Models\User::class,

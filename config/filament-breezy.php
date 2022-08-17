@@ -70,7 +70,7 @@ return [
     |--------------------------------------------------------------------------
     | Enable or disable registration.
     */
-    'enable_registration' => true,
+    'enable_registration' => false,
     /*
     |--------------------------------------------------------------------------
     | Path to registration Livewire component.
@@ -90,7 +90,7 @@ return [
     |--------------------------------------------------------------------------
     | Path to Profile page component.
     */
-    'profile_page_component_path' => \JeffGreco13\FilamentBreezy\Pages\MyProfile::class,
+    'profile_page_component_path' => \App\Filament\Pages\MyProfile::class,
     /*
     |--------------------------------------------------------------------------
     | Where to redirect the user after registration.

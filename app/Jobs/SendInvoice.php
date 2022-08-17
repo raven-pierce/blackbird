@@ -75,7 +75,7 @@ class SendInvoice implements ShouldQueue
             'InvoiceItems' => $this->invoiceItems,
 
             'CustomerName' => $this->user->name,
-            'CustomerEmail' => $this->user->profile->azure_email,
+            'CustomerEmail' => $this->user->email,
         ];
     }
 

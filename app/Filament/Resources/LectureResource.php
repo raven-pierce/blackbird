@@ -6,6 +6,7 @@ use App\Filament\Resources\LectureResource\Pages\CreateLecture;
 use App\Filament\Resources\LectureResource\Pages\EditLecture;
 use App\Filament\Resources\LectureResource\Pages\ListLectures;
 use App\Filament\Resources\LectureResource\RelationManagers\AttendancesRelationManager;
+use App\Filament\Resources\LectureResource\RelationManagers\RecordingsRelationManager;
 use App\Models\Course;
 use App\Models\Lecture;
 use App\Models\Section;
@@ -105,6 +106,7 @@ class LectureResource extends Resource
     {
         return [
             AttendancesRelationManager::class,
+            RecordingsRelationManager::class,
         ];
     }
 

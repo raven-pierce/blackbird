@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
     Route::get('/payment/callback', [PaymentController::class, 'handleProviderCallback'])->name('payment.callback');
 });
 
 Route::get('/sync', function () {
-    \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\AzureImport(), storage_path('azure.xlsx'));
+   foreach (User::all() as $user) {
+       $user->assignRole('user');
+   }
 });

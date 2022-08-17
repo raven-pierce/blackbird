@@ -80,9 +80,7 @@ class EnrollmentResource extends Resource
                 TextColumn::make('section.course.name')->label('Course')->sortable(),
                 TextColumn::make('section.code')->label('Section Code')->sortable(),
                 TextColumn::make('student.name')->label('Student')->sortable(),
-                TextColumn::make('student.email')->label('Personal Email')->sortable(),
-                TextColumn::make('student.profile.azure_email')->label('Azure Email')->sortable(),
-                TextColumn::make('student.profile.phone')->label('Phone Number')->sortable(),
+                TextColumn::make('student.email')->label('Azure Email')->sortable(),
             ])
             ->filters([
                 TrashedFilter::make(),
