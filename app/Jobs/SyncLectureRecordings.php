@@ -51,15 +51,13 @@ class SyncLectureRecordings implements ShouldQueue
         $roles = ['read'];
 
         foreach ($recordings as $recording) {
-            $this->graph->addDriveItemPermissions($this->drive->getId(), $recording->getId(), $recipients, $roles);
-        }
-
-        foreach ($recordings as $recording) {
-            Recording::create([
+            Recording::updateOrCreate([
                 'lecture_id' => $this->lecture->id,
                 'azure_item_id' => $recording->getId(),
                 'file_url' => $recording->getWebUrl(),
             ]);
+
+            $this->graph->addDriveItemPermissions($this->drive->getId(), $recording->getId(), $recipients, $roles);
         }
 
         foreach ($this->lecture->attendances as $attendance) {
@@ -94,7 +92,9 @@ class SyncLectureRecordings implements ShouldQueue
         // TODO: Today or Yesterday (Every Hour vs Daily at Midnight)
         // TODO: Bugfix
         $recordingFolder = $this->graph->getGroupRecordingsFolder($this->group->getId(), $this->lecture->section->channel_folder ?? 'General', $this->lecture->section->recordings_folder ?? 'Recordings');
-        $recordings = $this->graph->getDriveFolderItems($this->group->getId(), $recordingFolder->getId())->getValue();
+        $recordings = $this->graph->getDriveFolderItems(
+            $this->group->getId(),
+            $recordingFolder->getId())->getValue();
 
         $filteredRecordings = [];
 

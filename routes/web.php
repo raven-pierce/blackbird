@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Microsoft\Graph\Generated\Models\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +19,4 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
     Route::get('/payment/callback', [PaymentController::class, 'handleProviderCallback'])->name('payment.callback');
-});
-
-Route::get('/sync', function () {
-   foreach (User::all() as $user) {
-       $user->assignRole('user');
-   }
 });

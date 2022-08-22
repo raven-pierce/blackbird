@@ -114,11 +114,11 @@ class RecordingResource extends Resource
                     ->icon('heroicon-s-video-camera')
                     ->url(fn (Recording $record) => $record->file_url)
                     ->openUrlInNewTab()
-                    ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists()),
+                    ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists() || auth()->user()->hasAnyRole(['icarus', 'tutor'])),
                 Action::make('Request')
                     ->label('Request')
                     ->icon('heroicon-s-video-camera')
-                    ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->doesntExist())
+                    ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->doesntExist() && ! auth()->user()->hasAnyRole(['icarus', 'tutor']))
                     ->requiresConfirmation()
                     ->modalSubheading('Once you request this recording, you will have a full lecture\'s cost added to your pending invoice. Would you like to continue?')
                     ->modalButton('Request')

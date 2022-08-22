@@ -98,6 +98,11 @@ class MicrosoftGraph
         return $this->graph->usersById($userId)->delete()->wait();
     }
 
+    public function listUserGroups(string $userId): DirectoryObjectCollectionResponse
+    {
+        return $this->graph->usersById($userId)->memberOf()->get()->wait();
+    }
+
     public function listGroups(): GroupCollectionResponse
     {
         return $this->graph->groups()->get()->wait();

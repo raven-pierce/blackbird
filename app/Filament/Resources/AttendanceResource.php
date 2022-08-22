@@ -161,7 +161,7 @@ class AttendanceResource extends Resource
             ->headerActions([
                 Action::make('Import')
                     ->action(function (array $data) {
-                        Excel::import(new AttendancesImport(), $data['attachment']->store('temp'));
+                        Excel::import(new AttendancesImport(), $data['attachment']);
 
                         Notification::make()
                             ->title('Attendances Imported')
