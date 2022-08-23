@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
+use App\Jobs\SyncDirectoryUsers;
 use App\Models\User;
+use Filament\Pages\Actions\Action;
 use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,6 +46,7 @@ class ListUsers extends ListRecords
     protected function getActions(): array
     {
         return [
+            Action::make('sync')->label('Sync Directory')->action(fn () => SyncDirectoryUsers::dispatch()),
             CreateAction::make()->label('New User'),
         ];
     }

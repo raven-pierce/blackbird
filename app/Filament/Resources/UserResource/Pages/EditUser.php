@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
+use App\Jobs\SyncDirectoryEnrollments;
+use Filament\Pages\Actions\Action;
 use Filament\Pages\Actions\DeleteAction;
 use Filament\Pages\Actions\ForceDeleteAction;
 use Filament\Pages\Actions\RestoreAction;
@@ -15,6 +17,7 @@ class EditUser extends EditRecord
     protected function getActions(): array
     {
         return [
+            Action::make('sync')->label('Sync Enrollments')->action(fn () => SyncDirectoryEnrollments::dispatch($this->record)),
             DeleteAction::make(),
             ForceDeleteAction::make()->label('Force Delete'),
             RestoreAction::make()->label('Restore'),
