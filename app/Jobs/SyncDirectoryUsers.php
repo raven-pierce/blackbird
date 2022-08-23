@@ -38,7 +38,7 @@ class SyncDirectoryUsers implements ShouldQueue
         $directoryUsers = $this->graph->listUsers()->getValue();
 
         foreach ($directoryUsers as $user) {
-            $user = User::firstOrCreate(
+            $user = User::updateOrCreate(
                 ['email' => $user->getUserPrincipalName()],
                 ['name' => $user->getDisplayName()]
             );
@@ -46,6 +46,8 @@ class SyncDirectoryUsers implements ShouldQueue
             $user->assignRole('user');
 
             SyncDirectoryEnrollments::dispatch($user);
+
+            // TODO: Notification
         }
     }
 }

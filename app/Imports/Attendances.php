@@ -12,8 +12,10 @@ use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithUpsertColumns;
+use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class AttendancesImport implements ToModel, WithHeadingRow
+class Attendances implements ToModel, WithHeadingRow, WithUpserts, WithUpsertColumns
 {
     /**
      * @param  array  $row
@@ -38,7 +40,7 @@ class AttendancesImport implements ToModel, WithHeadingRow
                 'leave_time' => $leaveTime,
                 'invoice_id' => null,
                 'duration' => $duration,
-                'paid' => $row['paid'],
+                'paid' => false,
             ]);
         }
     }
@@ -48,9 +50,9 @@ class AttendancesImport implements ToModel, WithHeadingRow
         return $section->lectures()->whereDate('start_time', $joinTime)->get()->isNotEmpty();
     }
 
-    protected function convertDurationToMinutes(int $seconds): float
+    protected function convertDurationToMinutes(string $duration): float
     {
-        return CarbonInterval::seconds($seconds)->totalMinutes;
+        return floor(CarbonInterval::fromString($duration)->totalMinutes);
     }
 
     protected function getSection(string $azure_team_id): Section
@@ -68,5 +70,15 @@ class AttendancesImport implements ToModel, WithHeadingRow
         $user = User::where('email', $email)->first();
 
         return Enrollment::where('user_id', $user->id)->where('section_id', $section_id)->first();
+    }
+
+    public function upsertColumns(): array
+    {
+        return ['join_time', 'leave_time', 'duration'];
+    }
+
+    public function uniqueBy(): array
+    {
+        return ['enrollment_id', 'lecture_id'];
     }
 }

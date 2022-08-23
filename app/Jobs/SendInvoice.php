@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Invoice;
 use App\Models\User;
-use App\Notifications\InvoiceGenerated;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -57,7 +56,7 @@ class SendInvoice implements ShouldQueue
             ->showBackground()
             ->savePdf(storage_path("app/resources/invoices/{$invoice->external_id}.pdf"));
 
-        $this->user->notify(new InvoiceGenerated($invoice));
+        // TODO: Notification
     }
 
     protected function prepareMetadata(): array

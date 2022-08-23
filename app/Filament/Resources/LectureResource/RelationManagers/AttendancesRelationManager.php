@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\LectureResource\RelationManagers;
 
-use App\Imports\AttendancesImport;
+use App\Imports\Attendances;
 use App\Models\Section;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -94,7 +94,7 @@ class AttendancesRelationManager extends RelationManager
                 CreateAction::make()->label('New Attendance'),
                 Action::make('Import')
                     ->action(function (array $data) {
-                        Excel::import(new AttendancesImport(), $data['attachment']);
+                        Excel::import(new Attendances(), $data['attachment']);
 
                         Notification::make()
                             ->title('Attendances Imported')

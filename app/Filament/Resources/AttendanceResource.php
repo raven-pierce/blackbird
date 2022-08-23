@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AttendanceResource\Pages\CreateAttendance;
 use App\Filament\Resources\AttendanceResource\Pages\EditAttendance;
 use App\Filament\Resources\AttendanceResource\Pages\ListAttendances;
-use App\Imports\AttendancesImport;
+use App\Imports\Attendances;
 use App\Models\Attendance;
 use App\Models\Course;
 use App\Models\Lecture;
@@ -161,7 +161,7 @@ class AttendanceResource extends Resource
             ->headerActions([
                 Action::make('Import')
                     ->action(function (array $data) {
-                        Excel::import(new AttendancesImport(), $data['attachment']);
+                        Excel::import(new Attendances(), $data['attachment']);
 
                         Notification::make()
                             ->title('Attendances Imported')
@@ -169,7 +169,7 @@ class AttendanceResource extends Resource
                             ->send();
                     })
                     ->form([
-                        FileUpload::make('attachment')->required(),
+                        FileUpload::make('attachment')->disk('local')->directory('attendances')->required(),
                     ])
                     ->visible(fn () => auth()->user()->hasRole('icarus')),
             ]);

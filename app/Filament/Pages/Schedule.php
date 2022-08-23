@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Lecture;
 use App\Models\User;
 use Filament\Pages\Page;
 use Illuminate\Support\Carbon;
@@ -34,6 +35,14 @@ class Schedule extends Page
 
     protected function scheduledLectures(User $user): Collection
     {
+        if ($user->hasRole('icarus')) {
+            return Lecture::whereBetween('start_time', [now(), now()->endOfDay()])->get();
+        }
+
+        if ($user->hasRole('tutor')) {
+            return Lecture::whereBetween('start_time', [now(), now()->endOfDay()])->taughtBy($user)->get();
+        }
+
         $this->lectures = new Collection();
 
         foreach ($user->enrollments as $enrollment) {

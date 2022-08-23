@@ -27,6 +27,8 @@ use Microsoft\Graph\Generated\Models\SubscribedSkuCollectionResponse;
 use Microsoft\Graph\Generated\Models\User;
 use Microsoft\Graph\Generated\Models\UserCollectionResponse;
 use Microsoft\Graph\Generated\Users\Item\AssignLicense\AssignLicensePostRequestBody;
+use Microsoft\Graph\Generated\Users\UsersRequestBuilderGetQueryParameters;
+use Microsoft\Graph\Generated\Users\UsersRequestBuilderGetRequestConfiguration;
 use Microsoft\Graph\GraphRequestAdapter;
 use Microsoft\Graph\GraphServiceClient;
 use Microsoft\Kiota\Authentication\Oauth\ClientCredentialContext;
@@ -62,7 +64,14 @@ class MicrosoftGraph
 
     public function listUsers(): UserCollectionResponse
     {
-        return $this->graph->users()->get()->wait();
+        $config = new UsersRequestBuilderGetRequestConfiguration();
+
+        $queryParameters = new UsersRequestBuilderGetQueryParameters();
+        $queryParameters->top = 999;
+
+        $config->queryParameters = $queryParameters;
+
+        return $this->graph->users()->get($config)->wait();
     }
 
     public function getUser(string $userId): User

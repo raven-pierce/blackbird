@@ -3,7 +3,6 @@
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
-use Microsoft\Graph\Generated\Models\Group;
 
 /*
 |--------------------------------------------------------------------------

@@ -5,7 +5,6 @@ namespace App\Jobs;
 use App\Models\Enrollment;
 use App\Models\Section;
 use App\Models\User;
-use App\Notifications\EnrollmentCreated;
 use App\Services\MicrosoftGraph;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -78,12 +77,11 @@ class SyncDirectoryEnrollments implements ShouldQueue
      */
     protected function syncEnrollments(Section $section): void
     {
-        $enrollment = Enrollment::firstOrCreate([
+        $enrollment = Enrollment::updateOrCreate([
             'section_id' => $section->id,
             'user_id' => $this->user->id,
         ]);
 
-        // TODO: Notification Mailable
-        // $this->user->notify(new EnrollmentCreated($enrollment));
+        // TODO: Notification
     }
 }

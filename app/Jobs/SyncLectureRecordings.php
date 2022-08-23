@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Lecture;
 use App\Models\Recording;
-use App\Notifications\RecordingProcessed;
 use App\Services\MicrosoftGraph;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -60,9 +59,7 @@ class SyncLectureRecordings implements ShouldQueue
             $this->graph->addDriveItemPermissions($this->drive->getId(), $recording->getId(), $recipients, $roles);
         }
 
-        foreach ($this->lecture->attendances as $attendance) {
-            $attendance->enrollment->student->notify(new RecordingProcessed($this->lecture));
-        }
+        // TODO: Notification
     }
 
     /**
@@ -89,8 +86,6 @@ class SyncLectureRecordings implements ShouldQueue
      */
     protected function getRecordings(): ?array
     {
-        // TODO: Today or Yesterday (Every Hour vs Daily at Midnight)
-        // TODO: Bugfix
         $recordingFolder = $this->graph->getGroupRecordingsFolder($this->group->getId(), $this->lecture->section->channel_folder ?? 'General', $this->lecture->section->recordings_folder ?? 'Recordings');
         $recordings = $this->graph->getDriveFolderItems(
             $this->group->getId(),
