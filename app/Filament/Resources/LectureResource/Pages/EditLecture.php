@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\LectureResource\Pages;
 
 use App\Filament\Resources\LectureResource;
+use App\Jobs\SyncLectureRecordings;
+use Filament\Pages\Actions\Action;
 use Filament\Pages\Actions\DeleteAction;
 use Filament\Pages\Actions\ForceDeleteAction;
 use Filament\Pages\Actions\RestoreAction;
@@ -15,6 +17,7 @@ class EditLecture extends EditRecord
     protected function getActions(): array
     {
         return [
+            Action::make('sync')->label('Sync Recordings')->action(fn () => SyncLectureRecordings::dispatch($this->record)),
             DeleteAction::make(),
             ForceDeleteAction::make()->label('Force Delete'),
             RestoreAction::make()->label('Restore'),
