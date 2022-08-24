@@ -32,7 +32,7 @@ class Attendances implements ToModel, WithHeadingRow, WithUpserts, WithUpsertCol
 
         $duration = $this->convertDurationToMinutes($row['duration']);
 
-        if ($duration > 15 && $this->isAttendanceDuringLecture($section, $joinTime)) {
+        if ($duration > 15 && $this->isAttendanceDuringLecture($section, $joinTime) && $enrollment) {
             return new Attendance([
                 'enrollment_id' => $enrollment->id,
                 'lecture_id' => $lecture->id,
@@ -65,7 +65,7 @@ class Attendances implements ToModel, WithHeadingRow, WithUpserts, WithUpsertCol
         return $section->lectures()->whereDate('start_time', $joinTime)->get()->first();
     }
 
-    protected function getEnrollment(string $email, int $section_id): Enrollment
+    protected function getEnrollment(string $email, int $section_id): Enrollment|null
     {
         $user = User::where('email', $email)->first();
 
