@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
 
 class SyncDirectoryUsers implements ShouldQueue
 {
@@ -49,5 +50,11 @@ class SyncDirectoryUsers implements ShouldQueue
 
             // TODO: Notification
         }
+
+        $emails = Arr::map($directoryUsers, function ($value, $key) {
+            return $value->getUserPrincipalName();
+        });
+
+        User::query()->whereNotIn('email', $emails)->forceDelete();
     }
 }

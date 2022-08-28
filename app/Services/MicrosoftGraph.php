@@ -239,7 +239,7 @@ class MicrosoftGraph
         return $this->graph->drivesById($driveId)->itemsById($folderId)->children()->get()->wait();
     }
 
-    public function getGroupRecordingsFolder(string $groupId, string $channelFolder = 'General', string $recordingsFolder = 'Recordings')
+    public function getGroupRecordingsFolder(string $groupId, string $channelFolder = 'General', string $recordingsFolder = 'Recordings'): DriveItem
     {
         $rootItems = $this->listDriveItems($groupId)->getValue();
 
@@ -252,6 +252,18 @@ class MicrosoftGraph
                         return $folderItem;
                     }
                 }
+            }
+        }
+    }
+
+    public function getRecordingItem(string $groupId, string $itemId, string $channelFolder = 'General', string $recordingsFolder = 'Recordings'): DriveItem
+    {
+        $recordingsFolder = $this->getGroupRecordingsFolder($groupId, $channelFolder, $recordingsFolder);
+        $recordings = $this->getDriveFolderItems($groupId, $recordingsFolder->getId())->getValue();
+
+        foreach ($recordings as $recording) {
+            if ($recording->getId() === $itemId) {
+                return $recording;
             }
         }
     }

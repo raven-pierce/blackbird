@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RecordingResource\Pages\CreateRecording;
 use App\Filament\Resources\RecordingResource\Pages\EditRecording;
 use App\Filament\Resources\RecordingResource\Pages\ListRecordings;
+use App\Jobs\SyncRecordingMetadata;
 use App\Models\Course;
 use App\Models\Lecture;
 use App\Models\Recording;
@@ -131,9 +132,11 @@ class RecordingResource extends Resource
                             'duration' => $record->lecture->duration,
                         ]);
 
+                        SyncRecordingMetadata::dispatch($record);
+
                         Notification::make()
                             ->title('Recording Granted')
-                            ->body('You may access it through this page or on Microsoft Teams.')
+                            ->body('You may access it through this page.')
                             ->success()
                             ->send();
                     }),

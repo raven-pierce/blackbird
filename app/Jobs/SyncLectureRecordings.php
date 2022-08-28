@@ -50,13 +50,14 @@ class SyncLectureRecordings implements ShouldQueue
         $roles = ['read'];
 
         foreach ($recordings as $recording) {
-            Recording::updateOrCreate([
+            Recording::updateOrCreate(['azure_item_id' => $recording->getId()], [
                 'lecture_id' => $this->lecture->id,
-                'azure_item_id' => $recording->getId(),
                 'file_url' => $recording->getWebUrl(),
             ]);
 
-            $this->graph->addDriveItemPermissions($this->drive->getId(), $recording->getId(), $recipients, $roles);
+            if ($recipients) {
+                $this->graph->addDriveItemPermissions($this->drive->getId(), $recording->getId(), $recipients, $roles);
+            }
         }
 
         // TODO: Notification
@@ -96,7 +97,7 @@ class SyncLectureRecordings implements ShouldQueue
         foreach ($recordings as $recording) {
             $recordingDateTime = Carbon::parse($recording->getCreatedDateTime());
 
-            if ($recordingDateTime->isBetween($this->lecture->start_time, $this->lecture->end_time)) {
+            if ($recordingDateTime->isBetween($this->lecture->start_time->startOfDay(), $this->lecture->end_time->endOfDay())) {
                 $filteredRecordings[] = $recording;
             }
         }
