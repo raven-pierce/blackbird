@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('enrollment_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('lecture_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->unique(['enrollment_id', 'lecture_id']);
             $table->dateTime('join_time');
             $table->dateTime('leave_time');
             $table->integer('duration');
