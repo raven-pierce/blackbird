@@ -53,6 +53,7 @@ class Enrollment extends Model
         });
     }
 
+    // TODO: Fix Scope for All Models
     public function scopeAttendedLecture(Builder $query, Lecture $lecture): Builder
     {
         return $query->whereHas('attendances', function (Builder $query) use ($lecture) {
@@ -72,13 +73,13 @@ class Enrollment extends Model
         return $this->attendances()->wherePaid(true);
     }
 
-    public function generateInvoice(int $quantity = null, bool $override = false)
+    public function generateInvoice(int $quantity = null, bool $override = false): void
     {
         $invoiceValue = $this->section->pricing->amount * ($quantity ?? $this->unpaid_attendances_count);
         $formattedInvoiceValue = NumberFormatter::create('en-US', NumberFormatter::CURRENCY)->formatCurrency($invoiceValue, config('payment.display_currency'));
 
         if (! $invoiceValue >= config('payment.payment_threshold') && ! $override) {
-            return Notification::make()
+            Notification::make()
                 ->title('Payment Threshold')
                 ->body('The invoice value hasn\'t reached the minimum payment threshold.')
                 ->danger()
@@ -86,7 +87,7 @@ class Enrollment extends Model
         }
 
         if ($override && $invoiceValue === 0) {
-            return Notification::make()
+            Notification::make()
                 ->title('Invoice Value')
                 ->body('The invoice value is zero.')
                 ->danger()

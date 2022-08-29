@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\SyncDirectoryUsers;
+use App\Jobs\SyncEquivalentLectureRecordings;
 use App\Jobs\SyncLectureRecordings;
 use App\Jobs\SyncRecordingMetadata;
 use App\Models\Lecture;
@@ -25,20 +26,21 @@ class Kernel extends ConsoleKernel
         })->daily();
 
         $schedule->call(function () {
+            $recordings = Recording::all();
+
+            foreach ($recordings as $recording) {
+                SyncRecordingMetadata::dispatch($recording);
+                SyncEquivalentLectureRecordings::dispatch($recording);
+            }
+        })->dailyAt('03:00');
+
+        $schedule->call(function () {
             $lectures = Lecture::whereDate('start_time', today()->subDay())->get();
 
             foreach ($lectures as $lecture) {
                 SyncLectureRecordings::dispatch($lecture);
             }
-        })->dailyAt('03:00');
-
-        $schedule->call(function () {
-            $recordings = Recording::all();
-
-            foreach ($recordings as $recording) {
-                SyncRecordingMetadata::dispatch($recording);
-            }
-        })->dailyAt('03:00');
+        })->dailyAt('06:00');
     }
 
     /**

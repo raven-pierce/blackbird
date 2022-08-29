@@ -2,7 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Models\Course;
+use App\Models\Lecture;
 use App\Models\Recording;
+use App\Models\Section;
 use App\Services\MicrosoftGraph;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,6 +18,10 @@ use Microsoft\Graph\Generated\Models\Group;
 class SyncRecordingMetadata implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected Lecture $lecture;
+
+    protected Section $section;
 
     protected MicrosoftGraph $graph;
 
@@ -29,7 +36,8 @@ class SyncRecordingMetadata implements ShouldQueue
      */
     public function __construct(protected Recording $recording)
     {
-        //
+        $this->lecture = $this->recording->lecture;
+        $this->section = $this->lecture->section;
     }
 
     /**
@@ -40,14 +48,17 @@ class SyncRecordingMetadata implements ShouldQueue
     public function handle()
     {
         $this->graph = new MicrosoftGraph();
-        $this->group = $this->graph->getGroup($this->recording->lecture->section->azure_team_id);
+        $this->group = $this->graph->getGroup($this->section->azure_team_id);
         $this->drive = $this->graph->getGroupDrive($this->group->getId());
 
-        $recording = $this->graph->getRecordingItem($this->recording->lecture->section->azure_team_id, $this->recording->azure_item_id);
+        $recording = $this->graph->getRecordingItem($this->section->azure_team_id, $this->recording->azure_item_id);
 
         Recording::query()
             ->where('azure_item_id', $this->recording->azure_item_id)
-            ->update(['file_url' => $recording->getWebUrl()]);
+            ->update([
+                'file_name' => $recording->getName(),
+                'file_url' => $recording->getWebUrl(),
+            ]);
 
         $recipients = $this->preparePermissionRecipients();
         $roles = ['read'];
@@ -66,7 +77,7 @@ class SyncRecordingMetadata implements ShouldQueue
     {
         $recipients = [];
 
-        foreach ($this->recording->lecture->attendances as $attendance) {
+        foreach ($this->lecture->attendances as $attendance) {
             $recipients[] = $attendance->enrollment->student->email;
         }
 

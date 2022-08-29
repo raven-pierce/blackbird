@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Lecture;
 use App\Models\Recording;
+use App\Models\Section;
 use App\Services\MicrosoftGraph;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -18,6 +19,8 @@ class SyncLectureRecordings implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected Section $section;
+
     protected MicrosoftGraph $graph;
 
     protected Group $group;
@@ -31,7 +34,7 @@ class SyncLectureRecordings implements ShouldQueue
      */
     public function __construct(protected Lecture $lecture)
     {
-        //
+        $this->section = $this->lecture->section;
     }
 
     /**
@@ -42,7 +45,7 @@ class SyncLectureRecordings implements ShouldQueue
     public function handle(): void
     {
         $this->graph = new MicrosoftGraph();
-        $this->group = $this->graph->getGroup($this->lecture->section->azure_team_id);
+        $this->group = $this->graph->getGroup($this->section->azure_team_id);
         $this->drive = $this->graph->getGroupDrive($this->group->getId());
 
         $recipients = $this->preparePermissionRecipients();
@@ -52,12 +55,15 @@ class SyncLectureRecordings implements ShouldQueue
         foreach ($recordings as $recording) {
             Recording::updateOrCreate(['azure_item_id' => $recording->getId()], [
                 'lecture_id' => $this->lecture->id,
+                'file_name' => $recording->getName(),
                 'file_url' => $recording->getWebUrl(),
             ]);
 
             if ($recipients) {
                 $this->graph->addDriveItemPermissions($this->drive->getId(), $recording->getId(), $recipients, $roles);
             }
+
+            SyncEquivalentLectureRecordings::dispatch($recording);
         }
 
         // TODO: Notification
@@ -87,7 +93,7 @@ class SyncLectureRecordings implements ShouldQueue
      */
     protected function getRecordings(): ?array
     {
-        $recordingFolder = $this->graph->getGroupRecordingsFolder($this->group->getId(), $this->lecture->section->channel_folder ?? 'General', $this->lecture->section->recordings_folder ?? 'Recordings');
+        $recordingFolder = $this->graph->getGroupRecordingsFolder($this->group->getId(), $this->section->channel_folder ?? 'General', $this->section->recordings_folder ?? 'Recordings');
         $recordings = $this->graph->getDriveFolderItems(
             $this->group->getId(),
             $recordingFolder->getId())->getValue();

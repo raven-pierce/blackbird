@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LectureResource\Pages\CreateLecture;
 use App\Filament\Resources\LectureResource\Pages\EditLecture;
 use App\Filament\Resources\LectureResource\Pages\ListLectures;
+use App\Filament\Resources\LectureResource\Pages\TakeAttendance;
 use App\Filament\Resources\LectureResource\RelationManagers\AttendancesRelationManager;
 use App\Filament\Resources\LectureResource\RelationManagers\RecordingsRelationManager;
 use App\Models\Course;
@@ -116,6 +117,7 @@ class LectureResource extends Resource
             'index' => ListLectures::route('/'),
             'create' => CreateLecture::route('/create'),
             'edit' => EditLecture::route('/{record}/edit'),
+            'attendance' => TakeAttendance::route('/{record}/attendance'),
         ];
     }
 

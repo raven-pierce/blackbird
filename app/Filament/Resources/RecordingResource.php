@@ -126,7 +126,6 @@ class RecordingResource extends Resource
                     ->action(function (Recording $record) {
                         $record->lecture->attendances()->create([
                             'enrollment_id' => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->first()->id,
-                            'lecture_id' => $record->lecture->id,
                             'join_time' => $record->lecture->start_time,
                             'leave_time' => $record->lecture->end_time,
                             'duration' => $record->lecture->duration,

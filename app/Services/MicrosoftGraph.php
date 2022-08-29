@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Microsoft\Graph\Generated\Drives\Item\Items\Item\Children\ChildrenRequestBuilderGetQueryParameters;
+use Microsoft\Graph\Generated\Drives\Item\Items\Item\Children\ChildrenRequestBuilderGetRequestConfiguration;
 use Microsoft\Graph\Generated\Drives\Item\Items\Item\DriveItemItemRequestBuilderGetQueryParameters;
 use Microsoft\Graph\Generated\Drives\Item\Items\Item\DriveItemItemRequestBuilderGetRequestConfiguration;
 use Microsoft\Graph\Generated\Drives\Item\Items\Item\Invite\InvitePostRequestBody;
@@ -200,11 +202,11 @@ class MicrosoftGraph
 
     public function getGroupDrive(string $groupId): Drive
     {
-        $driveConfig = new DriveRequestBuilderGetRequestConfiguration();
-        $driveConfig->queryParameters = new DriveRequestBuilderGetQueryParameters();
-        $driveConfig->queryParameters->expand = ['root'];
+        $config = new DriveRequestBuilderGetRequestConfiguration();
+        $config->queryParameters = new DriveRequestBuilderGetQueryParameters();
+        $config->queryParameters->expand = ['root'];
 
-        return $this->graph->groupsById($groupId)->drive()->get($driveConfig)->wait();
+        return $this->graph->groupsById($groupId)->drive()->get($config)->wait();
     }
 
     public function getGroupDriveRoot(string $groupId): DriveItem
@@ -222,13 +224,13 @@ class MicrosoftGraph
 
     public function getDriveFolder(string $groupId, string $folderId): DriveItem
     {
-        $driveConfig = new DriveItemItemRequestBuilderGetRequestConfiguration();
-        $driveConfig->queryParameters = new DriveItemItemRequestBuilderGetQueryParameters();
-        $driveConfig->queryParameters->expand = ['children'];
+        $config = new DriveItemItemRequestBuilderGetRequestConfiguration();
+        $config->queryParameters = new DriveItemItemRequestBuilderGetQueryParameters();
+        $config->queryParameters->expand = ['children'];
 
         $driveId = $this->getGroupDrive($groupId)->getId();
 
-        return $this->graph->drivesById($driveId)->itemsById($folderId)->get($driveConfig)->wait();
+        return $this->graph->drivesById($driveId)->itemsById($folderId)->get($config)->wait();
     }
 
     public function getDriveFolderItems(string $groupId, string $folderId): DriveItemCollectionResponse
@@ -236,7 +238,11 @@ class MicrosoftGraph
         $driveId = $this->getGroupDrive($groupId)->getId();
         $folderId = $this->getDriveFolder($groupId, $folderId)->getId();
 
-        return $this->graph->drivesById($driveId)->itemsById($folderId)->children()->get()->wait();
+        $config = new ChildrenRequestBuilderGetRequestConfiguration();
+        $config->queryParameters = new ChildrenRequestBuilderGetQueryParameters();
+        $config->queryParameters->select = ['@microsoft.graph.downloadUrl'];
+
+        return $this->graph->drivesById($driveId)->itemsById($folderId)->children()->get($config)->wait();
     }
 
     public function getGroupRecordingsFolder(string $groupId, string $channelFolder = 'General', string $recordingsFolder = 'Recordings'): DriveItem
@@ -266,6 +272,17 @@ class MicrosoftGraph
                 return $recording;
             }
         }
+    }
+
+    public function downloadRecording(string $groupId, string $itemId)
+    {
+        $driveId = $this->getGroupDrive($groupId)->getId();
+
+        $config = new DriveItemItemRequestBuilderGetRequestConfiguration();
+        $config->queryParameters = new DriveItemItemRequestBuilderGetQueryParameters();
+        $config->queryParameters->select = ['@microsoft.graph.downloadUrl'];
+
+        return $this->graph->drivesById($driveId)->itemsById($itemId)->get($config)->wait();
     }
 
     public function listDriveItemPermissions(string $driveId, string $itemId): PermissionCollectionResponse

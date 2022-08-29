@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
 use Microsoft\Graph\Generated\Models\Group;
 
 class SyncDirectoryEnrollments implements ShouldQueue
@@ -42,6 +43,12 @@ class SyncDirectoryEnrollments implements ShouldQueue
         foreach ($sections as $section) {
             $this->syncEnrollments($section);
         }
+
+        $enrollments = Arr::map($sections, function ($value, $key) {
+            return $value->id;
+        });
+
+        Enrollment::query()->whereBelongsTo($this->user, 'student')->whereNotIn('section_id', $enrollments)->forceDelete();
     }
 
     /**

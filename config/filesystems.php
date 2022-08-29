@@ -56,6 +56,18 @@ return [
             'throw' => false,
         ],
 
+        'recordings' => [
+            'driver' => 's3',
+            'key' => env('RECORDINGS_AWS_ACCESS_KEY_ID'),
+            'secret' => env('RECORDINGS_AWS_SECRET_ACCESS_KEY'),
+            'region' => env('RECORDINGS_AWS_DEFAULT_REGION'),
+            'bucket' => env('RECORDINGS_AWS_BUCKET'),
+            'url' => env('RECORDINGS_AWS_URL'),
+            'endpoint' => env('RECORDINGS_AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('RECORDINGS_AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+        ],
+
     ],
 
     /*

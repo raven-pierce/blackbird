@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('lecture_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('azure_item_id')->unique();
+            $table->string('file_name');
             $table->string('file_url');
             $table->timestamps();
             $table->softDeletes();

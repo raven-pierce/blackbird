@@ -19,6 +19,7 @@
         "laravel/socialite": "^5.5",
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.7",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.24.0",
         "microsoft/microsoft-graph": "^2.0.0-RC5",
