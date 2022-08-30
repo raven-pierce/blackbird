@@ -3,12 +3,12 @@
 namespace App\Console;
 
 use App\Jobs\SyncDirectoryUsers;
-use App\Jobs\SyncEquivalentLectureRecordings;
 use App\Jobs\SyncLectureRecordings;
-use App\Jobs\SyncRecordingMetadata;
+use App\Jobs\SyncRecordingPermissions;
 use App\Models\Lecture;
 use App\Models\Recording;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -26,11 +26,14 @@ class Kernel extends ConsoleKernel
         })->daily();
 
         $schedule->call(function () {
-            $recordings = Recording::all();
+            $recordings = Recording::whereHas('lecture', function (Builder $query) {
+                $query->whereHas('section', function (Builder $query) {
+                    $query->where('delivery_method', 'Online')->orWhere('delivery_method', 'Hybrid');
+                });
+            })->get();
 
             foreach ($recordings as $recording) {
-                SyncRecordingMetadata::dispatch($recording);
-                SyncEquivalentLectureRecordings::dispatch($recording);
+                SyncRecordingPermissions::dispatch($recording);
             }
         })->dailyAt('03:00');
 

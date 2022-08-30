@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\RecordingResource\Pages;
 
 use App\Filament\Resources\RecordingResource;
-use App\Jobs\SyncRecordingMetadata;
+use App\Jobs\SyncRecordingPermissions;
 use Filament\Pages\Actions\Action;
 use Filament\Pages\Actions\DeleteAction;
 use Filament\Pages\Actions\ForceDeleteAction;
@@ -17,7 +17,7 @@ class EditRecording extends EditRecord
     protected function getActions(): array
     {
         return [
-            Action::make('sync')->label('Sync Metadata')->action(fn () => SyncRecordingMetadata::dispatch($this->record)),
+            Action::make('sync')->label('Sync Permissions')->action(fn () => SyncRecordingPermissions::dispatch($this->record)),
             DeleteAction::make(),
             ForceDeleteAction::make()->label('Force Delete'),
             RestoreAction::make()->label('Restore'),

@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Course;
 use App\Models\Lecture;
 use App\Models\Recording;
 use App\Models\Section;
@@ -15,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Microsoft\Graph\Generated\Models\Drive;
 use Microsoft\Graph\Generated\Models\Group;
 
-class SyncRecordingMetadata implements ShouldQueue
+class SyncRecordingPermissions implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -52,13 +51,6 @@ class SyncRecordingMetadata implements ShouldQueue
         $this->drive = $this->graph->getGroupDrive($this->group->getId());
 
         $recording = $this->graph->getRecordingItem($this->section->azure_team_id, $this->recording->azure_item_id);
-
-        Recording::query()
-            ->where('azure_item_id', $this->recording->azure_item_id)
-            ->update([
-                'file_name' => $recording->getName(),
-                'file_url' => $recording->getWebUrl(),
-            ]);
 
         $recipients = $this->preparePermissionRecipients();
         $roles = ['read'];

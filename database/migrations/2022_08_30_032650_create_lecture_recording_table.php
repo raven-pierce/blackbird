@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('recordings', function (Blueprint $table) {
+        Schema::create('lecture_recording', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lecture_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('azure_item_id')->unique();
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->string('file_url');
-            $table->timestamps();
-            $table->softDeletes();
+            $table->foreignId('recording_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recordings');
+        Schema::dropIfExists('lecture_recording');
     }
 };
