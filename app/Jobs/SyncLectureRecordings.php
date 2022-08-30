@@ -27,7 +27,7 @@ class SyncLectureRecordings implements ShouldQueue
      *
      * @var int
      */
-    public int $timeout = 600;
+    public int $timeout = 900;
 
     protected Section $section;
 
@@ -46,6 +46,8 @@ class SyncLectureRecordings implements ShouldQueue
      */
     public function __construct(protected Lecture $lecture)
     {
+        $this->onQueue('recordings');
+
         $this->section = $this->lecture->section;
         $this->course = $this->section->course;
     }

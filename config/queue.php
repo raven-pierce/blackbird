@@ -71,6 +71,15 @@ return [
             'after_commit' => false,
         ],
 
+        'recordings' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => env('RECORDINGS_QUEUE', 'recordings'),
+            'retry_after' => 1200,
+            'block_for' => null,
+            'after_commit' => false,
+        ],
+
     ],
 
     /*

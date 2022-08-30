@@ -165,7 +165,7 @@ return [
     */
 
     'defaults' => [
-        'supervisor-1' => [
+        'blackbird' => [
             'connection' => 'redis',
             'queue' => ['default'],
             'balance' => 'auto',
@@ -181,15 +181,28 @@ return [
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
+            'blackbird' => [
+                'connection' => 'redis',
+                'queue' => ['default'],
+                'tries' => 3,
+                'timeout' => 60,
                 'maxProcesses' => 10,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'wingfall' => [
+                'connection' => 'redis',
+                'queue' => ['recordings'],
+                'tries' => 3,
+                'timeout' => 900,
+                'maxProcesses' =>20,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
         ],
 
         'local' => [
-            'supervisor-1' => [
+            'blackbird' => [
                 'maxProcesses' => 3,
             ],
         ],

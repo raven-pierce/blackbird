@@ -35,6 +35,8 @@ class SyncRecordingPermissions implements ShouldQueue
      */
     public function __construct(protected Recording $recording)
     {
+        $this->queue = 'recordings';
+        
         $this->lecture = $this->recording->lecture;
         $this->section = $this->lecture->section;
     }
