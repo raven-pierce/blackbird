@@ -195,7 +195,7 @@ return [
                 'queue' => ['recordings'],
                 'tries' => 3,
                 'timeout' => 900,
-                'maxProcesses' =>20,
+                'maxProcesses' => 20,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],

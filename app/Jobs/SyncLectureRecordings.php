@@ -10,11 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Http\File;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Microsoft\Graph\Generated\Models\Drive;
 use Microsoft\Graph\Generated\Models\DriveItem;
@@ -141,17 +139,18 @@ class SyncLectureRecordings implements ShouldQueue
      * returning an array with a temporary link.
      *
      * @param  DriveItem  $recording
+     * @param  int  $chunkSize
      * @return string
      */
-    protected function fetchRecording(DriveItem $recording, int $chunkSize = 1): string
+    protected function fetchRecording(DriveItem $recording, int $chunkSize = 4): string
     {
         $filePath = "{$this->course->id}/{$this->section->code}/{$recording->getName()}";
 
-        $chunkSize = $chunkSize * (1024 * 1024); // How many bytes per chunk
-        $handle = fopen($recording->getAdditionalData()['@microsoft.graph.downloadUrl'], 'rb');
+        $chunkSize = $chunkSize * (1024 * 1024);
+        $stream = fopen($recording->getAdditionalData()['@microsoft.graph.downloadUrl'], 'rb');
 
-        while (! feof($handle)) {
-            Storage::disk('recordings')->put($filePath, fread($handle, $chunkSize));
+        while (! feof($stream)) {
+            Storage::disk('recordings')->put($filePath, fread($stream, $chunkSize));
         }
 
         return $filePath;
