@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Course;
 use App\Models\Lecture;
-use App\Models\Recording;
 use App\Models\Section;
 use App\Services\MicrosoftGraph;
 use Carbon\Carbon;
@@ -22,6 +21,13 @@ use Microsoft\Graph\Generated\Models\Group;
 class SyncLectureRecordings implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public int $timeout = 600;
 
     protected Section $section;
 
