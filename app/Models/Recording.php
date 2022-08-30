@@ -25,7 +25,6 @@ class Recording extends Model
         'azure_item_id',
         'file_name',
         'file_path',
-        'file_url',
     ];
 
     public function lecture(): BelongsToMany

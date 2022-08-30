@@ -10,9 +10,11 @@ use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\File;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Microsoft\Graph\Generated\Models\Drive;
 use Microsoft\Graph\Generated\Models\DriveItem;
@@ -68,23 +70,23 @@ class SyncLectureRecordings implements ShouldQueue
         $roles = ['read'];
 
         $recordings->each(function (DriveItem $recording) use ($recipients, $roles) {
-            $file = $this->fetchRecording($recording);
+            $filePath = $this->fetchRecording($recording);
 
             $this->lecture->recordings()->updateOrCreate(['azure_item_id' => $recording->getId()], [
-                'file_name' => $file['file_name'],
-                'file_path' => $file['file_path'],
-                'file_url' => $file['file_url'],
+                'lecture_id' => $this->lecture->id,
+                'file_name' => $recording->getName(),
+                'file_path' => $filePath,
             ]);
 
             if ($recipients) {
                 $this->graph->addDriveItemPermissions($this->drive->getId(), $recording->getId(), $recipients, $roles);
             }
 
-            $this->getInPersonLectures()->each(function (Lecture $lecture) use ($recording, $file) {
+            $this->getInPersonLectures()->each(function (Lecture $lecture) use ($recording, $filePath) {
                 $lecture->recordings()->updateOrCreate(['azure_item_id' => $recording->getId()], [
-                    'file_name' => $file['file_name'],
-                    'file_path' => $file['file_path'],
-                    'file_url' => $file['file_url'],
+                    'lecture_id' => $lecture->id,
+                    'file_name' => $recording->getName(),
+                    'file_path' => $filePath,
                 ]);
             });
 
@@ -139,22 +141,20 @@ class SyncLectureRecordings implements ShouldQueue
      * returning an array with a temporary link.
      *
      * @param  DriveItem  $recording
-     * @return array
+     * @return string
      */
-    protected function fetchRecording(DriveItem $recording): array
+    protected function fetchRecording(DriveItem $recording, int $chunkSize = 1): string
     {
         $filePath = "{$this->course->id}/{$this->section->code}/{$recording->getName()}";
 
-        Storage::disk('recordings')->put($filePath,
-            file_get_contents($recording->getAdditionalData()['@microsoft.graph.downloadUrl']));
+        $chunkSize = $chunkSize * (1024 * 1024); // How many bytes per chunk
+        $handle = fopen($recording->getAdditionalData()['@microsoft.graph.downloadUrl'], 'rb');
 
-        $url = Storage::disk('recordings')->temporaryUrl($filePath, now()->addHours(24));
+        while (! feof($handle)) {
+            Storage::disk('recordings')->put($filePath, fread($handle, $chunkSize));
+        }
 
-        return [
-            'file_name' => $recording->getName(),
-            'file_path' => $filePath,
-            'file_url' => $url,
-        ];
+        return $filePath;
     }
 
     /**

@@ -25,6 +25,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class RecordingResource extends Resource
 {
@@ -113,7 +114,7 @@ class RecordingResource extends Resource
                 Action::make('View')
                     ->label('View')
                     ->icon('heroicon-s-video-camera')
-                    ->url(fn (Recording $record) => $record->file_url)
+                    ->url(fn (Recording $record) => Storage::disk('recordings')->temporaryUrl($record->file_path, now()->addHours(24)))
                     ->openUrlInNewTab()
                     ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists() || auth()->user()->hasAnyRole(['icarus', 'tutor'])),
                 Action::make('Request')
