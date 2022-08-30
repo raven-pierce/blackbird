@@ -12,7 +12,6 @@ class Invoice extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use Searchable;
 
     /**
      * The relationships that should always be loaded.

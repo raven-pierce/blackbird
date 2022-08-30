@@ -12,7 +12,6 @@ class Attendance extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use Searchable;
 
     /**
      * The attributes that are mass assignable.
