@@ -24,6 +24,7 @@ class Recording extends Model
         'lecture_id',
         'azure_item_id',
         'file_name',
+        'file_path',
         'file_url',
     ];
 
