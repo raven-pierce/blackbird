@@ -19,15 +19,6 @@ class ListUsers extends ListRecords
         return true;
     }
 
-    protected function applySearchToTableQuery(Builder $query): Builder
-    {
-        if (filled($searchQuery = $this->getTableSearchQuery())) {
-            $query->whereIn('id', User::search($searchQuery)->keys());
-        }
-
-        return $query;
-    }
-
     protected function getTableEmptyStateIcon(): ?string
     {
         return 'heroicon-o-users';

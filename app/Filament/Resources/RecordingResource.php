@@ -114,7 +114,7 @@ class RecordingResource extends Resource
                 Action::make('View')
                     ->label('View')
                     ->icon('heroicon-s-video-camera')
-                    ->url(fn (Recording $record) => Storage::disk('recordings')->temporaryUrl($record->file_path, now()->addHours(24)))
+                    ->url(fn (Recording $record) => Storage::disk('local')->url($record->file_path))
                     ->openUrlInNewTab()
                     ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists() || auth()->user()->hasAnyRole(['icarus', 'tutor'])),
                 Action::make('Request')

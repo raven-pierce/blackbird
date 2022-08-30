@@ -17,15 +17,6 @@ class ListCourses extends ListRecords
         return true;
     }
 
-    protected function applySearchToTableQuery(Builder $query): Builder
-    {
-        if (filled($searchQuery = $this->getTableSearchQuery())) {
-            $query->whereIn('id', Course::search($searchQuery)->keys());
-        }
-
-        return $query;
-    }
-
     protected function getTableEmptyStateIcon(): ?string
     {
         return 'heroicon-o-academic-cap';
