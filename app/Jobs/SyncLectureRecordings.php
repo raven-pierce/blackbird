@@ -139,16 +139,16 @@ class SyncLectureRecordings implements ShouldQueue
      * returning an array with a temporary link.
      *
      * @param  DriveItem  $recording
-     * @param  int  $chunkSize
      * @return string
      */
     protected function fetchRecording(DriveItem $recording): string
     {
-        $filePath = "recordings/{$this->course->id}/{$this->section->code}";
+        $path = "recordings/{$this->course->id}/{$this->section->code}";
 
-        Storage::disk('public')->putFileAs($filePath, $recording->getAdditionalData()['@microsoft.graph.downloadUrl'], $recording->getName());
-
-        return $filePath;
+        return Storage::disk('public')
+            ->putFileAs($path,
+                $recording->getAdditionalData()['@microsoft.graph.downloadUrl'],
+                $recording->getName());
     }
 
     /**
