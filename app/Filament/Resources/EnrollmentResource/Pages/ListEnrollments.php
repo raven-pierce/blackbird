@@ -3,10 +3,8 @@
 namespace App\Filament\Resources\EnrollmentResource\Pages;
 
 use App\Filament\Resources\EnrollmentResource;
-use App\Models\Enrollment;
 use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Database\Eloquent\Builder;
 
 class ListEnrollments extends ListRecords
 {

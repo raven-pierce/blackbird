@@ -3,10 +3,8 @@
 namespace App\Filament\Resources\RecordingResource\Pages;
 
 use App\Filament\Resources\RecordingResource;
-use App\Models\Recording;
 use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Database\Eloquent\Builder;
 
 class ListRecordings extends ListRecords
 {

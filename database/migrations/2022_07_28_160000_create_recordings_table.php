@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('azure_item_id')->unique();
             $table->string('file_name');
             $table->string('file_path');
-            $table->string('file_url');
             $table->timestamps();
             $table->softDeletes();
         });
