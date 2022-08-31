@@ -142,15 +142,11 @@ class SyncLectureRecordings implements ShouldQueue
      * @param  int  $chunkSize
      * @return string
      */
-    protected function fetchRecording(DriveItem $recording, int $chunkSize = 4): string
+    protected function fetchRecording(DriveItem $recording): string
     {
         $filePath = "recordings/{$this->course->id}/{$this->section->code}";
 
-        $stream = fopen($recording->getAdditionalData()['@microsoft.graph.downloadUrl'], 'rb');
-
-        while (! feof($stream)) {
-            Storage::disk('public')->putFileAs($filePath, $stream, $recording->getName());
-        }
+        Storage::disk('public')->putFileAs($filePath, $recording->getAdditionalData()['@microsoft.graph.downloadUrl'], $recording->getName());
 
         return $filePath;
     }
