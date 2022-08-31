@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('recordings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lecture_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('azure_item_id')->unique();
+            $table->string('azure_item_id');
+            $table->unique(['lecture_id', 'azure_item_id']);
             $table->string('file_name');
             $table->string('file_path');
             $table->timestamps();
