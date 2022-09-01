@@ -32,7 +32,7 @@ class ListLectures extends ListRecords
     protected function getActions(): array
     {
         return [
-            Action::make()
+            Action::make('syncRecordings')
                 ->label('Sync Recordings')
                 ->action(fn (array $data) => Lecture::query()
                     ->whereBetween('start_time', [$data['from_date'], $data['to_date']])

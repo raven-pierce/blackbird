@@ -94,7 +94,7 @@ class AttendancesRelationManager extends RelationManager
             ])
             ->headerActions([
                 CreateAction::make()->label('New Attendance'),
-                Action::make()
+                Action::make('import')
                     ->action(function (array $data) {
                         Excel::import(new Attendances(), $data['attachment']);
 

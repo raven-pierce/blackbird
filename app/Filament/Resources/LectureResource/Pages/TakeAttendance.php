@@ -53,7 +53,7 @@ class TakeAttendance extends Page implements HasTable
     protected function getTableActions(): array
     {
         return [
-            Action::make()
+            Action::make('markPresent')
                 ->label('Mark Present')
                 ->icon('heroicon-s-check')
                 ->visible(fn (Enrollment $record) => $record->attendances()->whereBelongsTo($this->lecture)->doesntExist())
@@ -70,7 +70,7 @@ class TakeAttendance extends Page implements HasTable
                         ->success()
                         ->send();
                 }),
-            Action::make()
+            Action::make('markAbsent')
                 ->label('Mark Absent')
                 ->icon('heroicon-s-x')
                 ->visible(fn (Enrollment $record) => $record->attendances()->whereBelongsTo($this->lecture)->exists())
@@ -82,7 +82,7 @@ class TakeAttendance extends Page implements HasTable
                         ->success()
                         ->send();
                 }),
-            Action::make()
+            Action::make('markPaid')
                 ->label('Mark Paid')
                 ->icon('heroicon-s-cash')
                 ->visible(fn (Enrollment $record) => $record->attendances()->whereBelongsTo($this->lecture)->wherePaid(false)->exists())
@@ -96,7 +96,7 @@ class TakeAttendance extends Page implements HasTable
                         ->success()
                         ->send();
                 }),
-            Action::make()
+            Action::make('markUnpaid')
                 ->label('Mark Unpaid')
                 ->icon('heroicon-s-ban')
                 ->visible(fn (Enrollment $record) => $record->attendances()->whereBelongsTo($this->lecture)->wherePaid(true)->exists())

@@ -92,12 +92,12 @@ class InvoiceResource extends Resource
                 TrashedFilter::make(),
             ])
             ->actions([
-                Action::make()
+                Action::make('pay')
                     ->label('Pay')
                     ->icon('heroicon-s-cash')
                     ->url(fn (Invoice $record) => $record->invoice_url)
                     ->visible(fn (Invoice $record) => $record->status === 'Unpaid' && $record->user->hasAnyRole(['parent', 'student'])),
-                Action::make()
+                Action::make('view')
                     ->label('View')
                     ->icon('heroicon-s-external-link')
                     ->url(fn (Invoice $record) => route('invoices.show', $record)),

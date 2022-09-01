@@ -161,7 +161,7 @@ class AttendanceResource extends Resource
                 ForceDeleteBulkAction::make(),
             ])
             ->headerActions([
-                Action::make()
+                Action::make('import')
                     ->label('Import')
                     ->action(function (array $data) {
                         Excel::import(new Attendances(), $data['attachment']);

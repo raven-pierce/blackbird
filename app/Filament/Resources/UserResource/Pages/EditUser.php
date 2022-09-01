@@ -17,7 +17,7 @@ class EditUser extends EditRecord
     protected function getActions(): array
     {
         return [
-            Action::make()->label('Sync Enrollments')->action(fn () => SyncDirectoryEnrollments::dispatch($this->record)),
+            Action::make('syncEnrollments')->label('Sync Enrollments')->action(fn () => SyncDirectoryEnrollments::dispatch($this->record)),
             DeleteAction::make(),
             ForceDeleteAction::make()->label('Force Delete'),
             RestoreAction::make()->label('Restore'),
