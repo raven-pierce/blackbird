@@ -117,8 +117,8 @@ class RecordingResource extends Resource
                     ->label('View')
                     ->icon('heroicon-s-video-camera')
                     ->url(fn (Recording $record) => Storage::temporaryUrl($record->file_path, now()->addHours(12), [
-                        'ResponseContentType' => 'video/mp4',
-                        'ResponseContentDisposition' => 'inline',
+                        'ResponseContentType' => 'application/octet-stream',
+                        'ResponseContentDisposition' => 'attachment',
                     ]))
                     ->openUrlInNewTab()
                     ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists() || auth()->user()->hasAnyRole(['icarus', 'tutor'])),
