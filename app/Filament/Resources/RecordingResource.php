@@ -113,16 +113,13 @@ class RecordingResource extends Resource
             ])
             ->actions([
                 EditAction::make(),
-                Action::make('View')
-                    ->label('View')
+                Action::make()
+                    ->label('Download')
                     ->icon('heroicon-s-video-camera')
-                    ->url(fn (Recording $record) => Storage::temporaryUrl($record->file_path, now()->addHours(12), [
-                        'ResponseContentType' => 'application/octet-stream',
-                        'ResponseContentDisposition' => 'attachment',
-                    ]))
+                    ->url(fn (Recording $record) => Storage::download($record->file_path))
                     ->openUrlInNewTab()
                     ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists() || auth()->user()->hasAnyRole(['icarus', 'tutor'])),
-                Action::make('Request')
+                Action::make()
                     ->label('Request')
                     ->icon('heroicon-s-video-camera')
                     ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->doesntExist() && ! auth()->user()->hasAnyRole(['icarus', 'tutor']))

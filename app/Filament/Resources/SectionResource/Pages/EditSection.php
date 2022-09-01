@@ -18,7 +18,7 @@ class EditSection extends EditRecord
     protected function getActions(): array
     {
         return [
-            Action::make('generateLectures')
+            Action::make()
                 ->label('Generate Lectures')
                 ->action(fn (array $data) => $this->record->generateLectures($data['day'], $data['start_time'], $data['end_time']))
                 ->requiresConfirmation()

@@ -17,7 +17,7 @@ class EditLecture extends EditRecord
     protected function getActions(): array
     {
         return [
-            Action::make('sync')->label('Sync Recordings')->action(fn () => SyncLectureRecordings::dispatch($this->record)),
+            Action::make()->label('Sync Recordings')->action(fn () => SyncLectureRecordings::dispatch($this->record)),
             DeleteAction::make(),
             ForceDeleteAction::make()->label('Force Delete'),
             RestoreAction::make()->label('Restore'),

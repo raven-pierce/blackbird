@@ -18,7 +18,7 @@ class EditEnrollment extends EditRecord
     protected function getActions(): array
     {
         return [
-            Action::make('sendInvoice')
+            Action::make()
                 ->label('Send Invoice')
                 ->action(fn (array $data) => $this->record->generateInvoice($data['quantity'], $data['override']))
                 ->requiresConfirmation()

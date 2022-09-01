@@ -35,7 +35,7 @@ class ListUsers extends ListRecords
     protected function getActions(): array
     {
         return [
-            Action::make('sync')->label('Sync Directory')->action(fn () => SyncDirectoryUsers::dispatch()),
+            Action::make()->label('Sync Directory')->action(fn () => SyncDirectoryUsers::dispatch()),
             CreateAction::make()->label('New User'),
         ];
     }

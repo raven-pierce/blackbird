@@ -17,7 +17,7 @@ class EditRecording extends EditRecord
     protected function getActions(): array
     {
         return [
-            Action::make('sync')->label('Sync Permissions')->action(fn () => SyncRecordingPermissions::dispatch($this->record)),
+            Action::make()->label('Sync Permissions')->action(fn () => SyncRecordingPermissions::dispatch($this->record)),
             DeleteAction::make(),
             ForceDeleteAction::make()->label('Force Delete'),
             RestoreAction::make()->label('Restore'),

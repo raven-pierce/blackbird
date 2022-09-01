@@ -146,8 +146,8 @@ class SyncLectureRecordings implements ShouldQueue
         $path = "recordings/{$this->course->id}/{$this->section->code}";
 
         return Storage::putFileAs($path,
-                $recording->getAdditionalData()['@microsoft.graph.downloadUrl'],
-                $recording->getName());
+            $recording->getAdditionalData()['@microsoft.graph.downloadUrl'],
+            $recording->getName());
     }
 
     /**
