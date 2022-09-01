@@ -25,9 +25,11 @@ class RecordingsRelationManager extends RelationManager
                 TextInput::make('azure_item_id')
                     ->label('Azure Item ID')
                     ->required(),
-                TextInput::make('file_url')
-                    ->label('File URL')
-                    ->url()
+                TextInput::make('file_name')
+                    ->label('File Name')
+                    ->required(),
+                TextInput::make('file_path')
+                    ->label('File Path')
                     ->required(),
             ]);
     }
@@ -36,7 +38,7 @@ class RecordingsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('file_url')->label('File URL'),
+                TextColumn::make('file_name')->label('File Name')->sortable(),
                 TextColumn::make('azure_item_id')->label('Azure ID')->sortable(),
                 TextColumn::make('created_at')->label('Uploaded')->since()->sortable(),
             ])

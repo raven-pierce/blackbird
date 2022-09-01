@@ -90,9 +90,11 @@ class RecordingResource extends Resource
                 TextInput::make('azure_item_id')
                     ->label('Azure Item ID')
                     ->required(),
-                TextInput::make('file_url')
-                    ->label('File URL')
-                    ->url()
+                TextInput::make('file_name')
+                    ->label('File Name')
+                    ->required(),
+                TextInput::make('file_path')
+                    ->label('File Path')
                     ->required(),
             ]);
     }
@@ -102,7 +104,7 @@ class RecordingResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('lecture.section.course.name')->label('Course')->sortable(),
-                TextColumn::make('lecture.section.code')->label('Section Code')->sortable(),
+                TextColumn::make('file_name')->label('File Name')->sortable(),
                 TextColumn::make('lecture.start_time')->label('Recording Date')->dateTime('l, d F Y')->sortable(),
                 TextColumn::make('created_at')->label('Uploaded')->since()->sortable(),
             ])

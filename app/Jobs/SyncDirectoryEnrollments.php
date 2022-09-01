@@ -65,7 +65,7 @@ class SyncDirectoryEnrollments implements ShouldQueue
         $sections = [];
 
         foreach ($memberships as $membership) {
-            $section = Section::where('azure_team_id', $membership->getId())->first();
+            $section = Section::query()->where('azure_team_id', $membership->getId())->first();
 
             if ($membership instanceof Group && $section) {
                 $sections[] = $section;

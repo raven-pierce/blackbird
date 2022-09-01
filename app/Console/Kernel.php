@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
         })->daily();
 
         $schedule->call(function () {
-            $recordings = Recording::whereHas('lecture', function (Builder $query) {
+            $recordings = Recording::query()->whereHas('lecture', function (Builder $query) {
                 $query->whereHas('section', function (Builder $query) {
                     $query->where('delivery_method', 'Online')->orWhere('delivery_method', 'Hybrid');
                 });
@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
         })->dailyAt('03:00');
 
         $schedule->call(function () {
-            $lectures = Lecture::whereDate('start_time', today()->subDay())->get();
+            $lectures = Lecture::query()->whereDate('start_time', today()->subDay())->get();
 
             foreach ($lectures as $lecture) {
                 SyncLectureRecordings::dispatch($lecture);

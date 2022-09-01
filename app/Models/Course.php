@@ -86,7 +86,7 @@ class Course extends Model
         return Attribute::get(fn () => $this->sections->pluck('seats')->sum());
     }
 
-    public function isFull()
+    public function isFull(): bool
     {
         if ($this->enrollments->count() >= $this->seats) {
             return true;

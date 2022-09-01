@@ -127,6 +127,8 @@ class AttendanceResource extends Resource
                             ->label('Duration in Minutes')
                             ->numeric()
                             ->required(),
+                        TextInput::make('invoice_id')
+                            ->label('Invoice ID'),
                         Toggle::make('paid')
                             ->label('Attendance Paid?')
                             ->inline(false)

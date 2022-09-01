@@ -34,7 +34,7 @@ class PaymentController extends Controller
         }
 
         if ($gatewayInvoice->InvoiceStatus === 'Expired') {
-            $invoice = Invoice::whereExternalId($gatewayInvoice->InvoiceId)->firstOrFail();
+            $invoice = Invoice::query()->whereExternalId($gatewayInvoice->InvoiceId)->firstOrFail();
 
             $invoice->status = 'Expired';
 
@@ -49,7 +49,7 @@ class PaymentController extends Controller
             return redirect()->route('invoices.index');
         }
 
-        $invoice = Invoice::whereExternalId($gatewayInvoice->InvoiceId)->firstOrFail();
+        $invoice = Invoice::query()->whereExternalId($gatewayInvoice->InvoiceId)->firstOrFail();
 
         $invoice->status = 'Paid';
 

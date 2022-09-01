@@ -51,13 +51,10 @@ class Enrollment extends Model
         });
     }
 
-    // TODO: Fix Scope for All Models
     public function scopeAttendedLecture(Builder $query, Lecture $lecture): Builder
     {
         return $query->whereHas('attendances', function (Builder $query) use ($lecture) {
-            $query->whereHas('lecture', function (Builder $query) use ($lecture) {
-                $query->whereKey($lecture->getKey());
-            });
+            $query->whereBelongsTo($lecture);
         });
     }
 

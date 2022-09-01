@@ -36,11 +36,11 @@ class Schedule extends Page
     protected function scheduledLectures(User $user): Collection
     {
         if ($user->hasRole('icarus')) {
-            return Lecture::whereBetween('start_time', [now(), now()->endOfDay()])->get();
+            return Lecture::query()->whereBetween('start_time', [now(), now()->endOfDay()])->get();
         }
 
         if ($user->hasRole('tutor')) {
-            return Lecture::whereBetween('start_time', [now(), now()->endOfDay()])->taughtBy($user)->get();
+            return Lecture::query()->whereBetween('start_time', [now(), now()->endOfDay()])->taughtBy($user)->get();
         }
 
         $this->lectures = new Collection();

@@ -86,7 +86,7 @@ class Lecture extends Model
     public function scopeStudentAttended(Builder $query, Enrollment $enrollment): Builder
     {
         return $query->whereHas('attendances', function (Builder $query) use ($enrollment) {
-            $query->whereKey($enrollment->getKey());
+            $query->whereBelongsTo($enrollment);
         });
     }
 }

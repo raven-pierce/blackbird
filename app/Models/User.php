@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -73,14 +74,14 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Enrollment::class);
     }
 
-    public function getUnpaidLectures()
+    public function getUnpaidLectures(): Collection|array
     {
         return Attendance::query()->wherePaid(false)->whereHas('enrollment', function ($query) {
             $query->where('user_id', $this->id);
         })->get();
     }
 
-    public function getUnpaidLecturesForSection(Section $section)
+    public function getUnpaidLecturesForSection(Section $section): Collection|array
     {
         return Attendance::query()->wherePaid(false)->whereHas('enrollment', function ($query) use ($section) {
             $query->where('user_id', $this->id)->where('section_id', $section->id);

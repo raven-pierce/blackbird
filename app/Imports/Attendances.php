@@ -57,7 +57,7 @@ class Attendances implements ToModel, WithHeadingRow, WithUpserts, WithUpsertCol
 
     protected function getSection(string $azure_team_id): Section
     {
-        return Section::where('azure_team_id', $azure_team_id)->first();
+        return Section::query()->where('azure_team_id', $azure_team_id)->first();
     }
 
     protected function getLecture(Section $section, Carbon $joinTime): Lecture
@@ -67,9 +67,9 @@ class Attendances implements ToModel, WithHeadingRow, WithUpserts, WithUpsertCol
 
     protected function getEnrollment(string $email, int $section_id): Enrollment|null
     {
-        $user = User::where('email', $email)->first();
+        $user = User::query()->where('email', $email)->first();
 
-        return Enrollment::where('user_id', $user->id)->where('section_id', $section_id)->first();
+        return Enrollment::query()->where('user_id', $user->id)->where('section_id', $section_id)->first();
     }
 
     public function upsertColumns(): array

@@ -100,7 +100,7 @@ class Section extends Model
         return false;
     }
 
-    public function generateLectures(int $day, string $startTime, string $endTime)
+    public function generateLectures(int $day, string $startTime, string $endTime): void
     {
         $period = CarbonPeriod::since($this->start_day)->until($this->end_day, true);
 
