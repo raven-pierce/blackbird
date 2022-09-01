@@ -117,7 +117,7 @@ class RecordingResource extends Resource
                     ->label('View')
                     ->icon('heroicon-s-video-camera')
                     ->url(fn (Recording $record) => Storage::temporaryUrl($record->file_path, now()->addHours(12), [
-                        'ResponseContentType' => 'application/octet-stream',
+                        'ResponseContentType' => 'video/mp4',
                         'ResponseContentDisposition' => 'inline',
                     ]))
                     ->openUrlInNewTab()
