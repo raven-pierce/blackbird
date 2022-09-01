@@ -116,7 +116,7 @@ class RecordingResource extends Resource
                 Action::make('download')
                     ->label('Download')
                     ->icon('heroicon-s-arrow-down-on-square-stack')
-                    ->url(fn (Recording $record) => Storage::download($record->file_path))
+                    ->url(fn (Recording $record) => Storage::disk('public')->download($record->file_path))
                     ->openUrlInNewTab()
                     ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists() || auth()->user()->hasAnyRole(['icarus', 'tutor'])),
                 Action::make('request')
