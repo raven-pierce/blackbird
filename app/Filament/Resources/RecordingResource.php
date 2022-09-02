@@ -117,7 +117,7 @@ class RecordingResource extends Resource
                     ->label('Download')
                     ->icon('heroicon-s-folder-download')
                     ->url(fn (Recording $record) => Storage::temporaryUrl($record->file_path, now()->addHours(12), [
-                        'ResponseContentType' => 'application/octet-stream',
+                        'ResponseContentType' => 'video/mp4',
                         'ResponseContentDisposition' => 'attachment',
                     ]))
                     ->openUrlInNewTab()
