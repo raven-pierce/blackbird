@@ -115,7 +115,7 @@ class RecordingResource extends Resource
                 EditAction::make(),
                 Action::make('download')
                     ->label('Download')
-                    ->icon('heroicon-s-arrow-down-on-square-stack')
+                    ->icon('heroicon-s-folder-download')
                     ->url(fn (Recording $record) => Storage::temporaryUrl($record->file_path, now()->addHours(12), [
                         'ResponseContentType' => 'application/octet-stream',
                         'ResponseContentDisposition' => 'attachment',
