@@ -115,12 +115,8 @@ class RecordingResource extends Resource
                 EditAction::make(),
                 Action::make('download')
                     ->label('Download')
-                    ->icon('heroicon-s-folder-download')
-                    ->url(fn (Recording $record) => Storage::temporaryUrl($record->file_path, now()->addHours(12), [
-                        'ResponseContentType' => 'application/mp4',
-                        'ResponseContentDisposition' => 'attachment',
-                    ]))
-                    ->openUrlInNewTab()
+                    ->icon('heroicon-s-download')
+                    ->action(fn (Recording $record) => Storage::download($record->file_path))
                     ->visible(fn (Recording $record): bool => auth()->user()->enrollments()->where('section_id', $record->lecture->section->id)->attendedLecture($record->lecture)->exists() || auth()->user()->hasAnyRole(['icarus', 'tutor'])),
                 Action::make('request')
                     ->label('Request')
